@@ -1,4 +1,4 @@
-package com.softcloud.models;
+package com.musicloud.models;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
