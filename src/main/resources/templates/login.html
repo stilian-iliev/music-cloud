@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="./js/mdb.min.js"></script>
+    <title>Document</title>
+        <!-- MDB icon -->
+        <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" />
+        <!-- Font Awesome -->
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        />
+        <!-- Google Fonts Roboto -->
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+        />
+        <!-- MDB -->
+        <link rel="stylesheet" href="css/mdb.min.css" />
+</head>
+<body>
+  <section class="w-100 d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
+    <form style="width: 22rem;" th:method="post" th:action="@{/login}">
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" name="username" id="form1Example1" class="form-control">
+        <label class="form-label" for="form1Example1" style="margin-left: 0px;">Email address</label>
+      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div></div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" name="password" id="form1Example2" class="form-control">
+        <label class="form-label" for="form1Example2" style="margin-left: 0px;">Password</label>
+      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64.8px;"></div><div class="form-notch-trailing"></div></div></div>
+
+      <!-- 2 column grid layout for inline styling -->
+      <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+          <!-- Checkbox -->
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked="">
+            <label class="form-check-label" for="form1Example3"> Remember me </label>
+          </div>
+        </div>
+
+        <div class="col">
+          <!-- Simple link -->
+          <a href="#!">Forgot password?</a>
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+    </form>
+  </section>
+
+
+    </body>
+</html>

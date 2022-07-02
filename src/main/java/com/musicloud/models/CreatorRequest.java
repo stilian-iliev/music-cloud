@@ -10,7 +10,7 @@ public class CreatorRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(optional = false)
     private User user;
 
 

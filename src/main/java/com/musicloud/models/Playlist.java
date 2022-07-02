@@ -19,13 +19,53 @@ public class Playlist {
     @Type(type = "uuid-char")
     private UUID id;
 
+    private boolean isPublic;
+
+    @Column(nullable = false)
     private String name;
 
     @ManyToMany
     private List<Song> songs;
 
-    @ManyToOne
-    private User user;
-
     private String imageUrl;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

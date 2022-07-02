@@ -18,12 +18,16 @@ public class Song {
     @Type(type = "uuid-char")
     private UUID id;
 
+    @Column(nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User creator;
 
+    @Column(unique = true, nullable = false)
     private String fileName;
 
     private String imageUrl;
+
+    private String tag;
 }
