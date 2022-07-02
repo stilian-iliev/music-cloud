@@ -1,15 +1,17 @@
 package com.musicloud.models;
 
-import com.musicloud.models.enums.UserRoleEnum;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "roles")
-public class UserRole {
+@Table(name = "requests")
+public class CreatorRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private UserRoleEnum name;
+    @OneToOne
+    private User user;
+
+
 }

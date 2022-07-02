@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,10 +32,16 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    //list of liked songs
+    @OneToOne
+    private Playlist liked;
+
+    @OneToMany
+    private List<Playlist> playlists;
     //list of following creators
-    //type band creator enjoyer
-    //list of uploaded songs
+
 
     private String imageUrl;
+
+    @ManyToMany
+    private List<UserRole> roles;
 }
