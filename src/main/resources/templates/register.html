@@ -24,33 +24,37 @@
 <body>
 
     <section class="w-100 d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
-        <form style="width: 26rem;">
+        <form style="width: 26rem;" th:method="post" th:action="@{/register}" th:object="${registerDto}">
             <!-- Username input -->
             <div class="form-outline mb-4">
-                <input type="text" id="form3Example3" class="form-control">
-                <label class="form-label" for="form3Example3" style="margin-left: 0px;">Display name</label>
+                <input type="text" id="username" class="form-control" th:field="*{username}" th:errorclass="is-invalid">
+                <label class="form-label" for="username" style="margin-left: 0px;">Display name</label>
+                <div class="invalid-feedback">Please choose a username.</div>
               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div></div>
     
             <!-- Email input -->
             <div class="form-outline mb-4">
-              <input type="email" id="form3Example3" class="form-control">
-              <label class="form-label" for="form3Example3" style="margin-left: 0px;">Email address</label>
+              <input type="email" id="email" class="form-control"  th:field="*{email}" th:errorclass="is-invalid">
+              <label class="form-label" for="email" style="margin-left: 0px;">Email address</label>
+                <div class="invalid-feedback">Please choose a username.</div>
             <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 88.8px;"></div><div class="form-notch-trailing"></div></div></div>
   
             <!-- Password input -->
             <div class="form-outline mb-4">
-              <input type="password" id="form3Example4" class="form-control">
-              <label class="form-label" for="form3Example4" style="margin-left: 0px;">Password</label>
+              <input type="password" id="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid">
+              <label class="form-label" for="password" style="margin-left: 0px;">Password</label>
+                <div class="invalid-feedback">Please choose a username.</div>
             <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64.8px;"></div><div class="form-notch-trailing"></div></div></div>
   
             <!-- Confrim Password input -->
             <div class="form-outline mb-4">
-                <input type="password" id="form3Example4" class="form-control">
-                <label class="form-label" for="form3Example4" style="margin-left: 0px;">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" th:errorclass="is-invalid">
+                <label class="form-label" for="confirmPassword" style="margin-left: 0px;">Confirm Password</label>
+                <div class="invalid-feedback">Please choose a username.</div>
               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 64.8px;"></div><div class="form-notch-trailing"></div></div></div>
     
             <!-- Submit button -->
-            <button type="button" class="btn btn-primary btn-block mb-4">Sign up</button>
+            <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
   
           </form>
     </section>

@@ -19,7 +19,7 @@ public class User {
     @Type(type = "uuid-char")
     private UUID id;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)
@@ -43,6 +43,10 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<UserRole> roles;
+
+    public User() {
+        //todo: add default profile photo
+    }
 
     public UUID getId() {
         return id;

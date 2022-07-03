@@ -4,6 +4,7 @@ import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.services.UserDetailsServiceImpl;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,5 +53,10 @@ public class AppConfig {
 
         return http.build();
 
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

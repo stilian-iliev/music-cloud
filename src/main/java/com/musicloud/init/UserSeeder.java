@@ -22,16 +22,18 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Playlist playlist = new Playlist();
-        playlist.setName("playlist");
+        if (userRepository.count() == 0) {
+            Playlist playlist = new Playlist();
+            playlist.setName("playlist");
 
-        User user = new User();
-        user.setUsername("stili");
-        user.setEmail("stili@i.c");
-        user.setLiked(playlist);
-        user.setPassword(passwordEncoder.encode("r4peemee"));
+            User user = new User();
+            user.setUsername("stili");
+            user.setEmail("stili@i.c");
+            user.setLiked(playlist);
+            user.setPassword(passwordEncoder.encode("r4peemee"));
 
-        playlistRepository.save(playlist);
-        userRepository.save(user);
+            playlistRepository.save(playlist);
+            userRepository.save(user);
+        }
     }
 }

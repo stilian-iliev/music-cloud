@@ -29,6 +29,14 @@ public class Playlist {
 
     private String imageUrl;
 
+    public Playlist() {
+    }
+
+    public Playlist(boolean isPublic, String name) {
+        this.isPublic = isPublic;
+        this.name = name;
+    }
+
     public UUID getId() {
         return id;
     }
