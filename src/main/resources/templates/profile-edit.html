@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <th:block th:replace="/fragments/head"></th:block>
+</head>
+<body>
+<th:block th:replace="/fragments/nav"></th:block>
+
+<section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
+
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 mb-4">
+
+      <!-- Card -->
+      <div class="card card-cascade narrower">
+
+        <!-- Card image -->
+        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
+          <h5 class="mb-0 font-weight-bold">Edit Account</h5>
+        </div>
+        <!-- Card image -->
+
+        <!-- Card content -->
+        <div class="card-body card-body-cascade text-center">
+
+          <!-- Edit Form -->
+          <form>
+            <!-- First row -->
+
+            <div class="row">
+
+              <!-- First column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form1" class="form-control validate" value="Company, inc" disabled="">
+                  <label for="form1" data-error="wrong" data-success="right" class="active">Company</label>
+                </div>
+              </div>
+              <!-- Second column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form2" class="form-control validate">
+                  <label for="form2" data-error="wrong" data-success="right">Username</label>
+                </div>
+              </div>
+            </div>
+            <!-- First row -->
+
+            <!-- First row -->
+            <div class="row">
+              <!-- First column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form81" class="form-control validate">
+                  <label for="form81" data-error="wrong" data-success="right" class="">First name</label>
+                </div>
+              </div>
+
+              <!-- Second column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form82" class="form-control validate">
+                  <label for="form82" data-error="wrong" data-success="right">Last name</label>
+                </div>
+              </div>
+            </div>
+            <!-- First row -->
+
+            <!-- Second row -->
+            <div class="row">
+
+              <!-- First column -->
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="email" id="form76" class="form-control validate">
+                  <label for="form76" class="">Email address</label>
+                </div>
+              </div>
+              <!-- Second column -->
+
+              <div class="col-md-6">
+                <div class="md-form mb-0">
+                  <input type="text" id="form77" class="form-control validate">
+                  <label for="form77" data-error="wrong" data-success="right">Website Address</label>
+                </div>
+              </div>
+            </div>
+            <!-- Second row -->
+
+            <!-- Third row -->
+            <div class="row">
+
+              <!-- First column -->
+              <div class="col-md-12">
+                <div class="md-form mb-0">
+                  <textarea type="text" id="form78" class="md-textarea form-control" rows="3"></textarea>
+                  <label for="form78">About me</label>
+                </div>
+              </div>
+            </div>
+            <!-- Third row -->
+
+            <!-- Fourth row -->
+            <div class="row">
+              <div class="col-md-12 text-center my-4">
+                <span class="waves-input-wrapper waves-effect waves-light"><input type="submit" value="Update Account" class="btn btn-info btn-rounded"></span>
+              </div>
+            </div>
+            <!-- Fourth row -->
+
+          </form>
+          <!-- Edit Form -->
+
+        </div>
+        <!-- Card content -->
+
+      </div>
+      <!-- Card -->
+
+    </div>
+  </div>
+  <!--/.Card-->
+</section>
+</body>
+</html>
+
+

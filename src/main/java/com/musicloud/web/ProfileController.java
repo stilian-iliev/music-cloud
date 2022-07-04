@@ -9,4 +9,10 @@ public class ProfileController {
     public String getProfile() {
         return "profile-details";
     }
+
+    @GetMapping("/profile/edit")
+    public String getEditProfile() {
+        return "profile-edit";
+    }
+
 }
