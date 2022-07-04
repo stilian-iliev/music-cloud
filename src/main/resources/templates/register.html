@@ -37,14 +37,14 @@
                     <form th:action="@{/register}" th:method="post" th:object="${registerDto}">
 
                     <div class="form-outline mb-4">
-                        <input type="email" id="email" class="form-control form-control-lg" th:field="*{email}" th:errorclass="is-invalid">
+                        <input type="email" id="email" class="form-control form-control-lg" th:classappend ="*{email != null && email.length > 0} ? active" th:field="*{email}" th:errorclass="is-invalid">
                         <label class="form-label" for="email" style="margin-left: 0px;">Email</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 43.2px;"></div><div class="form-notch-trailing"></div></div>
                         <div class="invalid-feedback">Error</div></div>
 
 
                     <div class="form-outline mb-4">
-                        <input type="text" id="username" class="form-control form-control-lg" th:field="*{username}" th:errorclass="is-invalid">
+                        <input type="text" id="username" class="form-control form-control-lg" th:classappend ="*{username != null && username.length > 0} ? active" th:field="*{username}" th:errorclass="is-invalid">
                         <label class="form-label" for="username" style="margin-left: 0px;">Username</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 43.2px;"></div><div class="form-notch-trailing"></div></div>
                         <div class="invalid-feedback">Error</div></div>
