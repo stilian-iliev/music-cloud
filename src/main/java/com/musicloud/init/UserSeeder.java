@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class UserSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
@@ -23,17 +25,14 @@ public class UserSeeder implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (userRepository.count() == 0) {
-            Playlist playlist = new Playlist();
-            playlist.setName("playlist");
-
             User user = new User();
             user.setUsername("stili");
             user.setEmail("stili@i.c");
-            user.setLiked(playlist);
             user.setPassword(passwordEncoder.encode("r4peemee"));
+            user.setLiked(new Playlist(false, "default"));
 
-            playlistRepository.save(playlist);
             userRepository.save(user);
         }
+
     }
 }

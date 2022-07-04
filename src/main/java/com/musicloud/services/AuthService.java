@@ -27,10 +27,8 @@ public class AuthService {
     public void register(RegisterDto registerDto) {
         User user = mapper.map(registerDto, User.class);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        Playlist playlist = new Playlist(false, registerDto.getUsername() + "'s liked songs.");
-        user.setLiked(playlist);
+        user.setLiked(new Playlist(false, user.getUsername() + "'s liked songs."));
 
-        playlistRepository.save(playlist);
         userRepository.save(user);
     }
 }

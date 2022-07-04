@@ -9,17 +9,17 @@ import javax.validation.constraints.NotBlank;
 
 @MatchingFields(first = "password", second = "confirmPassword", message = "Passwords must be matching.")
 public class RegisterDto {
-    @NotBlank
-    @Email
+    @NotBlank(message = "Enter a valid email.")
+    @Email(message = "Enter a valid email.")
     @UniqueEmail(message = "Email is already registered.")
     private String email;
-    @NotBlank
+    @NotBlank(message = "Username is required.")
     private String username;
-    @NotBlank
-    @Length(min = 8, max = 32)
+    @NotBlank(message = "Password must be between 8 and 32 characters long.")
+    @Length(min = 8, max = 32, message = "Password must be between 8 and 32 characters long.")
     private String password;
-    @NotBlank
-    @Length(min = 8, max = 32)
+    @NotBlank(message = "Password must be between 8 and 32 characters long.")
+    @Length(min = 8, max = 32, message = "Password must be between 8 and 32 characters long.")
     private String confirmPassword;
 
     public String getEmail() {

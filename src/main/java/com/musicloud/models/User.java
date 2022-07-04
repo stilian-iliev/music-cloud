@@ -32,7 +32,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Playlist liked;
 
     @OneToMany
