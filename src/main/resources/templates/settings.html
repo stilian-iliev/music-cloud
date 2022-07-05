@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Title</title>
+  <th:block th:replace="/fragments/head"></th:block>
+</head>
+<body>
+<th:block th:replace="/fragments/nav"></th:block>
+
+<section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
+
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 mb-4">
+
+      <section class="w-100 p-4 text-center pb-4">
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Email</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="text-muted mb-0">example@email</p>
+
+            </div>
+            <div class="col-sm-2">
+              <a data-mdb-toggle="modal" data-mdb-target="#exampleModal"><i class="fas fa-edit"></i></a>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-4">
+              <p class="mb-0">Password</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="text-muted mb-0">********</p>
+
+            </div>
+            <div class="col-sm-2">
+              <a data-mdb-toggle="modal" data-mdb-target="#changePasswordModal"><i class="fas fa-edit"></i></a>
+            </div>
+          </div>
+          <hr>
+
+        </div>
+      </section>
+    </div>
+  </div>
+  <!--/.Card-->
+</section>
+
+
+<div class="modal top fade" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <!-- Number input -->
+          <div class="form-outline mb-4">
+            <input type="password" id="oldPassword" class="form-control">
+            <label class="form-label" for="form6Example4" style="margin-left: 0px;">Old password</label>
+            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
+
+          <!-- Message input -->
+          <div class="row mb-4">
+            <div class="col">
+              <div class="form-outline">
+                <input type="password" id="password" class="form-control">
+                <label class="form-label" for="form6Example1" style="margin-left: 0px;">New password</label>
+                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                <input type="password" id="confirmPassword" class="form-control">
+                <label class="form-label" for="form6Example2" style="margin-left: 0px;">Confirm password</label>
+                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Change password</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Change Email</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-outline mb-4">
+            <input type="email" id="form6Example5" class="form-control">
+            <label class="form-label" for="form6Example5" style="margin-left: 0px;">Email</label>
+            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div></div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+              Close
+            </button>
+            <button type="button" class="btn btn-primary">Change email</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
