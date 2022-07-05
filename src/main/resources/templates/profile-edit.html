@@ -12,111 +12,97 @@
   <div class="row d-flex justify-content-center">
     <div class="col-lg-8 mb-4">
 
-      <!-- Card -->
-      <div class="card card-cascade narrower">
+      <section class="w-100 p-4 text-center pb-4">
+        <section>
 
-        <!-- Card image -->
-        <div class="view view-cascade gradient-card-header mdb-color lighten-3">
-          <h5 class="mb-0 font-weight-bold">Edit Account</h5>
-        </div>
-        <!-- Card image -->
+          <!-- Pills navs -->
+          <ul class="nav nav-pills nav-justified mb-3" id="ex-3" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="ex-3-tab-2" data-mdb-toggle="pill" href="#pills-1" role="tab" aria-controls="pills-1" aria-selected="true">Profile</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="ex-3-tab-3" data-mdb-toggle="pill" href="#pills-2" role="tab" aria-controls="pills-2" aria-selected="false">Account</a>
+            </li>
+          </ul>
+          <!-- Pills navs -->
 
-        <!-- Card content -->
-        <div class="card-body card-body-cascade text-center">
-
-          <!-- Edit Form -->
-          <form>
-            <!-- First row -->
-
-            <div class="row">
-
-              <!-- First column -->
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="text" id="form1" class="form-control validate" value="Company, inc" disabled="">
-                  <label for="form1" data-error="wrong" data-success="right" class="active">Company</label>
+          <!-- Pills content -->
+          <div class="tab-content" id="ex-3-content">
+            <div class="tab-pane fade" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">
+              <form>
+                <div class="row mb-4 justify-content-center">
+                  <div style="width: 22rem;">
+                    <label class="form-label" for="customFile">Upload profile photo</label>
+                    <input type="file" class="form-control" id="customFile">
+                  </div>
                 </div>
-              </div>
-              <!-- Second column -->
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="text" id="form2" class="form-control validate">
-                  <label for="form2" data-error="wrong" data-success="right">Username</label>
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form6Example1" class="form-control">
+                      <label class="form-label" for="form6Example1" style="margin-left: 0px;">First name</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form6Example2" class="form-control">
+                      <label class="form-label" for="form6Example2" style="margin-left: 0px;">Last name</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                  </div>
                 </div>
-              </div>
+
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <input type="text" id="form6Example4" class="form-control">
+                  <label class="form-label" for="form6Example4" style="margin-left: 0px;">Username</label>
+                  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
+                <button type="button" class="btn btn-primary btn-block mb-4">Save</button>
+              </form>
             </div>
-            <!-- First row -->
+            <div class="tab-pane fade active show" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">
+              <form>
+                <div class="form-outline mb-4">
+                  <input type="email" id="form6Example5" class="form-control">
+                  <label class="form-label" for="form6Example5" style="margin-left: 0px;">Email</label>
+                  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div></div>
 
-            <!-- First row -->
-            <div class="row">
-              <!-- First column -->
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="text" id="form81" class="form-control validate">
-                  <label for="form81" data-error="wrong" data-success="right" class="">First name</label>
-                </div>
-              </div>
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                  <input type="password" id="oldPassword" class="form-control">
+                  <label class="form-label" for="form6Example4" style="margin-left: 0px;">Old password</label>
+                  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
 
-              <!-- Second column -->
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="text" id="form82" class="form-control validate">
-                  <label for="form82" data-error="wrong" data-success="right">Last name</label>
+                <!-- Message input -->
+                <div class="row mb-4">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="password" id="password" class="form-control">
+                      <label class="form-label" for="form6Example1" style="margin-left: 0px;">New password</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="password" id="confirmPassword" class="form-control">
+                      <label class="form-label" for="form6Example2" style="margin-left: 0px;">Confirm password</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                  </div>
                 </div>
-              </div>
+                <!-- Submit button -->
+                <button type="button" class="btn btn-primary btn-block mb-4">Save</button>
+              </form>
             </div>
-            <!-- First row -->
 
-            <!-- Second row -->
-            <div class="row">
+          </div>
+          <!-- Pills content -->
+        </section>
 
-              <!-- First column -->
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="email" id="form76" class="form-control validate">
-                  <label for="form76" class="">Email address</label>
-                </div>
-              </div>
-              <!-- Second column -->
+        <form>
 
-              <div class="col-md-6">
-                <div class="md-form mb-0">
-                  <input type="text" id="form77" class="form-control validate">
-                  <label for="form77" data-error="wrong" data-success="right">Website Address</label>
-                </div>
-              </div>
-            </div>
-            <!-- Second row -->
+          <!-- Email input -->
 
-            <!-- Third row -->
-            <div class="row">
-
-              <!-- First column -->
-              <div class="col-md-12">
-                <div class="md-form mb-0">
-                  <textarea type="text" id="form78" class="md-textarea form-control" rows="3"></textarea>
-                  <label for="form78">About me</label>
-                </div>
-              </div>
-            </div>
-            <!-- Third row -->
-
-            <!-- Fourth row -->
-            <div class="row">
-              <div class="col-md-12 text-center my-4">
-                <span class="waves-input-wrapper waves-effect waves-light"><input type="submit" value="Update Account" class="btn btn-info btn-rounded"></span>
-              </div>
-            </div>
-            <!-- Fourth row -->
-
-          </form>
-          <!-- Edit Form -->
-
-        </div>
-        <!-- Card content -->
-
-      </div>
-      <!-- Card -->
+        </form>
+      </section>
 
     </div>
   </div>
