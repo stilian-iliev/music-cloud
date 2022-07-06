@@ -72,24 +72,24 @@
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:method="put" th:action="@{/profile/update}">
+                    <form th:method="post" th:action="@{/profile/edit}" th:object="${editProfileDto}">
                     <div class="row mb-4 justify-content-center">
                         <div style="width: 22rem;">
                             <label class="form-label" for="customFile">Upload profile photo</label>
-                            <input type="file" class="form-control" id="customFile">
+                            <input type="file" class="form-control" id="customFile" name="image">
                         </div>
                     </div>
                     <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example1" class="form-control">
+                                <input type="text" id="form6Example1" class="form-control" name="firstName" th:classappend ="*{firstName != null && firstName.length > 0} ? active" th:value="*{firstName}">
                                 <label class="form-label" for="form6Example1" style="margin-left: 0px;">First name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example2" class="form-control">
+                                <input type="text" id="form6Example2" class="form-control" name="lastName" th:classappend ="*{lastName != null && lastName.length > 0} ? active" th:value="*{lastName}">
                                 <label class="form-label" for="form6Example2" style="margin-left: 0px;">Last name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -97,7 +97,7 @@
 
                     <!-- Text input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="form6Example4" class="form-control">
+                        <input type="text" id="form6Example4" class="form-control" name="username" th:classappend ="*{username != null && username.length > 0} ? active" th:value="*{username}">
                         <label class="form-label" for="form6Example4" style="margin-left: 0px;">Username</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
                     <div class="modal-footer">
