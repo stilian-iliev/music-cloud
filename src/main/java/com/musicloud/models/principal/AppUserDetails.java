@@ -81,4 +81,8 @@ public class AppUserDetails implements UserDetails {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
