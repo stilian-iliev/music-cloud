@@ -3,9 +3,12 @@ package com.musicloud.services;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.RegisterDto;
+import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +33,10 @@ public class AuthService {
         user.setLiked(new Playlist(false, user.getUsername() + "'s liked songs."));
 
         userRepository.save(user);
+    }
+
+    public boolean passwordCorrect(String raw) {
+//        return userDetails.getPassword().equals(passwordEncoder.encode(raw));
+        return false;
     }
 }

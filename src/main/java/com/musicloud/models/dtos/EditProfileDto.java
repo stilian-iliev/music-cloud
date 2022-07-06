@@ -1,9 +1,13 @@
 package com.musicloud.models.dtos;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class EditProfileDto {
     private String firstName;
     private String lastName;
     private String username;
+
+    private MultipartFile image;
 
     public EditProfileDto() {
     }
@@ -36,5 +40,13 @@ public class EditProfileDto {
 
     public String getUsername() {
         return username;
+    }
+
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
     }
 }

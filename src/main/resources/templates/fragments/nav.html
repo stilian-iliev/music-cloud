@@ -59,10 +59,10 @@
                         aria-expanded="false"
                 >
                     <img
-                            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                            th:src="${#authentication.principal.imageUrl}"
                             class="rounded-circle"
                             height="25"
-                            alt="Black and White Portrait of a Man"
+                            alt="user profile photo"
                             loading="lazy"
                     />
                     <strong class="d-none d-sm-block ms-1 text-light"><span th:text="${#authentication.principal.displayName}"></span></strong>

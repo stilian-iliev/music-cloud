@@ -127,4 +127,13 @@ public class User {
     public void setRoles(List<UserRole> roles) {
         this.roles = roles;
     }
+
+    public String getFullName() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(firstName);
+        if (!sb.isEmpty()) sb.append(" ");
+        sb.append(lastName);
+        if (sb.isEmpty()) sb.append(username);
+        return sb.toString();
+    }
 }

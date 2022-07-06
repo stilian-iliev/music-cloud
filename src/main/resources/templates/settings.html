@@ -4,7 +4,7 @@
   <title>Title</title>
   <th:block th:replace="/fragments/head"></th:block>
 </head>
-<body>
+<body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>
 
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
@@ -58,7 +58,7 @@
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form th:method="post" th:action="@{/settings/}">
           <!-- Number input -->
           <div class="form-outline mb-4">
             <input type="password" id="oldPassword" class="form-control">

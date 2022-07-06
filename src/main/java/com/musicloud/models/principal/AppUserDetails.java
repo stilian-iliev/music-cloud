@@ -1,6 +1,8 @@
 package com.musicloud.models.principal;
 
+import com.musicloud.models.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -10,16 +12,19 @@ import java.util.UUID;
 public class AppUserDetails implements UserDetails {
     private UUID id;
     private String displayName;
+
+    private String imageUrl;
     private String email;
     private String password;
     private List<GrantedAuthority> authorities;
 
-    public AppUserDetails(UUID id, String displayName, String email, String password, List<GrantedAuthority> authorities) {
-        this.id = id;
-        this.displayName = displayName;
-        this.email = email;
-        this.password = password;
+    public AppUserDetails(User user, List<GrantedAuthority> authorities) {
         this.authorities = authorities;
+        this.id = user.getId();
+        this.displayName = user.getUsername();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.imageUrl = user.getImageUrl();
     }
 
     @Override
@@ -67,5 +72,13 @@ public class AppUserDetails implements UserDetails {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

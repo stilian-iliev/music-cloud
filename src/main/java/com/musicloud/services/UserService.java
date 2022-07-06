@@ -4,40 +4,44 @@ import com.musicloud.models.User;
 import com.musicloud.models.dtos.EditProfileDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.io.IOException;
 import java.util.UUID;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final UserDetailsService userDetailsService;
+    private StorageService storageService;
 
-    public UserService(UserRepository userRepository, UserDetailsService userDetailsService) {
+    public UserService(UserRepository userRepository, StorageService storageService) {
         this.userRepository = userRepository;
-        this.userDetailsService = userDetailsService;
+        this.storageService = storageService;
     }
 
     public EditProfileDto getEditProfileDto(String email) {
         return userRepository.findProfileDtoOf(email);
     }
 
-    public void editProfile(EditProfileDto editProfileDto, AppUserDetails userDetails) {
-        User user = userRepository.findById(userDetails.getId()).get();
+    public void editProfile(EditProfileDto editProfileDto, AppUserDetails userDetails) throws IOException {
+        User user = userRepository.findById(userDetails.getId()).orElseThrow();
 
-        if (!editProfileDto.getUsername().trim().isEmpty())
+        if (!editProfileDto.getUsername().trim().isEmpty()) {
             user.setUsername(editProfileDto.getUsername());
-        if (!editProfileDto.getFirstName().trim().isEmpty())
-            user.setFirstName(editProfileDto.getFirstName());
-        if (!editProfileDto.getLastName().trim().isEmpty())
-            user.setLastName(editProfileDto.getLastName());
+        }
 
+        user.setFirstName(editProfileDto.getFirstName());
+        user.setLastName(editProfileDto.getLastName());
+        if (!editProfileDto.getImage().isEmpty()) {
+            String imageUrl = storageService.saveImage(editProfileDto.getImage());
+            user.setImageUrl(imageUrl);
+        }
         userRepository.save(user);
 
         userDetails.setDisplayName(user.getUsername());
+    }
+
+    public User getUserById(UUID userId) {
+        return userRepository.findById(userId).orElseThrow();
     }
 }
