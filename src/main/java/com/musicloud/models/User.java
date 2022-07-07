@@ -130,9 +130,9 @@ public class User {
 
     public String getFullName() {
         StringBuilder sb = new StringBuilder();
-        sb.append(firstName);
+        sb.append(firstName != null ? firstName : "");
         if (!sb.isEmpty()) sb.append(" ");
-        sb.append(lastName);
+        sb.append(lastName != null ? lastName : "");
         if (sb.isEmpty()) sb.append(username);
         return sb.toString();
     }

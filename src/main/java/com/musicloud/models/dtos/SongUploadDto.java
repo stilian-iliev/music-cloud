@@ -1,12 +1,12 @@
 package com.musicloud.models.dtos;
 
+import com.musicloud.validation.ValidSong;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 public class SongUploadDto {
-    @NotNull
+    @ValidSong
     private MultipartFile songFile;
 
     private MultipartFile imageFile;

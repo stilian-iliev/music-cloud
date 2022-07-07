@@ -17,8 +17,8 @@ import java.util.Map;
 @Service
 public class StorageService {
     private final Cloudinary cloudinary;
-    private final long MAX_IMAGE_SIZE = 200000;
-    private final long MAX_SONG_SIZE = 20000000;
+    public static final long MAX_IMAGE_SIZE = 200000;
+    public static final long MAX_SONG_SIZE = 20000000;
 
     public StorageService() {
         this.cloudinary = new Cloudinary(ObjectUtils.asMap(

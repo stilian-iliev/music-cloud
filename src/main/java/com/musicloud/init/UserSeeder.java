@@ -29,6 +29,7 @@ public class UserSeeder implements CommandLineRunner {
             user.setUsername("stili");
             user.setEmail("stili@i.c");
             user.setPassword(passwordEncoder.encode("r4peemee"));
+            user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
             user.setLiked(new Playlist(false, "default"));
 
             userRepository.save(user);
