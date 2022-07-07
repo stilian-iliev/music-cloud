@@ -31,17 +31,20 @@ public class UserService {
 
         if (!editProfileDto.getUsername().trim().isEmpty()) {
             user.setUsername(editProfileDto.getUsername());
+            userDetails.setDisplayName(editProfileDto.getUsername());
         }
 
         user.setFirstName(editProfileDto.getFirstName());
         user.setLastName(editProfileDto.getLastName());
         if (!editProfileDto.getImage().isEmpty()) {
             String imageUrl = storageService.saveImage(editProfileDto.getImage());
-            user.setImageUrl(imageUrl);
+            if (imageUrl != null) {
+                user.setImageUrl(imageUrl);
+                userDetails.setImageUrl(imageUrl);
+            }
         }
         userRepository.save(user);
 
-        userDetails.setDisplayName(user.getUsername());
     }
 
     public User getUserById(UUID userId) {

@@ -5,11 +5,13 @@ import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class StorageService {
@@ -23,21 +25,32 @@ public class StorageService {
                 "secure", true));
     }
 
-    //todo:implement cloudinary
     public String saveImage(MultipartFile image) throws IOException {
-        File file = convertMultiPartToFile(image);
-        Map upload = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
-        file.delete();
+        File file = resizeImage(image, 200, 200);
+        String fileType = Files.probeContentType(file.toPath());
+        long fileSize = Files.size(file.toPath());
 
-        return (String) upload.get("url");
+        String url = null;
+        if (fileType != null && (fileType.equals("image/jpeg") || fileType.equals("image/png")) && fileSize < 200000) {
+            Map upload = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+            url = (String) upload.get("url");
+        }
+        file.delete();
+        return url;
     }
 
-    private File convertMultiPartToFile(MultipartFile file) throws IOException {
-        File convFile = new File(file.getOriginalFilename());
-        FileOutputStream fos = new FileOutputStream(convFile);
-        fos.write(file.getBytes());
-        fos.close();
-        return convFile;
+    private File convertMultiPartToFile(BufferedImage bufferedImage, String fileName) throws IOException {
+        File outputFile = new File(fileName);
+        ImageIO.write(bufferedImage, "jpg", outputFile);
+        return outputFile;
+    }
+
+    private File resizeImage(MultipartFile file, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(ImageIO.read(file.getInputStream()), 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return convertMultiPartToFile(resizedImage, file.getOriginalFilename());
     }
 
 }

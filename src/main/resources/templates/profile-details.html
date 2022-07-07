@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Profile</title>
+    <title>Profile - musiCloud</title>
     <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" th:href="@{/css/img.upload.css}">
 
 </head>
 <body class="bg-dark bg-opacity-10">
@@ -75,20 +76,20 @@
                 <div class="modal-body">
                     <form th:method="post" th:action="@{/profile/edit}" th:object="${user}" enctype="multipart/form-data">
                     <div class="row mb-4 justify-content-center">
-                        <div style="width: 22rem;">
-                            <label class="form-label" for="customFile">Upload profile photo</label>
-                            <input type="file" class="form-control" id="customFile" name="image">
-                        </div>
-<!--                        <div class="avatar-upload">-->
-<!--                            <div class="avatar-edit">-->
-<!--                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />-->
-<!--                                <label for="imageUpload"></label>-->
-<!--                            </div>-->
-<!--                            <div class="avatar-preview">-->
-<!--                                <div id="imagePreview" style="background-image: url(http://i.pravatar.cc/500?img=7);">-->
-<!--                                </div>-->
-<!--                            </div>-->
+<!--                        <div style="width: 22rem;">-->
+<!--                            <label class="form-label" for="customFile">Upload profile photo</label>-->
+<!--                            <input type="file" class="form-control" id="customFile" name="image">-->
 <!--                        </div>-->
+                        <div class="avatar-upload circle">
+                            <div class="avatar-edit">
+                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
+                                <label class="fas fa-edit circle"  for="imageUpload"></label>
+                            </div>
+                            <div class="avatar-preview">
+                                <div id="imagePreview" class="circle" th:style="'background-image: url('+ ${#authentication.principal.imageUrl}+ ');'">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row mb-4">
