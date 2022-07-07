@@ -28,8 +28,6 @@ public class ProfileController {
     public String getProfile(@PathVariable("userId") UUID userId, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         User user = userService.getUserById(userId);
         model.addAttribute("user", user);
-//        EditProfileDto editProfileDto = userService.getEditProfileDto(userDetails.getUsername());
-//        model.addAttribute("editProfileDto", editProfileDto);
         return "profile-details";
     }
 

@@ -2,11 +2,16 @@ package com.musicloud.models.dtos;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class SongUploadDto {
+    @NotNull
     private MultipartFile songFile;
 
     private MultipartFile imageFile;
 
+    @NotBlank
     private String title;
 
     private String tags;

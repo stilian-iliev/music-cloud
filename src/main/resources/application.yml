@@ -8,3 +8,5 @@ spring:
     hibernate:
       ddl-auto: update
       defer-datasource-initialization: true
+  servlet.multipart.max-file-size: 20MB
+  servlet.multipart.max-request-size: 20MB

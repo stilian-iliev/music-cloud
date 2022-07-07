@@ -1,0 +1,60 @@
+discover /home page /recent following your-playlists
+login
+register
+profile
+settings
+search results
+song
+playlist
+apply for creator
+upload song
+edit song
+admin panel
+
+user
+user role
+song
+genre
+playlist
+
+authocontroller
+usercontroller
+songscontroller
+playlistcontroller
+likescontroller
+storageController
+
+guests can
+view home page
+login
+register
+
+users can
+logout
+view their profile
+edit their profile
+search songs
+like songs
+make playlists
+add songs to playlist
+apply to become a creator
+
+cretors can
+upload songs
+
+admins can
+aprove creator requests
+upload songs
+
+js
+register validation
+media player 
+get playlists api
+get songs api
+upload userphoto as soon as its changed in js
+
+spa switch between profile, discover, search, song, playlist
+
+
+
+procedure remove reviewed creator requests every day

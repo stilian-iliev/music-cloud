@@ -38,7 +38,6 @@ public class AppConfig {
                 .authorizeRequests()
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/", "/login", "/register").permitAll()
-                .antMatchers("/profile", "/profile/edit", "/search", "/profile/songs", "/profile/playlists").authenticated()
                 .antMatchers("/songs/add").hasRole(UserRoleEnum.CREATOR.name())
                 .antMatchers("/admin").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()

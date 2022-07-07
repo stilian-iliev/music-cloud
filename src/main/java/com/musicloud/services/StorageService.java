@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Map;
@@ -16,6 +17,8 @@ import java.util.Map;
 @Service
 public class StorageService {
     private final Cloudinary cloudinary;
+    private final long MAX_IMAGE_SIZE = 200000;
+    private final long MAX_SONG_SIZE = 20000000;
 
     public StorageService() {
         this.cloudinary = new Cloudinary(ObjectUtils.asMap(
@@ -26,20 +29,22 @@ public class StorageService {
     }
 
     public String saveImage(MultipartFile image) throws IOException {
+        if (image == null || image.isEmpty()) return null;
+
         File file = resizeImage(image, 200, 200);
         String fileType = Files.probeContentType(file.toPath());
         long fileSize = Files.size(file.toPath());
 
         String url = null;
-        if (fileType != null && (fileType.equals("image/jpeg") || fileType.equals("image/png")) && fileSize < 200000) {
-            Map upload = cloudinary.uploader().upload(file, ObjectUtils.emptyMap());
+        if (fileType != null && (fileType.equals("image/jpeg") || fileType.equals("image/png")) && fileSize < MAX_IMAGE_SIZE) {
+            Map upload = cloudinary.uploader().upload(file, ObjectUtils.asMap("folder", "avatars"));
             url = (String) upload.get("url");
         }
         file.delete();
         return url;
     }
 
-    private File convertMultiPartToFile(BufferedImage bufferedImage, String fileName) throws IOException {
+    private File convertBufferedImageToFile(BufferedImage bufferedImage, String fileName) throws IOException {
         File outputFile = new File(fileName);
         ImageIO.write(bufferedImage, "jpg", outputFile);
         return outputFile;
@@ -50,7 +55,31 @@ public class StorageService {
         Graphics2D graphics2D = resizedImage.createGraphics();
         graphics2D.drawImage(ImageIO.read(file.getInputStream()), 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
-        return convertMultiPartToFile(resizedImage, file.getOriginalFilename());
+        return convertBufferedImageToFile(resizedImage, file.getOriginalFilename());
     }
 
+    public String saveSong(MultipartFile songFile) throws IOException {
+        File file = convertMultipartFileToFile(songFile);
+        String fileType = Files.probeContentType(file.toPath());
+        System.out.println(fileType);
+        long fileSize = Files.size(file.toPath());
+
+        String url = null;
+        if (fileType != null && fileType.equals("audio/mpeg") && fileSize < MAX_SONG_SIZE) {
+            Map upload = cloudinary.uploader().upload(file,
+                    ObjectUtils.asMap("resource_type", "video",
+                            "folder", "songs"));
+            url = (String) upload.get("url");
+        }
+        file.delete();
+        return url;
+    }
+
+    private File convertMultipartFileToFile(MultipartFile file) throws IOException {
+        File convFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
+    }
 }

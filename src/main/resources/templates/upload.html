@@ -9,17 +9,40 @@
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="~{/fragments/nav}"></th:block>
 
-<div class="row mb-4 justify-content-center">
-    <div class="avatar-upload circle">
-        <div class="avatar-edit">
-            <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
-            <label class="fas fa-edit circle"  for="imageUpload"></label>
-        </div>
-        <div class="avatar-preview">
-            <div id="imagePreview" class="circle" th:style="'background-image: url('+ ${#authentication.principal.imageUrl}+ ');'">
+<div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-8 col-xl-8">
+            <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+
+                    <form th:action="@{/upload}" th:method="post" enctype="multipart/form-data">
+                        <label class="form-label" for="customFile">Choose your song</label>
+                        <input type="file" class="form-control" id="customFile"  accept=".mp3, .avi, .mp4" name="songFile"/>
+
+                        <div class="avatar-upload">
+                            <div class="avatar-edit circle">
+                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="imageFile"/>
+                                <label class="fas fa-edit circle"  for="imageUpload"></label>
+                            </div>
+                            <div class="avatar-preview">
+                                <div id="imagePreview" th:style="'background-image: url('+');'">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-outline mb-4">
+                            <input type="email" id="title" class="form-control form-control-lg" name="title">
+                            <label class="form-label" for="title" style="margin-left: 0px;">Title</label>
+                            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 43.2px;"></div><div class="form-notch-trailing"></div></div></div>
+
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Upload</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 </body>
 </html>
