@@ -2,6 +2,7 @@ package com.musicloud.repositories;
 
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.EditProfileDto;
+import com.musicloud.models.dtos.SongDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("select new com.musicloud.models.dtos.EditProfileDto(u.firstName, u.lastName, u.username) from User u where u.email = ?1")
     EditProfileDto findProfileDtoOf(String email);
+
+    @Query("select new com.musicloud.models.dtos.SongDto(s.title, s.songUrl) from User u join Song s where u.email = ?1")
+    List<SongDto> getSongsFromUserWithId(String email);
 }

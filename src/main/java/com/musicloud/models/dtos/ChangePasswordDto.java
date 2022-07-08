@@ -1,5 +1,6 @@
 package com.musicloud.models.dtos;
 
+import com.musicloud.validation.CorrectPassword;
 import com.musicloud.validation.MatchingFields;
 import org.hibernate.validator.constraints.Length;
 
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @MatchingFields(first = "password", second = "confirmPassword", message = "Password are not matching!")
 public class ChangePasswordDto {
+    @CorrectPassword
     private String oldPassword;
 
     @NotBlank(message = "Password must be between 8 and 32 characters long.")

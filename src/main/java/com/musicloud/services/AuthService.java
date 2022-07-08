@@ -3,9 +3,11 @@ package com.musicloud.services;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.RegisterDto;
+import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,29 @@ public class AuthService {
     }
 
     public boolean passwordCorrect(String raw) {
-//        return userDetails.getPassword().equals(passwordEncoder.encode(raw));
-        return false;
+        AppUserDetails userDetails = (AppUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return passwordEncoder.matches(raw, userDetails.getPassword());
+    }
+
+    public void changeEmail(AppUserDetails userDetails, String email) {
+        User user = userRepository.findByEmail(userDetails.getUsername());
+        user.setEmail(email);
+        userRepository.save(user);
+        userDetails.setEmail(email);
+    }
+
+    public void changePassword(AppUserDetails userDetails, String newPassword) {
+        User user = userRepository.findByEmail(userDetails.getUsername());
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+    public void deleteAccount(AppUserDetails userDetails) {
+        userRepository.deleteById(userDetails.getId());
+    }
+
+    public void unauthorize() {
+        SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
     }
 }

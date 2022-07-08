@@ -61,7 +61,6 @@ public class StorageService {
     public String saveSong(MultipartFile songFile) throws IOException {
         File file = convertMultipartFileToFile(songFile);
         String fileType = Files.probeContentType(file.toPath());
-        System.out.println(fileType);
         long fileSize = Files.size(file.toPath());
 
         String url = null;

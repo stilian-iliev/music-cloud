@@ -1,5 +1,6 @@
 package com.musicloud.web;
 
+import com.musicloud.models.dtos.SongDto;
 import com.musicloud.models.dtos.SongUploadDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.SongService;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class SongController {
@@ -40,4 +43,5 @@ public class SongController {
         songService.add(songUploadDto, userDetails);
         return "redirect:/";
     }
+
 }

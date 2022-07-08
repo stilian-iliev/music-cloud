@@ -16,19 +16,10 @@
                 <div class="card-body p-5 text-center">
 
                     <form th:action="@{/upload}" th:method="post" enctype="multipart/form-data" th:object="${songUploadDto}">
-                        <label class="form-label" for="customFile">Choose your song</label>
-                        <input type="file" class="form-control" id="customFile"  accept=".mp3, .avi, .mp4" th:field="*{songFile}" th:errorclass="is-invalid"/>
-                        <div class="invalid-feedback mb-2">Select a song to upload!(20MB max)</div>
-
-                        <div class="avatar-upload">
-                            <div class="avatar-edit circle">
-                                <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="imageFile" th:field="*{imageFile}"/>
-                                <label class="fas fa-edit circle"  for="imageUpload"></label>
-                            </div>
-                            <div class="avatar-preview">
-                                <div id="imagePreview" th:style="'background-image: url('+');'">
-                                </div>
-                            </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="customFile">Choose your song</label>
+                            <input type="file" class="form-control" id="customFile"  accept=".mp3, .avi, .mp4" th:field="*{songFile}" th:errorclass="is-invalid"/>
+                            <div class="invalid-feedback mb-2">Select a song to upload!(20MB max)</div>
                         </div>
 
                         <div class="form-outline mb-4">

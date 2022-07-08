@@ -2,12 +2,14 @@ package com.musicloud.services;
 
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.EditProfileDto;
+import com.musicloud.models.dtos.SongDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -51,24 +53,9 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow();
     }
 
-    public void changeEmail(AppUserDetails userDetails, String email) {
-        User user = userRepository.findByEmail(userDetails.getUsername());
-        user.setEmail(email);
-        userRepository.save(user);
-        userDetails.setEmail(email);
-    }
+    public List<SongDto> getUserSongDtos(AppUserDetails appUserDetails) {
+//        List<SongDto> songsFromUserWithId = userRepository.getSongsFromUserWithId(appUserDetails.getUsername());
 
-    public void changePassword(AppUserDetails userDetails, String oldPassword, String newPassword) {
-        User user = userRepository.findByEmail(userDetails.getUsername());
-        if (true) {
-            //todo check if old password is correct
-            return;
-        }
-        user.setPassword(newPassword);
-        userRepository.save(user);
-    }
-
-    public void deleteAccount(AppUserDetails userDetails) {
-        //todo
+        return null;
     }
 }

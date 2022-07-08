@@ -2,6 +2,7 @@ package com.musicloud.services;
 
 import com.musicloud.models.Song;
 import com.musicloud.models.User;
+import com.musicloud.models.dtos.SongDto;
 import com.musicloud.models.dtos.SongUploadDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
@@ -9,6 +10,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SongService {
@@ -29,11 +32,13 @@ public class SongService {
         Song song = mapper.map(songUploadDto, Song.class);
         String songUrl = storageService.saveSong(songUploadDto.getSongFile());
         song.setSongUrl(songUrl);
-        String imageUrl = storageService.saveImage(songUploadDto.getImageFile());
-        song.setImageUrl(imageUrl);
         User user = userService.getUserById(userDetails.getId());
         song.setCreator(user);
 
         songRepository.save(song);
+    }
+
+    public List<Song> getSongsByUserId(UUID id) {
+        return songRepository.findAllByCreatorId(id);
     }
 }

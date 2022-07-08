@@ -27,7 +27,6 @@ public class Song {
     @Column(unique = true, nullable = false)
     private String songUrl;
 
-    private String imageUrl;
 
     private String tag;
 
@@ -61,14 +60,6 @@ public class Song {
 
     public void setSongUrl(String songUrl) {
         this.songUrl = songUrl;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getTag() {

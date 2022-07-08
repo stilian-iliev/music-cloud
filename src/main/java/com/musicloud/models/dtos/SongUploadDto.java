@@ -9,8 +9,6 @@ public class SongUploadDto {
     @ValidSong
     private MultipartFile songFile;
 
-    private MultipartFile imageFile;
-
     @NotBlank
     private String title;
 
@@ -22,14 +20,6 @@ public class SongUploadDto {
 
     public void setSongFile(MultipartFile songFile) {
         this.songFile = songFile;
-    }
-
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
     }
 
     public String getTitle() {
