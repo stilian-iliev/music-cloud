@@ -10,7 +10,7 @@
                     alt="MDB Logo"
                     loading="lazy"
             />
-            <small spellcheck="false">musiCloud</small>
+            <small spellcheck="false" style="font-family: Nerko One;">musiCloud</small>
         </a>
 
         <!-- Toggle button -->
@@ -95,10 +95,10 @@
             </div>
 
             <div class="d-flex align-items-center" sec:authorize="!isAuthenticated()">
-                <a th:href="@{/login}" class="btn btn-link px-3 me-2">
+                <a th:href="@{/login}" class="btn btn-link px-3 me-2 text-warning">
                     Login
                 </a>
-                <a th:href="@{/register}" class="btn btn-primary me-3">
+                <a th:href="@{/register}" class="btn btn-primary me-3" style="background-color: #ffac44;">
                     Sign up for free
                 </a>
             </div>
