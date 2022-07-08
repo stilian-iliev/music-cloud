@@ -8,8 +8,8 @@
     .nav-pills .nav-link.active {
         background-color: #ffac44;
     }
-    </style>
-    <script th:src="@{/js/loadimg.js}"></script>
+</style>
+    <script src="./src/loadimg.js"></script>
 
 </head>
 <body class="bg-dark bg-opacity-10">
@@ -135,7 +135,7 @@
                         <div class="avatar-upload circle">
                             <div class="avatar-edit">
                                 <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
-                                <label class="circle justify-content-center align-items-center py-1 px-2"  for="imageUpload"> <i class="fas fa-pen"></i></label>
+                                <label class="fas fa-edit circle"  for="imageUpload"></label>
                             </div>
                             <div class="avatar-preview circle">
                                 <div id="imagePreview" class="circle"

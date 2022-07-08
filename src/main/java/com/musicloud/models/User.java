@@ -32,6 +32,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private List<Song> songs;
+
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Playlist liked;
 
@@ -126,6 +129,14 @@ public class User {
 
     public void setRoles(List<UserRole> roles) {
         this.roles = roles;
+    }
+
+    public List<Song> getSongs() {
+        return songs;
+    }
+
+    public void setSongs(List<Song> songs) {
+        this.songs = songs;
     }
 
     public String getFullName() {
