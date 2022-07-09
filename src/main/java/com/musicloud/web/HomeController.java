@@ -12,6 +12,11 @@ public class HomeController {
 
     @GetMapping("/player")
     public String getPlayer() {
-        return "player";
+        return "fragments/player";
+    }
+
+    @GetMapping("/list")
+    public String getList() {
+        return "fragments/songlist";
     }
 }

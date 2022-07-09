@@ -1,14 +1,12 @@
-discover /home page /recent following your-playlists
+discover /home page /liked, playlists, following
 login
 register
 profile
 settings
 search results
-song
 playlist
 apply for creator
 upload song
-edit song
 admin panel
 
 user
@@ -53,8 +51,8 @@ get playlists api
 get songs api
 upload userphoto as soon as its changed in js
 
-spa switch between profile, discover, search, song, playlist
-
+spa switch between profile, discover, search, playlist
+server side login, register, settings, upload, admin
 
 
 procedure remove reviewed creator requests every day
