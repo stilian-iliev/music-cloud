@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error - musiCloud</title>
+    <th:block th:replace="/fragments/head"></th:block>
+</head>
+<body class="bg-dark bg-opacity-10">
+<th:block th:replace="/fragments/nav"></th:block>
+<div class="text-center my-5">
+    <img class="py-5" src="https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657223456/images/1-logo-v2_qqr2yo.png" alt="logo" width="300">
+    <h1 class="pt-5" th:text="${status}"></h1>
+    <h1 th:text="${error}"></h1>
+</div>
+</body>
+</html>

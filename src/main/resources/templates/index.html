@@ -3,14 +3,13 @@
 <head>
     <title>Home - musiCloud</title>
     <th:block th:replace="/fragments/head"></th:block>
+    <script type="module" src="./src/app.js"></script>
 </head>
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>
+<section id="page-container">
 
-<div class="fixed-player">
-    <audio controls>
-        <source src="/media/epic.mp3" type="audio/mpeg">
-    </audio>
-</div>
+</section>
+<th:block th:replace="/fragments/player"></th:block>
 </body>
 </html>

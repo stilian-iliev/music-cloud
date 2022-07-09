@@ -1,4 +1,6 @@
-discover /home page /liked, playlists, following
+welcome
+error
+library /home page /liked, playlists, following
 login
 register
 profile
@@ -37,11 +39,11 @@ make playlists
 add songs to playlist
 apply to become a creator
 
-cretors can
+creators can
 upload songs
 
 admins can
-aprove creator requests
+approve creator requests
 upload songs
 
 js
@@ -51,8 +53,8 @@ get playlists api
 get songs api
 upload userphoto as soon as its changed in js
 
-spa switch between profile, discover, search, playlist
-server side login, register, settings, upload, admin
+spa switch between profile, library, search, playlist
+server side guesthome, login, register, settings, upload, admin
 
 
 procedure remove reviewed creator requests every day

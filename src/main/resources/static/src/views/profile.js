@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Profile - musiCloud</title>
-    <th:block th:replace="/fragments/head"></th:block>
-    <link rel="stylesheet" th:href="@{/css/img.upload.css}">
-    <style>
-    .nav-pills .nav-link.active {
-        background-color: #ffac44;
-    }
-</style>
-    <script src="./src/loadimg.js"></script>
+import { html } from '../../node_modules/lit-html/lit-html.js';
 
-</head>
-<body class="bg-dark bg-opacity-10">
-<th:block th:replace="/fragments/nav"></th:block>
 
+
+const myTemplate = (user) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -22,11 +10,11 @@
             <div class="card">
                 <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
                     <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                        <img th:src="${user.imageUrl}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                        <img src="${user.imageUrl}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
                         <button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>
                     </div>
                     <div class="ms-3" style="margin-top: 130px;">
-                        <h5 th:text="${user.getFullName}">Name</h5>
+                        <h5 text="${user.getFullName}">Name</h5>
                         <p>Role</p>
                     </div>
                 </div>
@@ -94,9 +82,9 @@
                                 </thead>
                                 <tbody>
 
-                                <tr th:each="song : ${userSongs}">
+                                <tr each="song : ${userSongs}">
                                     <th scope="row">1</th>
-                                    <td th:text="${song.title}">Mark</td>
+                                    <td text="${song.title}">Mark</td>
                                     <td>Otto</td>
                                 </tr>
 
@@ -126,7 +114,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form th:method="post" th:action="@{/profile/edit}" th:object="${user}" enctype="multipart/form-data">
+                    <form th:method="post" th:action="@{/profile/edit}" object="${user}" enctype="multipart/form-data">
                     <div class="row mb-4 justify-content-center">
 <!--                        <div style="width: 22rem;">-->
 <!--                            <label class="form-label" for="customFile">Upload profile photo</label>-->
@@ -135,11 +123,11 @@
                         <div class="avatar-upload circle">
                             <div class="avatar-edit">
                                 <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
-                                <label class="fas fa-edit circle"  for="imageUpload"></label>
+                                <label class="circle justify-content-center align-items-center py-1 px-2"  for="imageUpload"> <i class="fas fa-pen"></i></label>
                             </div>
                             <div class="avatar-preview circle">
                                 <div id="imagePreview" class="circle"
-                                     th:style="'background-image: url('+ ${#authentication.principal.imageUrl}+ ');'"
+                                     style="'background-image: url(' ');'"
                                 >
                                 </div>
                             </div>
@@ -149,13 +137,13 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example1" class="form-control" name="firstName" th:classappend ="*{firstName != null && firstName.length > 0} ? active" th:value="*{firstName}">
+                                <input type="text" id="form6Example1" class="form-control" name="firstName" value="${firstName}">
                                 <label class="form-label" for="form6Example1" style="margin-left: 0px;">First name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example2" class="form-control" name="lastName" th:classappend ="*{lastName != null && lastName.length > 0} ? active" th:value="*{lastName}">
+                                <input type="text" id="form6Example2" class="form-control" name="lastName" value="${lastName}">
                                 <label class="form-label" for="form6Example2" style="margin-left: 0px;">Last name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -163,7 +151,7 @@
 
                     <!-- Text input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="form6Example4" class="form-control" name="username" th:classappend ="*{username != null && username.length > 0} ? active" th:value="*{username}">
+                        <input type="text" id="form6Example4" class="form-control" name="username" value="${username}">
                         <label class="form-label" for="form6Example4" style="margin-left: 0px;">Username</label>
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
                     <div class="modal-footer">
@@ -182,5 +170,9 @@
         </div>
     </div>
 </section>
-</body>
-</html>
+`;
+
+export async function profilePage(ctx) {
+    console.log("inview");
+    ctx.render(myTemplate());
+}

@@ -59,5 +59,4 @@ public class AccountController {
         return "redirect:/";
     }
 
-    //todo:add delete account button
 }

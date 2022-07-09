@@ -48,7 +48,6 @@ public class User {
     private List<UserRole> roles;
 
     public User() {
-        //todo: add default profile photo
     }
 
     public UUID getId() {
