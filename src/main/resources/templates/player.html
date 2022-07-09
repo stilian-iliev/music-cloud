@@ -1,12 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en"><head>
+    <title>Audio Player</title>
+    <th:block th:replace="/fragments/head"></th:block>
+    <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css"><link rel="stylesheet" href="/css/player.css">
+    <script id="rendered-js" th:src="@{/js/audioplayer.js}"></script>
 </head>
-<body class="bg-dark bg-opacity-10">
-<audio controls>
-  <source src="/media/epic.mp3" type="audio/mpeg">
-</audio>
+
+<body translate="no">
+
+<div class="audio-player fixed-player">
+    <div class="timeline">
+        <div class="progress" style="width: 0.408818%;"></div>
+    </div>
+    <div class="controls">
+        <div class="play-container">
+            <div class="toggle-play play">
+            </div>
+        </div>
+        <div class="time">
+            <div class="current">0:00</div>
+            <div class="divider">/</div>
+            <div class="length">1:44</div>
+        </div>
+        <div class="name">Music Song</div>
+        <!--     credit for icon to https://saeedalipoor.github.io/icono/ -->
+        <div class="volume-container">
+            <div class="volume-button">
+                <div class="volume icono-volumeMedium"></div>
+            </div>
+
+            <div class="volume-slider">
+                <div class="volume-percentage"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

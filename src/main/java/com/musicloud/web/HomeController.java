@@ -9,4 +9,9 @@ public class HomeController {
     public String getHome() {
         return "index";
     }
+
+    @GetMapping("/player")
+    public String getPlayer() {
+        return "player";
+    }
 }

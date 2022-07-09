@@ -14,6 +14,7 @@
         <div class="col-12 col-md-8 col-lg-8 col-xl-8">
             <div class="card shadow-2-strong" style="border-radius: 1rem;">
                 <div class="card-body p-5 text-center">
+                    <h3 class="mb-5">Song upload</h3>
 
                     <form th:action="@{/upload}" th:method="post" enctype="multipart/form-data" th:object="${songUploadDto}">
                         <div class="mb-4">
