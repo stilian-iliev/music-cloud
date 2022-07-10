@@ -6,9 +6,9 @@ import page from "//unpkg.com/page/page.mjs";
 
 const main = document.querySelector('#page-container');
 
-// page('/user/:id', decorateContext, profilePage);
-// page('/search', decorateContext, profilePage);
-// page('/library', decorateContext, profilePage);
+page('/user/:id', decorateContext, profilePage);
+page('/search/:id', decorateContext, profilePage);
+page('/lib', decorateContext, profilePage);
 // page('/playlist/:id', decorateContext, profilePage);
 
 

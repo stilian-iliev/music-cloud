@@ -6,7 +6,6 @@ public class EditProfileDto {
     private String firstName;
     private String lastName;
     private String username;
-
     private MultipartFile image;
 
     public EditProfileDto() {

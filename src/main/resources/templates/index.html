@@ -3,7 +3,7 @@
 <head>
     <title>Home - musiCloud</title>
     <th:block th:replace="/fragments/head"></th:block>
-    <script type="module" src="./src/app.js"></script>
+    <script type="module" th:src="@{/src/app.js}"></script>
 </head>
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>

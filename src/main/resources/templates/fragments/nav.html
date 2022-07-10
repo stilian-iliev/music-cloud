@@ -67,12 +67,13 @@
                 >
                     <img
                             th:src="${#authentication.principal.imageUrl}"
+                            id="navPhoto"
                             class="rounded-circle"
                             height="25"
-                            alt="user profile photo"
+                            alt="profile photo"
                             loading="lazy"
                     />
-                    <strong class="d-none d-sm-block ms-1 text-light"><span th:text="${#authentication.principal.displayName}"></span></strong>
+                    <strong class="d-none d-sm-block ms-1 text-light"><span id="navName" th:text="${#authentication.principal.displayName}"></span></strong>
                 </a>
                 <ul
                         class="dropdown-menu dropdown-menu-end"

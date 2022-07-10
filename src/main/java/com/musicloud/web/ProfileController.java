@@ -2,15 +2,15 @@ package com.musicloud.web;
 
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.EditProfileDto;
+import com.musicloud.models.dtos.UserProfileDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.SongService;
 import com.musicloud.services.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -40,5 +40,10 @@ public class ProfileController {
         return "redirect:/user/" + userDetails.getId();
     }
 
-
+    @ResponseBody
+    @GetMapping("/api/users/{id}")
+    public ResponseEntity<UserProfileDto> getUser(@PathVariable("id") UUID userId) {
+        UserProfileDto profileDto = userService.getProfileDto(userId);
+        return ResponseEntity.ok(profileDto);
+    }
 }

@@ -1,17 +1,8 @@
-async function request(url, method='get', data){
-    const options = {method, headers: {}};
-    if (data != undefined) {
-        options['headers']['Content-Type'] = 'application/json';
-        options['body'] = JSON.stringify(data);   
-    }
-
+async function request(url, methodd='get', data){
     try {
-        const res = await fetch(url, options);
-        if (!res.ok) {
-            const error = await res.json();
-            throw new Error(error.message);
-        }
-        if (res.status != 204) {
+        const res = await fetch(url, {method: methodd, body: data});
+        
+        if (res.status == 200 && methodd == 'get') {
             const data = res.json();
             return data;
         }

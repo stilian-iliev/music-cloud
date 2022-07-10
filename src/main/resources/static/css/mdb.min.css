@@ -304,3 +304,7 @@
 .button.is-trans:hover:not(.is-nohover), .button.is-trans.is-active {
   background: rgba(128, 128, 128, 0.07);
 }
+
+.nav-pills .nav-link.active {
+    background-color: #ffac44;
+}

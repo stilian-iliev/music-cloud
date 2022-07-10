@@ -1,8 +1,7 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
+import { getProfileDto, editProfile } from '../api/data.js';
 
-
-
-const myTemplate = (user) => html`
+const profileTemplate = (user) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -14,7 +13,7 @@ const myTemplate = (user) => html`
                         <button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>
                     </div>
                     <div class="ms-3" style="margin-top: 130px;">
-                        <h5 text="${user.getFullName}">Name</h5>
+                        <h5>${user.fullName}</h5>
                         <p>Role</p>
                     </div>
                 </div>
@@ -82,9 +81,9 @@ const myTemplate = (user) => html`
                                 </thead>
                                 <tbody>
 
-                                <tr each="song : ${userSongs}">
+                                <tr >
                                     <th scope="row">1</th>
-                                    <td text="${song.title}">Mark</td>
+                                    <td text="${'song'}">Mark</td>
                                     <td>Otto</td>
                                 </tr>
 
@@ -114,12 +113,8 @@ const myTemplate = (user) => html`
                 </div>
                 <div class="modal-body">
 
-                    <form th:method="post" th:action="@{/profile/edit}" object="${user}" enctype="multipart/form-data">
+                    <form @submit=${async (e) => await onEditProfile(e)} method="post" action="/profile/edit" enctype="multipart/form-data">
                     <div class="row mb-4 justify-content-center">
-<!--                        <div style="width: 22rem;">-->
-<!--                            <label class="form-label" for="customFile">Upload profile photo</label>-->
-<!--                            <input type="file" class="form-control" id="customFile" name="image">-->
-<!--                        </div>-->
                         <div class="avatar-upload circle">
                             <div class="avatar-edit">
                                 <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
@@ -127,7 +122,7 @@ const myTemplate = (user) => html`
                             </div>
                             <div class="avatar-preview circle">
                                 <div id="imagePreview" class="circle"
-                                     style="'background-image: url(' ');'"
+                                style="background-image: url(${user.imageUrl});"
                                 >
                                 </div>
                             </div>
@@ -137,13 +132,13 @@ const myTemplate = (user) => html`
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example1" class="form-control" name="firstName" value="${firstName}">
+                                <input type="text" id="form6Example1" class="form-control ${user.firstName ? "active" : ''}" name="firstName" value="${user.firstName}">
                                 <label class="form-label" for="form6Example1" style="margin-left: 0px;">First name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="form6Example2" class="form-control" name="lastName" value="${lastName}">
+                                <input type="text" id="form6Example2" class="form-control ${user.lastName ? "active" : ''}" name="lastName" value="${user.lastName}">
                                 <label class="form-label" for="form6Example2" style="margin-left: 0px;">Last name</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -151,11 +146,12 @@ const myTemplate = (user) => html`
 
                     <!-- Text input -->
                     <div class="form-outline mb-4">
-                        <input type="text" id="form6Example4" class="form-control" name="username" value="${username}">
-                        <label class="form-label" for="form6Example4" style="margin-left: 0px;">Username</label>
-                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
+                        <input type="text" id="usernameField" class="form-control ${user.username ? "active" : ''}" name="username" value="${user.username}">
+                        <label class="form-label" for="usernameField" style="margin-left: 0px;">Username</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div>
+                        <div class="invalid-feedback">Username is required.</div></div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-mdb-dismiss="modal">
+                    <button id="closeProfileModal" type="button" class="btn btn-light" data-mdb-dismiss="modal">
                         Close
                     </button>
 
@@ -163,16 +159,56 @@ const myTemplate = (user) => html`
                     </div>
                 </form>
                 </div>
-
-
-
             </div>
         </div>
     </div>
 </section>
 `;
 
-export async function profilePage(ctx) {
-    console.log("inview");
-    ctx.render(myTemplate());
+let ctx;
+export async function profilePage(ctxT) {
+    ctx = ctxT;
+    await renderPage();
+    previewPic();
+}
+
+async function renderPage() {
+    const user = await getProfileDto(ctx.params.id);
+    document.querySelector("#navName").textContent = user.username;
+    document.querySelector("#navPhoto").src = user.imageUrl;
+    ctx.render(profileTemplate(user));
+}
+
+
+async function onEditProfile(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    if (!formData.get('username').trim()) {
+        document.querySelector('#usernameField').classList.add('is-invalid');
+        return;
+    } else {
+        document.querySelector('#usernameField').classList.remove('is-invalid');
+    }
+    await editProfile(formData);
+    setTimeout(function(){
+        document.querySelector("#closeProfileModal").click();
+        renderPage();
+    }, 200);
+}
+
+function previewPic() {
+    let input = document.getElementById("imageUpload");
+    input.addEventListener("change", changePic)
+}
+
+function changePic(e) {
+    var input = e.target;
+    if (input.files && input.files[0]) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e) {
+            document.querySelector("#imagePreview").style.backgroundImage = 'url('+ reader.result +')';
+        }
+    }
 }

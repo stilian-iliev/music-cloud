@@ -3,6 +3,7 @@ package com.musicloud.services;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.EditProfileDto;
 import com.musicloud.models.dtos.SongDto;
+import com.musicloud.models.dtos.UserProfileDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -57,5 +59,9 @@ public class UserService {
 //        List<SongDto> songsFromUserWithId = userRepository.getSongsFromUserWithId(appUserDetails.getUsername());
 
         return null;
+    }
+
+    public UserProfileDto getProfileDto(UUID userId) {
+        return userRepository.findById(userId).map(UserProfileDto::new).orElseThrow();
     }
 }
