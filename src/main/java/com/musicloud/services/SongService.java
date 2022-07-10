@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,8 +32,9 @@ public class SongService {
 
     public void add(SongUploadDto songUploadDto, AppUserDetails userDetails) throws IOException {
         Song song = mapper.map(songUploadDto, Song.class);
-        String songUrl = storageService.saveSong(songUploadDto.getSongFile());
-        song.setSongUrl(songUrl);
+        Map<String, Integer> songInfo = storageService.saveSong(songUploadDto.getSongFile());
+        song.setSongUrl(songInfo.keySet().stream().findFirst().orElseThrow());
+        song.setDuration(songInfo.values().stream().findFirst().orElseThrow());
         User user = userService.getUserById(userDetails.getId());
         song.setCreator(user);
 

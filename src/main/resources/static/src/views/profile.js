@@ -1,7 +1,8 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getProfileDto, editProfile, getUserSongs } from '../api/data.js';
+import { songListTemplate } from './fragments/songlist.js';
 
-const profileTemplate = (user) => html`
+const profileTemplate = (user, songs) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -71,24 +72,7 @@ const profileTemplate = (user) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-1"
                         >
-                            <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col" colspan="3">Name</th>
-                                    <th scope="col">Length</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr >
-                                    <th scope="row">1</th>
-                                    <td text="${'song'}">Mark</td>
-                                    <td>Otto</td>
-                                </tr>
-
-                                </tbody>
-                            </table>
+                            ${songListTemplate(songs)}
                         </div>
                         <div
                                 class="tab-pane fade"
@@ -180,7 +164,7 @@ async function renderPage(user) {
     document.querySelector("#navPhoto").src = user.imageUrl;
     document.title = `${user.username} - musiCloud`;
     
-    ctx.render(profileTemplate(user));
+    ctx.render(profileTemplate(user, songs));
 }
 
 

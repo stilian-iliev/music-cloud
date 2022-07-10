@@ -27,6 +27,17 @@ public class Song {
     @Column(unique = true, nullable = false)
     private String songUrl;
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    @Column
+    private int duration;
+
     private String tag;
 
     public UUID getId() {

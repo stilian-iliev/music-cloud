@@ -2,6 +2,8 @@ package com.musicloud.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -58,20 +60,27 @@ public class StorageService {
         return convertBufferedImageToFile(resizedImage, file.getOriginalFilename());
     }
 
-    public String saveSong(MultipartFile songFile) throws IOException {
+    public Map<String, Integer> saveSong(MultipartFile songFile) throws IOException {
         File file = convertMultipartFileToFile(songFile);
         String fileType = Files.probeContentType(file.toPath());
         long fileSize = Files.size(file.toPath());
 
         String url = null;
+        int duration = 0;
         if (fileType != null && fileType.equals("audio/mpeg") && fileSize < MAX_SONG_SIZE) {
             Map upload = cloudinary.uploader().upload(file,
                     ObjectUtils.asMap("resource_type", "video",
                             "folder", "songs"));
             url = (String) upload.get("url");
+            try {
+                AudioFile audioFile = AudioFileIO.read(file);
+                duration = audioFile.getAudioHeader().getTrackLength();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         file.delete();
-        return url;
+        return Map.of(url, duration);
     }
 
     private File convertMultipartFileToFile(MultipartFile file) throws IOException {

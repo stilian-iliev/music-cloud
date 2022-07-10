@@ -15,4 +15,9 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping(value = "/list")
+    public String getList() {
+        return "songlist2";
+    }
+
 }
