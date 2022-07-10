@@ -1,10 +1,11 @@
 
-import { queueList } from './audioplayer.js'
+import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 
 let songList;
 let track;
 export const songListTemplate = (songs) => {
+    document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
     songList = songs;
     track = 0;
     return html`
@@ -32,7 +33,7 @@ export const songListTemplate = (songs) => {
 const songPreview = (song) => {
     track++;
     return html`
-    <tr class="song" data-track-number="${track}" data-source="Heavydirtysoul.mp3">
+    <tr id="${song.id}" class="song ${isPlaying(song.id) ? 'current' : ''}" data-track-number="${track}" data-source="Heavydirtysoul.mp3">
     <td @click=${onClick} class="playTrack"><span class="track-number">${track}</span></td>
     <td width="65%"><cite class="title">${song.title}</cite></td>
     <td width="35%">
@@ -45,14 +46,15 @@ const songPreview = (song) => {
 function onClick(e) {
     let el = e.target.parentElement.parentElement;
     if (el.tagName == 'TR' && e.target.parentElement.classList.contains('playTrack')) {
-        queueList(songList[el.getAttribute('data-track-number')]);
-        selectRow(el.getAttribute('data-track-number'));
+        queueList(songList, el.getAttribute('data-track-number'));
+        selectSong(el.id);
     }
 }
 
-function selectRow(row) {
+export function selectSong(songId) {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
-    document.querySelectorAll('.song')[row - 1].classList.add('current');
+    document.getElementById(songId).classList.add('current');
+
 }
 
 function getTimeCodeFromNum(num) {

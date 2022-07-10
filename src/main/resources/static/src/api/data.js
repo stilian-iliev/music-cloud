@@ -13,3 +13,7 @@ export async function editProfile(profileDto) {
 export async function getUserSongs(id) {
     return await get(host + "/api/users/" + id +"/songs");
 }
+
+export async function getMyId(id) {
+    return await get(host + "/api/me/");
+}

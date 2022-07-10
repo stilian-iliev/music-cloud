@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getProfileDto, editProfile, getUserSongs } from '../api/data.js';
+import { getProfileDto, editProfile, getUserSongs, getMyId } from '../api/data.js';
 import { songListTemplate } from './fragments/songlist.js';
 
 const profileTemplate = (user, songs) => html`
@@ -11,7 +11,8 @@ const profileTemplate = (user, songs) => html`
                 <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
                     <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                         <img src="${user.imageUrl}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
-                        <button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>
+                        ${ isOwner ? html`<button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>` : '' }
+                        
                     </div>
                     <div class="ms-3" style="margin-top: 130px;">
                         <h5>${user.fullName}</h5>
@@ -80,7 +81,8 @@ const profileTemplate = (user, songs) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-2"
                         >
-                            Tab 2 content
+                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                            </div>
                         </div>
                     </div>
                     <!-- Pills content -->
@@ -88,7 +90,12 @@ const profileTemplate = (user, songs) => html`
             </div>
         </div>
     </div>
-    <div class="modal top fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+    ${isOwner ? editProfileModal(user) : ''}
+</section>
+`;
+
+const editProfileModal = (user) => html`
+<div class="modal top fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
         <div class="modal-dialog modal-lg ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -146,24 +153,27 @@ const profileTemplate = (user, songs) => html`
             </div>
         </div>
     </div>
-</section>
-`;
+`
 
+
+
+let isOwner;
 let songs;
 let ctx;
 export async function profilePage(ctxT) {
     ctx = ctxT;
+    isOwner = await getMyId() == ctx.params.id;
+    
+
     const user = await getProfileDto(ctx.params.id);
     songs = await getUserSongs(ctx.params.id);
     await renderPage(user);
-    previewPic();
+
+    if (isOwner) previewPic();
 }
 
 async function renderPage(user) {
-    document.querySelector("#navName").textContent = user.username;
-    document.querySelector("#navPhoto").src = user.imageUrl;
     document.title = `${user.username} - musiCloud`;
-    
     ctx.render(profileTemplate(user, songs));
 }
 
@@ -180,6 +190,8 @@ async function onEditProfile(e) {
     let res = await editProfile(formData);
     document.querySelector("#closeProfileModal").click();
     await renderPage(res);
+    document.querySelector("#navName").textContent = user.username;
+    document.querySelector("#navPhoto").src = user.imageUrl;
 }
 
 function previewPic() {

@@ -41,4 +41,10 @@ public class ProfileController {
         UserProfileDto profileDto = userService.getProfileDto(userId);
         return ResponseEntity.ok(profileDto);
     }
+
+    @ResponseBody
+    @GetMapping("/api/me")
+    public ResponseEntity<UUID> getMyId(@AuthenticationPrincipal AppUserDetails appUserDetails) {
+        return ResponseEntity.ok(appUserDetails.getId());
+    }
 }
