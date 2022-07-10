@@ -57,3 +57,10 @@ server side guesthome, login, register, settings, upload, admin
 
 
 procedure remove reviewed creator requests every day
+
+//player
+holds list of songs which are given when you click on play
+remove current from song list
+when you click on song send number to player and play the list from that number on
+
+player.play(list, number=1);
