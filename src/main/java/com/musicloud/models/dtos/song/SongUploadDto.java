@@ -1,4 +1,4 @@
-package com.musicloud.models.dtos;
+package com.musicloud.models.dtos.song;
 
 import com.musicloud.validation.ValidSong;
 import org.springframework.web.multipart.MultipartFile;

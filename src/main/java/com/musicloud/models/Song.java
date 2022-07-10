@@ -27,7 +27,6 @@ public class Song {
     @Column(unique = true, nullable = false)
     private String songUrl;
 
-
     private String tag;
 
     public UUID getId() {

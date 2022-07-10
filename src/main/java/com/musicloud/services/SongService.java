@@ -2,8 +2,8 @@ package com.musicloud.services;
 
 import com.musicloud.models.Song;
 import com.musicloud.models.User;
-import com.musicloud.models.dtos.SongDto;
-import com.musicloud.models.dtos.SongUploadDto;
+import com.musicloud.models.dtos.song.SongDto;
+import com.musicloud.models.dtos.song.SongUploadDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
 import org.modelmapper.ModelMapper;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class SongService {
@@ -38,7 +39,15 @@ public class SongService {
         songRepository.save(song);
     }
 
-    public List<Song> getSongsByUserId(UUID id) {
-        return songRepository.findAllByCreatorId(id);
+    public List<SongDto> getSongsByUserId(UUID id) {
+        return songRepository.findAllByCreatorId(id).stream().map(SongDto::new).collect(Collectors.toList());
+    }
+
+    public SongDto getSongById(UUID songId) {
+        return songRepository.findById(songId).map(SongDto::new).orElseThrow();
+    }
+
+    public List<SongDto> getAllSongs() {
+        return songRepository.findAll().stream().map(SongDto::new).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.musicloud.web;
 
-import com.musicloud.models.dtos.RegisterDto;
+import com.musicloud.models.dtos.user.RegisterDto;
 import com.musicloud.services.AuthService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;

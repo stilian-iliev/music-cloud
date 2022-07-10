@@ -1,4 +1,4 @@
-package com.musicloud.models.dtos;
+package com.musicloud.models.dtos.user;
 
 import com.musicloud.validation.CorrectPassword;
 import com.musicloud.validation.MatchingFields;

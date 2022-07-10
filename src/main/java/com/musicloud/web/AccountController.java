@@ -1,14 +1,12 @@
 package com.musicloud.web;
 
-import com.musicloud.models.dtos.ChangeEmailDto;
-import com.musicloud.models.dtos.ChangePasswordDto;
+import com.musicloud.models.dtos.user.ChangeEmailDto;
+import com.musicloud.models.dtos.user.ChangePasswordDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.AuthService;
 import com.musicloud.services.UserService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,8 @@
-package com.musicloud.models.dtos;
+package com.musicloud.models.dtos.user;
 
 import com.musicloud.models.User;
+import com.musicloud.models.dtos.playlist.PlaylistDto;
+import com.musicloud.models.dtos.song.SongDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +14,6 @@ public class UserProfileDto {
     private String username;
     private String fullName;
     private String imageUrl;
-    private List<SongDto> songs;
-    private List<PlaylistDto> playlists;
 
     public UserProfileDto(User user) {
         this.firstName = user.getFirstName();
@@ -21,9 +21,6 @@ public class UserProfileDto {
         this.username = user.getUsername();
         this.fullName = user.getFullName();
         this.imageUrl = user.getImageUrl();
-        this.songs = user.getSongs().stream().map(SongDto::new).collect(Collectors.toList());
-        //todo
-        this.playlists = new ArrayList<>();
     }
 
     public String getFirstName() {
@@ -46,11 +43,4 @@ public class UserProfileDto {
         return imageUrl;
     }
 
-    public List<SongDto> getSongs() {
-        return songs;
-    }
-
-    public List<PlaylistDto> getPlaylists() {
-        return playlists;
-    }
 }

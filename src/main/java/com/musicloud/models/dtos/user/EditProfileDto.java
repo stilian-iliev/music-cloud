@@ -1,4 +1,4 @@
-package com.musicloud.models.dtos;
+package com.musicloud.models.dtos.user;
 
 import org.springframework.web.multipart.MultipartFile;
 

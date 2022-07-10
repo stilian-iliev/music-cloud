@@ -2,9 +2,10 @@ async function request(url, methodd='get', data){
     try {
         const res = await fetch(url, {method: methodd, body: data});
         
-        if (res.status == 200 && methodd == 'get') {
+        if (res.status == 200) {
             const data = res.json();
-            return data;
+            if (data) return data;
+            return;
         }
     } catch(err) {
         alert(err.message);

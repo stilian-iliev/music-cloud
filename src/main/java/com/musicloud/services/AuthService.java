@@ -2,7 +2,7 @@ package com.musicloud.services;
 
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
-import com.musicloud.models.dtos.RegisterDto;
+import com.musicloud.models.dtos.user.RegisterDto;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;

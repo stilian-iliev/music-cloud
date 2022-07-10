@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getProfileDto, editProfile } from '../api/data.js';
+import { getProfileDto, editProfile, getUserSongs } from '../api/data.js';
 
 const profileTemplate = (user) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
@@ -165,17 +165,21 @@ const profileTemplate = (user) => html`
 </section>
 `;
 
+let songs;
 let ctx;
 export async function profilePage(ctxT) {
     ctx = ctxT;
-    await renderPage();
+    const user = await getProfileDto(ctx.params.id);
+    songs = await getUserSongs(ctx.params.id);
+    await renderPage(user);
     previewPic();
 }
 
-async function renderPage() {
-    const user = await getProfileDto(ctx.params.id);
+async function renderPage(user) {
     document.querySelector("#navName").textContent = user.username;
     document.querySelector("#navPhoto").src = user.imageUrl;
+    document.title = `${user.username} - musiCloud`;
+    
     ctx.render(profileTemplate(user));
 }
 
@@ -189,11 +193,9 @@ async function onEditProfile(e) {
     } else {
         document.querySelector('#usernameField').classList.remove('is-invalid');
     }
-    await editProfile(formData);
-    setTimeout(function(){
-        document.querySelector("#closeProfileModal").click();
-        renderPage();
-    }, 200);
+    let res = await editProfile(formData);
+    document.querySelector("#closeProfileModal").click();
+    await renderPage(res);
 }
 
 function previewPic() {
