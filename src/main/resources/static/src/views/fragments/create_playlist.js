@@ -1,4 +1,5 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
+import {createPlaylist} from '../../api/data.js';
 
 
 export const createPlaylistTemplate = () => html`
@@ -12,11 +13,11 @@ export const createPlaylistTemplate = () => html`
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-      <form @submit=${onSubmit}>
+      <form @submit=${async (e) => await onSubmit(e)} action="/playlists/create" method="post">
       <div class="row mb-4 justify-content-center">
           <div class="avatar-upload">
               <div class="avatar-edit">
@@ -43,7 +44,7 @@ export const createPlaylistTemplate = () => html`
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
           Close
         </button>
-        <button type="button" class="btn btn-primary">Create Playlist</button>
+        <button type="submit" class="btn btn-primary">Create Playlist</button>
       </div>
     </div>
   </div>
@@ -52,4 +53,13 @@ export const createPlaylistTemplate = () => html`
 
 async function onSubmit(e) {
   e.preventDefault();
+  const formData = new FormData(e.target);
+  console.log('here');
+  if (!formData.get('name').trim()) {
+    document.querySelector('#playlistName').classList.add('is-invalid');
+    return;
+  } else {
+    document.querySelector('#playlistName').classList.remove('is-invalid');
+  }
+  await createPlaylist(formData);
 }

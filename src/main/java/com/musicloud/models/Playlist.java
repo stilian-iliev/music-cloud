@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,7 +20,6 @@ public class Playlist {
     @Type(type = "uuid-char")
     private UUID id;
 
-    private boolean isPublic;
 
     @Column(nullable = false)
     private String name;
@@ -33,11 +33,13 @@ public class Playlist {
     private User user;
 
     public Playlist() {
+        songs = new ArrayList<>();
     }
 
-    public Playlist(boolean isPublic, String name) {
-        this.isPublic = isPublic;
+    public Playlist(String name) {
         this.name = name;
+        this.songs = new ArrayList<>();
+        this.imageUrl = "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657567072/images/1482975da7275050a3a8406f90c4610d_f9qkkc.jpg";
     }
 
     public UUID getId() {
@@ -48,13 +50,6 @@ public class Playlist {
         this.id = id;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
 
     public String getName() {
         return name;
@@ -86,5 +81,9 @@ public class Playlist {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean containsId(UUID songId) {
+        return songs.stream().anyMatch(s -> s.getId() == songId);
     }
 }

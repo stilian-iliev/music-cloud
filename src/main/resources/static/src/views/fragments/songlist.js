@@ -1,6 +1,7 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
+import {isLiked} from '../../api/data.js';
 
 let songList;
 let track;
@@ -27,6 +28,7 @@ export const songListTemplate = (songs) => {
 
 
                 </tbody></table>
+            
         </section>
 `;}
 
@@ -37,9 +39,9 @@ const songPreview = (song) => {
     <td @click=${onClick} class="playTrack"><span class="track-number">${track}</span></td>
     <td width="65%"><cite class="title">${song.title}</cite></td>
     <td width="35%">
-        <address><a rel="artist">${song.creator}</a></address>
+        <address><a rel="artist" href="${'/user/'+song.creator.id}">${song.creator.username}</a></address>
     </td>
-    <td><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
+    <td @click=${onClick}>${isLiked(song.id) ? html`<i class="far fa-heart px-2"></i>` : html`<i class="fas fa-heart px-2"></i>`}<i class="fas fa-ellipsis-v px-2"></i><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
 
@@ -48,6 +50,8 @@ function onClick(e) {
     if (el.tagName == 'TR' && e.target.parentElement.classList.contains('playTrack')) {
         queueList(songList, el.getAttribute('data-track-number'));
         selectSong(el.id);
+    } else {
+        console.log(e.target);
     }
 }
 

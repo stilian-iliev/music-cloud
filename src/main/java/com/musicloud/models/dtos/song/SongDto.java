@@ -1,19 +1,20 @@
 package com.musicloud.models.dtos.song;
 
 import com.musicloud.models.Song;
+import com.musicloud.models.dtos.user.CreatorDto;
 
 import java.util.UUID;
 
 public class SongDto {
     private UUID id;
-    private String creator;
+    private CreatorDto creator;
     private String title;
     private String songUrl;
     private int duration;
 
     public SongDto(Song song) {
         this.id = song.getId();
-        this.creator = song.getCreator().getUsername();
+        this.creator = new CreatorDto(song.getCreator());
         this.title = song.getTitle();
         this.songUrl = song.getSongUrl();
         this.duration = song.getDuration();
@@ -23,7 +24,7 @@ public class SongDto {
         return id;
     }
 
-    public String getCreator() {
+    public CreatorDto getCreator() {
         return creator;
     }
 

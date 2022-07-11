@@ -29,7 +29,7 @@ public class AuthService {
     public void register(RegisterDto registerDto) {
         User user = mapper.map(registerDto, User.class);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        user.setLiked(new Playlist(false, user.getUsername() + "'s liked songs."));
+        user.setLiked(new Playlist("Liked songs."));
         //set up default user photo
         user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
 
