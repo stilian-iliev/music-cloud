@@ -17,3 +17,7 @@ export async function getUserSongs(id) {
 export async function getMyId(id) {
     return await get(host + "/api/me/");
 }
+
+export async function getUserPlaylists(id) {
+    return await get(host + '/api/users/' + id + '/playlists');
+}

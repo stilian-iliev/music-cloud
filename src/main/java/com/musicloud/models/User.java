@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -38,14 +39,14 @@ public class User {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Playlist liked;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Playlist> playlists;
     //list of following creators
 
     private String imageUrl;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<UserRole> roles;
+    private Set<UserRole> roles;
 
     public User() {
     }
@@ -122,11 +123,11 @@ public class User {
         this.imageUrl = imageUrl;
     }
 
-    public List<UserRole> getRoles() {
+    public Set<UserRole> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<UserRole> roles) {
+    public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
     }
 

@@ -1,8 +1,10 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getProfileDto, editProfile, getUserSongs, getMyId } from '../api/data.js';
+import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists } from '../api/data.js';
 import { songListTemplate } from './fragments/songlist.js';
+import { playlistCardTemplate } from './fragments/playlist_card.js';
+import { createPlaylistTemplate } from './fragments/create_playlist.js';
 
-const profileTemplate = (user, songs) => html`
+const profileTemplate = (user, songs, playlists) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -81,7 +83,10 @@ const profileTemplate = (user, songs) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-2"
                         >
-                            <div class="row row-cols-1 row-cols-md-3 g-4">
+                            
+                            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                            <div class="d-grid gap-2 col-6 mx-auto">${isOwner ? createPlaylistTemplate() : ''}</div>
+                            ${playlists.map(playlistCardTemplate)}
                             </div>
                         </div>
                     </div>
@@ -159,6 +164,7 @@ const editProfileModal = (user) => html`
 
 let isOwner;
 let songs;
+let playlists;
 let ctx;
 export async function profilePage(ctxT) {
     ctx = ctxT;
@@ -167,6 +173,7 @@ export async function profilePage(ctxT) {
 
     const user = await getProfileDto(ctx.params.id);
     songs = await getUserSongs(ctx.params.id);
+    playlists = await getUserPlaylists(ctx.params.id);
     await renderPage(user);
 
     if (isOwner) previewPic();
@@ -174,7 +181,7 @@ export async function profilePage(ctxT) {
 
 async function renderPage(user) {
     document.title = `${user.username} - musiCloud`;
-    ctx.render(profileTemplate(user, songs));
+    ctx.render(profileTemplate(user, songs, playlists));
 }
 
 

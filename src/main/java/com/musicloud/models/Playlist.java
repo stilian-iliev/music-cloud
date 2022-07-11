@@ -24,10 +24,13 @@ public class Playlist {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Song> songs;
 
     private String imageUrl;
+
+    @ManyToOne
+    private User user;
 
     public Playlist() {
     }
@@ -75,5 +78,13 @@ public class Playlist {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
