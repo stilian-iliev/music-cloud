@@ -42,11 +42,11 @@ public class SongService {
     }
 
     public List<SongDto> getSongsByUserId(UUID id) {
-        return songRepository.findAllByCreatorId(id).stream().map(SongDto::new).collect(Collectors.toList());
+        return songRepository.findAllByCreatorIdOrderByCreationTime(id).stream().map(SongDto::new).collect(Collectors.toList());
     }
 
     public SongDto getSongById(UUID songId) {
-        return songRepository.findById(songId).map(SongDto::new).orElseThrow();
+        return songRepository.findByIdOrderByCreationTime(songId).map(SongDto::new).orElseThrow();
     }
 
     public List<SongDto> getAllSongs() {

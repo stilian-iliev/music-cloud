@@ -16,8 +16,9 @@ export const createPlaylistTemplate = () => html`
         <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
       <form @submit=${async (e) => await onSubmit(e)} action="/playlists/create" method="post">
+      <div class="modal-body">
+      
       <div class="row mb-4 justify-content-center">
           <div class="avatar-upload">
               <div class="avatar-edit">
@@ -38,7 +39,7 @@ export const createPlaylistTemplate = () => html`
                         <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 66.4px;"></div><div class="form-notch-trailing"></div></div>
                         <div class="invalid-feedback">Name is required.</div></div>
           
-      </form>
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
@@ -46,6 +47,7 @@ export const createPlaylistTemplate = () => html`
         </button>
         <button type="submit" class="btn btn-primary">Create Playlist</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -61,5 +63,8 @@ async function onSubmit(e) {
   } else {
     document.querySelector('#playlistName').classList.remove('is-invalid');
   }
-  await createPlaylist(formData);
+  //todo order playlists on /api/user/playlists
+  //todo: close modal add playlist to template
+  res = await createPlaylist(formData);
+  console.log(res);
 }

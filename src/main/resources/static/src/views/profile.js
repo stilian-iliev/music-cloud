@@ -75,7 +75,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-1"
                         >
-                            ${songListTemplate(songs)}
+                            ${songListTemplate(songs, liked.songs)}
                         </div>
                         <div
                                 class="tab-pane fade"

@@ -61,10 +61,18 @@ public class SongController {
         return ResponseEntity.ok(song);
     }
 
-    @GetMapping("/api/song/liked")
+    @PostMapping("/api/song/like")
     @ResponseBody
-    public boolean isLiking(@RequestParam("song") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
-        return userService.existLikedSong(userDetails.getId(), songId);
+    public ResponseEntity<Boolean> like(@RequestParam("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.likeSong(songId, userDetails);
+        return ResponseEntity.ok(Boolean.TRUE);
+    }
+
+    @PostMapping("/api/song/dislike")
+    @ResponseBody
+    public ResponseEntity<Boolean> dislike(@RequestParam("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.dislikeSong(songId, userDetails);
+        return ResponseEntity.ok(Boolean.TRUE);
     }
 
     //todo:get search and pagable

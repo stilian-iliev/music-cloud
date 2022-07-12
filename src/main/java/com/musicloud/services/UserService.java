@@ -3,25 +3,26 @@ package com.musicloud.services;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.EditProfileDto;
-import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
 import com.musicloud.models.principal.AppUserDetails;
+import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final SongRepository songRepository;
     private final StorageService storageService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, StorageService storageService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, SongRepository songRepository, StorageService storageService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.songRepository = songRepository;
         this.storageService = storageService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -62,5 +63,17 @@ public class UserService {
     public boolean existLikedSong(UUID userId, UUID songId) {
         Playlist liked = userRepository.findById(userId).orElseThrow().getLiked();
         return liked.containsId(songId);
+    }
+
+    public void likeSong(UUID songId, AppUserDetails userDetails) {
+        User user = userRepository.findById(userDetails.getId()).orElseThrow();
+        user.getLiked().addSong(songRepository.findById(songId).orElseThrow());
+        userRepository.save(user);
+    }
+
+    public void dislikeSong(UUID songId, AppUserDetails userDetails) {
+        User user = userRepository.findById(userDetails.getId()).orElseThrow();
+        user.getLiked().removeSong(songRepository.findById(songId).orElseThrow());
+        userRepository.save(user);
     }
 }

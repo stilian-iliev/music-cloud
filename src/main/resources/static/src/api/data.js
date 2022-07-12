@@ -22,9 +22,6 @@ export async function getUserPlaylists(id) {
     return await get(host + '/api/users/' + id + '/playlists');
 }
 
-export async function isLiked(songId) {
-    return await get(host + `/api/song/liked?song=${songId}`);
-}
 
 export async function getLiked() {
     return await get(host + `/api/liked`);
@@ -32,4 +29,12 @@ export async function getLiked() {
 
 export async function createPlaylist(data) {
     return await post(host + `/playlists/create`, data);
+}
+
+export async function likeSong(songId) {
+    return await post(host + `/api/song/like?id=${songId}`);
+}
+
+export async function dislikeSong(songId) {
+    return await post(host + `/api/song/dislike?id=${songId}`);
 }

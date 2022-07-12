@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -26,6 +27,12 @@ public class Song {
 
     @Column(unique = true, nullable = false)
     private String songUrl;
+
+    private LocalDateTime creationTime;
+
+    public Song() {
+        creationTime = LocalDateTime.now();
+    }
 
     public int getDuration() {
         return duration;
@@ -78,5 +85,13 @@ public class Song {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
     }
 }

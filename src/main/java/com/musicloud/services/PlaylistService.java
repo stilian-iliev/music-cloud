@@ -31,7 +31,7 @@ public class PlaylistService {
     }
 
     public List<PlaylistDto> findAllByUserId(UUID userId) {
-        return playlistRepository.findAllByUserId(userId).stream().map(PlaylistDto::new).collect(Collectors.toList());
+        return playlistRepository.findAllByUserIdOrderByCreationTime(userId).stream().map(PlaylistDto::new).collect(Collectors.toList());
     }
 
     public PlaylistDto findById(UUID playlistDto) {

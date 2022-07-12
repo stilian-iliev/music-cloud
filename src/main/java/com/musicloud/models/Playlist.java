@@ -4,9 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "playlists")
@@ -20,25 +19,27 @@ public class Playlist {
     @Type(type = "uuid-char")
     private UUID id;
 
-
     @Column(nullable = false)
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Song> songs;
+    private Set<Song> songs;
 
     private String imageUrl;
+
+    private LocalDateTime creationTime;
 
     @ManyToOne
     private User user;
 
     public Playlist() {
-        songs = new ArrayList<>();
+        songs = new HashSet<>();
+        creationTime = LocalDateTime.now();
     }
 
     public Playlist(String name) {
+        this();
         this.name = name;
-        this.songs = new ArrayList<>();
         this.imageUrl = "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657567072/images/1482975da7275050a3a8406f90c4610d_f9qkkc.jpg";
     }
 
@@ -59,11 +60,11 @@ public class Playlist {
         this.name = name;
     }
 
-    public List<Song> getSongs() {
+    public Set<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
+    public void setSongs(Set<Song> songs) {
         this.songs = songs;
     }
 
@@ -83,7 +84,23 @@ public class Playlist {
         this.user = user;
     }
 
+    public LocalDateTime getCreationTime() {
+        return creationTime;
+    }
+
+    public void setCreationTime(LocalDateTime creationTime) {
+        this.creationTime = creationTime;
+    }
+
     public boolean containsId(UUID songId) {
         return songs.stream().anyMatch(s -> s.getId() == songId);
+    }
+
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
+    public void removeSong(Song song) {
+        songs.remove(song);
     }
 }

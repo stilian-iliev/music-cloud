@@ -7,7 +7,6 @@ profile
 settings
 search results
 playlist
-apply for creator
 upload song
 admin panel
 
@@ -36,14 +35,11 @@ search songs
 like songs
 make playlists
 add songs to playlist
-apply to become a creator
-
-creators can
 upload songs
+
 
 admins can
-approve creator requests
-upload songs
+delete users songs
 
 js
 register validation
@@ -56,7 +52,7 @@ spa switch between profile, library, search, playlist
 server side guesthome, login, register, settings, upload, admin
 
 
-procedure remove reviewed creator requests every day
+procedure remove unused photos and songs from cloudinary
 
 //player
 holds list of songs which are given when you click on play
