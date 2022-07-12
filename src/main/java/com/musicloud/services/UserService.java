@@ -2,6 +2,8 @@ package com.musicloud.services;
 
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
+import com.musicloud.models.dtos.playlist.PlaylistDto;
+import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
 import com.musicloud.models.principal.AppUserDetails;
@@ -11,7 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -75,5 +79,17 @@ public class UserService {
         User user = userRepository.findById(userDetails.getId()).orElseThrow();
         user.getLiked().removeSong(songRepository.findById(songId).orElseThrow());
         userRepository.save(user);
+    }
+
+    public PlaylistDto findLiked(UUID id) {
+        return new PlaylistDto(userRepository.findById(id).orElseThrow().getLiked());
+    }
+
+    public List<PlaylistDto> findPlaylistsOfUser(UUID userId) {
+        return userRepository.findById(userId).orElseThrow().getPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
+    }
+
+    public List<SongDto> getSongsByUser(UUID userId) {
+        return userRepository.findById(userId).orElseThrow().getSongs().stream().map(SongDto::new).collect(Collectors.toList());
     }
 }

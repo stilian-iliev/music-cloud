@@ -33,24 +33,11 @@ public class PlaylistController {
         PlaylistDto playlist = playlistService.create(playlistCreateDto, userDetails);
         return ResponseEntity.ok(playlist);
     }
-    @ResponseBody
-    @GetMapping("/api/users/{id}/playlists")
-    public ResponseEntity<List<PlaylistDto>> getUserPlaylists(@PathVariable("id")UUID userId) {
-        List<PlaylistDto> playlists = playlistService.findAllByUserId(userId);
-        return ResponseEntity.ok(playlists);
-    }
 
     @ResponseBody
-    @GetMapping("/api/playlists/(id)")
+    @GetMapping("/api/playlists/{id}")
     public ResponseEntity<PlaylistDto> getPlaylist(@PathVariable("id")UUID playlistDto) {
         PlaylistDto playlist = playlistService.findById(playlistDto);
-        return ResponseEntity.ok(playlist);
-    }
-
-    @ResponseBody
-    @GetMapping("/api/liked")
-    public ResponseEntity<PlaylistDto> getLiked(@AuthenticationPrincipal AppUserDetails userDetails) {
-        PlaylistDto playlist = playlistService.findLiked(userDetails.getId());
         return ResponseEntity.ok(playlist);
     }
 }

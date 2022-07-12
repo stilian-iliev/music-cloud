@@ -41,10 +41,6 @@ public class SongService {
         songRepository.save(song);
     }
 
-    public List<SongDto> getSongsByUserId(UUID id) {
-        return songRepository.findAllByCreatorIdOrderByCreationTime(id).stream().map(SongDto::new).collect(Collectors.toList());
-    }
-
     public SongDto getSongById(UUID songId) {
         return songRepository.findByIdOrderByCreationTime(songId).map(SongDto::new).orElseThrow();
     }

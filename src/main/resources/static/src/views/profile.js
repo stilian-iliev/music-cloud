@@ -3,6 +3,7 @@ import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists, ge
 import { songListTemplate } from './fragments/songlist.js';
 import { playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
+import { csrf } from '../app.js';
 
 const profileTemplate = (user, songs, playlists, liked) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
@@ -83,7 +84,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-2"
                         >
-                        <div class="d-grid gap-2 col-6 mx-auto pb-4">${isOwner ? createPlaylistTemplate() : ''}</div>
+                        <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? createPlaylistTemplate() : ''}</div>
                             <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
                             ${playlistCardTemplate(liked)}
@@ -111,6 +112,7 @@ const editProfileModal = (user) => html`
                 <div class="modal-body">
 
                     <form @submit=${async (e) => await onEditProfile(e)} method="post" action="/profile/edit" enctype="multipart/form-data">
+                    ${csrf}
                     <div class="row mb-4 justify-content-center">
                         <div class="avatar-upload circle">
                             <div class="avatar-edit">

@@ -417,3 +417,11 @@
 {
   display : none;
 }
+
+.song a {
+    color: #4f4f4f;
+}
+
+.current a  {
+  color: #FFF;
+}

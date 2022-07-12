@@ -13,6 +13,8 @@ page('/user/:id', decorateContext, profilePage);
 page('/search', decorateContext, playlistPage);
 page('/', decorateContext, libraryPage);
 // page('/playlist/:id', decorateContext, profilePage);
+export const csrf = (document.querySelector('[name = _csrf]'));
+console.log(csrf);
 
 
 // Start application

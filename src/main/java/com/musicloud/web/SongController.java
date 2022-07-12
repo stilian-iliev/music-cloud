@@ -47,13 +47,6 @@ public class SongController {
         return "redirect:/";
     }
 
-    @GetMapping("/api/users/{id}/songs")
-    @ResponseBody
-    public ResponseEntity<List<SongDto>> getUserSongs(@PathVariable("id") UUID userId) {
-        List<SongDto> songsByUserId = songService.getSongsByUserId(userId);
-        return ResponseEntity.ok(songsByUserId);
-    }
-
     @GetMapping("/api/songs/{id}")
     @ResponseBody
     public ResponseEntity<SongDto> getSong(@PathVariable("id") UUID songId) {

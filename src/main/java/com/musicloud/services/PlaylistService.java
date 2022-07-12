@@ -1,7 +1,6 @@
 package com.musicloud.services;
 
 import com.musicloud.models.Playlist;
-import com.musicloud.models.User;
 import com.musicloud.models.dtos.playlist.PlaylistCreateDto;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.principal.AppUserDetails;
@@ -9,12 +8,9 @@ import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class PlaylistService {
@@ -30,19 +26,9 @@ public class PlaylistService {
         this.mapper = mapper;
     }
 
-    public List<PlaylistDto> findAllByUserId(UUID userId) {
-        return playlistRepository.findAllByUserIdOrderByCreationTime(userId).stream().map(PlaylistDto::new).collect(Collectors.toList());
-    }
 
     public PlaylistDto findById(UUID playlistDto) {
         return playlistRepository.findById(playlistDto).map(PlaylistDto::new).orElseThrow();
-    }
-
-    @Transactional
-    public PlaylistDto findLiked(UUID userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        Playlist liked = user.getLiked();
-        return new PlaylistDto(liked);
     }
 
     public PlaylistDto create(PlaylistCreateDto playlistCreateDto, AppUserDetails userDetails) throws IOException {
