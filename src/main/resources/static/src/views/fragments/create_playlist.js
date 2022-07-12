@@ -1,9 +1,13 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import {createPlaylist} from '../../api/data.js';
 import { csrf } from '../../app.js';
+import { playlistCardTemplate } from './playlist_card.js';
 
 
-export const createPlaylistTemplate = () => html`
+let ctx;
+export const createPlaylistTemplate = (ctxT) => {
+  ctx = ctxT;
+  return html`
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
   Create new playlist
@@ -44,7 +48,7 @@ export const createPlaylistTemplate = () => html`
       
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+        <button id="closeCreatePlaylist" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
           Close
         </button>
         <button type="submit" class="btn btn-primary">Create Playlist</button>
@@ -53,12 +57,11 @@ export const createPlaylistTemplate = () => html`
     </div>
   </div>
 </div>
-`;
+`;}
 
 async function onSubmit(e) {
   e.preventDefault();
   const formData = new FormData(e.target);
-  console.log('here');
   if (!formData.get('name').trim()) {
     document.querySelector('#playlistName').classList.add('is-invalid');
     return;
@@ -67,6 +70,8 @@ async function onSubmit(e) {
   }
   //todo order playlists on /api/user/playlists
   //todo: close modal add playlist to template
-  res = await createPlaylist(formData);
-  console.log(res);
+  let res = await createPlaylist(formData);
+  
+  ctx.render(playlistCardTemplate(res), document.querySelector("#profilePlaylists"));
+  document.querySelector("#closeCreatePlaylist").click();
 }

@@ -1,7 +1,11 @@
 package com.musicloud.web;
 
+import com.musicloud.models.dtos.user.ChangeEmailDto;
+import com.musicloud.models.dtos.user.ChangePasswordDto;
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.AuthService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -59,5 +63,36 @@ public class AuthController {
         return "redirect:/login";
     }
 
+    @GetMapping("/settings")
+    public String getSettings() {
+        return "settings";
+    }
 
+    @PostMapping("/settings/email")
+    public String changeEmail(@Valid ChangeEmailDto changeEmailDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AppUserDetails userDetails) {
+        if (bindingResult.hasErrors()) {
+            //todo:make validation (maybe just front end)
+            return "redirect:/settings";
+        }
+        authService.changeEmail(userDetails, changeEmailDto.getEmail());
+
+        return "redirect:/settings";
+    }
+
+    @PostMapping("/settings/password")
+    public String changePassword(@Valid ChangePasswordDto changePasswordDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AppUserDetails userDetails) {
+        if (bindingResult.hasErrors()) {
+            //todo: show notification if successful
+            return "redirect:/settings";
+        }
+        authService.changePassword(userDetails, changePasswordDto.getPassword());
+        return "redirect:/settings";
+    }
+
+    @PostMapping("/settings/delete")
+    public String deleteAcc(@AuthenticationPrincipal AppUserDetails userDetails) {
+        authService.deleteAccount(userDetails);
+        authService.unauthorize();
+        return "redirect:/";
+    }
 }

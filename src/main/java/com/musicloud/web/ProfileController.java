@@ -68,7 +68,7 @@ public class ProfileController {
     @GetMapping("/api/users/{id}/songs")
     @ResponseBody
     public ResponseEntity<List<SongDto>> getUserSongs(@PathVariable("id") UUID userId) {
-        List<SongDto> songsByUserId = userService.getSongsByUserId(userId);
+        List<SongDto> songsByUserId = userService.getSongsByUser(userId);
         return ResponseEntity.ok(songsByUserId);
     }
 }

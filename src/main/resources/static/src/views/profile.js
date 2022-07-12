@@ -84,8 +84,8 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-2"
                         >
-                        <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? createPlaylistTemplate() : ''}</div>
-                            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                        <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? createPlaylistTemplate(ctx) : ''}</div>
+                            <div id="profilePlaylists" class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
                             ${playlistCardTemplate(liked)}
                             ${playlists.map(playlistCardTemplate)}

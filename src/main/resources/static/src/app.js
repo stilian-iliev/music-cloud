@@ -5,16 +5,15 @@ import { libraryPage } from './views/library.js';
 import { playlistPage } from './views/playlist.js';
 
 import page from "//unpkg.com/page/page.mjs";
-
+export const csrf = (document.querySelector('[name = _csrf]'));
 
 const main = document.querySelector('#page-container');
 
 page('/user/:id', decorateContext, profilePage);
-page('/search', decorateContext, playlistPage);
+// page('/search', decorateContext, playlistPage);
 page('/', decorateContext, libraryPage);
-// page('/playlist/:id', decorateContext, profilePage);
-export const csrf = (document.querySelector('[name = _csrf]'));
-console.log(csrf);
+page('/playlist/:id', decorateContext, playlistPage);
+
 
 
 // Start application
@@ -22,6 +21,6 @@ page.start();
 console.log("page started");
 
 function decorateContext(ctx, next) {
-    ctx.render = (content) => render(content, main);
+    ctx.render = (content, loc=main) => render(content, loc);
     next();
 }

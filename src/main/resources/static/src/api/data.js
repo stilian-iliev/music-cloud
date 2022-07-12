@@ -1,3 +1,4 @@
+import { csrf } from "../app.js";
 import { get, post, put } from "./api.js";
 
 const host = 'http://localhost:8080';
@@ -37,4 +38,8 @@ export async function likeSong(songId) {
 
 export async function dislikeSong(songId) {
     return await post(host + `/api/song/dislike?id=${songId}`);
+}
+
+export async function getPlaylist(id) {
+    return await get(host + `/api/playlists/`+id);
 }

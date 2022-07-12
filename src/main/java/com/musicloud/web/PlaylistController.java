@@ -16,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -25,6 +24,11 @@ public class PlaylistController {
 
     public PlaylistController(PlaylistService playlistService) {
         this.playlistService = playlistService;
+    }
+
+    @GetMapping("/playlist/{id}")
+    public String getPage() {
+        return "index";
     }
 
     @ResponseBody

@@ -2,6 +2,7 @@
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import {likeSong, dislikeSong} from '../../api/data.js';
+import { csrf } from '../../app.js';
 
 let songList;
 let trackNumber;
@@ -23,13 +24,13 @@ export const songListTemplate = (songs, liked) => {
                     <th></th>
                 </tr>
                 </thead>
-
+                
                 <tbody>
-
+                
                 ${songs.map(songPreview)}
 
-
-                </tbody></table>
+                </tbody>
+                </table>
             
         </section>
 `;}
@@ -58,6 +59,7 @@ function onPlay(e) {
 function onLikeDislike(e) {
     let el = e.target.parentElement.parentElement;
     if (e.target.classList.contains('fa-heart')) {
+        
         if (e.target.classList.contains('far')) {
             likeSong(el.id);
             e.target.classList.remove('far');
@@ -73,8 +75,8 @@ function onLikeDislike(e) {
 
 export function selectSong(songId) {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
-    document.getElementById(songId).classList.add('current');
-
+    let song = document.getElementById(songId);
+    if (song) song.classList.add('current');
 }
 
 function getTimeCodeFromNum(num) {
