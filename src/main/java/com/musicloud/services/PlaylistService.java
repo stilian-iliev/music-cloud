@@ -55,4 +55,13 @@ public class PlaylistService {
 
         playlistRepository.save(playlist);
     }
+
+    public void removeSongFromPlaylist(UUID playlistId, UUID songId, AppUserDetails userDetails) {
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
+        if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+
+        playlist.removeSong(songRepository.findById(songId).orElseThrow(SongNotFoundException::new));
+
+        playlistRepository.save(playlist);
+    }
 }

@@ -1,4 +1,4 @@
-import { get, post, put } from "./api.js";
+import { get, post, put, del } from "./api.js";
 
 const host = 'http://localhost:8080';
 
@@ -45,4 +45,8 @@ export async function getPlaylist(id) {
 
 export async function addSongToPlaylist(songId, playlistId) {
     return await post(host + `/api/playlists/${playlistId}/add?id=${songId}`);
+}
+
+export async function removeSongFromPlaylist(songId, playlistId) {
+    return await del(host + `/api/playlists/${playlistId}/remove?id=${songId}`);
 }

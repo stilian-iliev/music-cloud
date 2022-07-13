@@ -1,7 +1,7 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist} from '../../api/data.js';
+import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist} from '../../api/data.js';
 
 let userPlaylists;
 let songList;
@@ -73,7 +73,7 @@ const songPreview = (song) => {
     aria-expanded="false" class="fas fa-ellipsis-v px-2"></i><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     ${myId == song.creator.id ? html`<li><a class="dropdown-item" href="#">Edit song</a></li>` : ""}
     <li @click=${setModalSongId}><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#addToPlaylistModal">Add to playlist</a></li>
-    ${loc == "playlist" && myId == playlistCratorId ? html`<li><a class="dropdown-item" href="#">Remove from playlist</a></li>` : ''}
+    ${loc == "playlist" && myId == playlistCratorId ? html`<li @click=${onRemoveFromPlaylist}><a class="dropdown-item" href="#">Remove from playlist</a></li>` : ''}
   </ul><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
@@ -128,6 +128,13 @@ async function onAddToPlaylist(e) {
     let playlistId = e.target.id;
     await addSongToPlaylist(songId, playlistId);
     document.querySelector("#closeAddToPlaylist").click();
+}
+
+async function onRemoveFromPlaylist(e) {
+    let songId = e.target.parentElement.parentElement.parentElement.parentElement.id;
+    let playlistId = ctx.params.id;
+    await removeSongFromPlaylist(songId, playlistId);
+    ctx.page.redirect(window.location.pathname);
 }
 
 export function selectSong(songId) {
