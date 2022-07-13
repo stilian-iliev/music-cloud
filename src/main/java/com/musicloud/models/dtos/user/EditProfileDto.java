@@ -2,6 +2,8 @@ package com.musicloud.models.dtos.user;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
+
 public class EditProfileDto {
     private String firstName;
     private String lastName;

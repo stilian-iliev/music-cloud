@@ -3,6 +3,7 @@ package com.musicloud.services;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
@@ -42,14 +43,14 @@ public class AuthService {
     }
 
     public void changeEmail(AppUserDetails userDetails, String email) {
-        User user = userRepository.findByEmail(userDetails.getUsername());
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
         user.setEmail(email);
         userRepository.save(user);
         userDetails.setEmail(email);
     }
 
     public void changePassword(AppUserDetails userDetails, String newPassword) {
-        User user = userRepository.findByEmail(userDetails.getUsername());
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);

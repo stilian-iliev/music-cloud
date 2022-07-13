@@ -39,9 +39,8 @@ public class User {
     @OneToOne(optional = false, cascade = CascadeType.ALL)
     private Playlist liked;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Playlist> playlists;
-    //list of following creators
 
     private String imageUrl;
 

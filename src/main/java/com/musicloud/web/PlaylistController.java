@@ -33,7 +33,10 @@ public class PlaylistController {
 
     @ResponseBody
     @PostMapping("/playlists/create")
-    public ResponseEntity<PlaylistDto> createPlaylist(@Valid PlaylistCreateDto playlistCreateDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
+    public ResponseEntity<PlaylistDto> createPlaylist(@Valid PlaylistCreateDto playlistCreateDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().build();
+        }
         PlaylistDto playlist = playlistService.create(playlistCreateDto, userDetails);
         return ResponseEntity.ok(playlist);
     }

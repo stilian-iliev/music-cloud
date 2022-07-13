@@ -3,7 +3,6 @@ import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists, ge
 import { songListTemplate } from './fragments/songlist.js';
 import { playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
-import { csrf } from '../app.js';
 
 const profileTemplate = (user, songs, playlists, liked) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
@@ -112,7 +111,7 @@ const editProfileModal = (user) => html`
                 <div class="modal-body">
 
                     <form @submit=${async (e) => await onEditProfile(e)} method="post" action="/profile/edit" enctype="multipart/form-data">
-                    ${csrf}
+                
                     <div class="row mb-4 justify-content-center">
                         <div class="avatar-upload circle">
                             <div class="avatar-edit">
@@ -202,8 +201,8 @@ async function onEditProfile(e) {
     let res = await editProfile(formData);
     document.querySelector("#closeProfileModal").click();
     await renderPage(res);
-    document.querySelector("#navName").textContent = user.username;
-    document.querySelector("#navPhoto").src = user.imageUrl;
+    document.querySelector("#navName").textContent = res.username;
+    document.querySelector("#navPhoto").src = res.imageUrl;
 }
 
 function previewPic() {

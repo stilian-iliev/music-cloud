@@ -5,7 +5,6 @@ import { libraryPage } from './views/library.js';
 import { playlistPage } from './views/playlist.js';
 
 import page from "//unpkg.com/page/page.mjs";
-export const csrf = (document.querySelector('[name = _csrf]'));
 
 const main = document.querySelector('#page-container');
 

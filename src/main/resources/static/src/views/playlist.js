@@ -9,9 +9,9 @@ const playlistTemplate = (playlist, liked) => html`
         <div class="col col-lg-9 col-xl-8">
             <div class="card">
                 <section>
-                    <img src="https://img.discogs.com/dVuWG0JD254HlrRwEAYY4kiQ0Ys=/fit-in/600x600/filters:strip_icc():format(jpeg):mode_rgb():quality(90)/discogs-images/R-7034291-1455617185-2934.jpeg.jpg" width="250px" height="250px">
-                    <div id="playlist-details"><cite class="title">Blurryface</cite>
-                        <address><a rel="artist">Twenty One Pilots</a></address>
+                    <img src="${playlist.imageUrl}" width="250px" height="250px">
+                    <div id="playlist-details"><cite class="title">${playlist.name}</cite>
+                        <address><a rel="artist">${playlist.creator.username}</a></address>
                     </div>
                 </section>
                 ${songListTemplate(playlist.songs, liked.songs)}
@@ -28,7 +28,6 @@ export async function playlistPage(ctxT) {
     ctx = ctxT;
     let playlist = await getPlaylist(ctx.params.id)
     let liked = await getLiked();
-    console.log(playlist.songs);
     ctx.render(playlistTemplate(playlist, liked));
 
 }

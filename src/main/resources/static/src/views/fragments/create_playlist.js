@@ -1,6 +1,5 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import {createPlaylist} from '../../api/data.js';
-import { csrf } from '../../app.js';
 import { playlistCardTemplate } from './playlist_card.js';
 
 
@@ -22,7 +21,7 @@ export const createPlaylistTemplate = (ctxT) => {
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <form @submit=${async (e) => await onSubmit(e)} action="/playlists/create" method="post">
-      ${csrf}
+    
       <div class="modal-body">
       
       <div class="row mb-4 justify-content-center">

@@ -6,6 +6,8 @@ import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
+import com.musicloud.models.exceptions.SongNotFoundException;
+import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
@@ -36,7 +38,7 @@ public class UserService {
     }
 
     public void editProfile(EditProfileDto editProfileDto, AppUserDetails userDetails) throws IOException {
-        User user = userRepository.findById(userDetails.getId()).orElseThrow();
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
 
         if (!editProfileDto.getUsername().trim().isEmpty()) {
             user.setUsername(editProfileDto.getUsername());
@@ -61,7 +63,7 @@ public class UserService {
     }
 
     public UserProfileDto getProfileDto(UUID userId) {
-        return userRepository.findById(userId).map(UserProfileDto::new).orElseThrow();
+        return userRepository.findById(userId).map(UserProfileDto::new).orElseThrow(UserNotFoundException::new);
     }
 
     public boolean existLikedSong(UUID userId, UUID songId) {
@@ -70,26 +72,26 @@ public class UserService {
     }
 
     public void likeSong(UUID songId, AppUserDetails userDetails) {
-        User user = userRepository.findById(userDetails.getId()).orElseThrow();
-        user.getLiked().addSong(songRepository.findById(songId).orElseThrow());
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
+        user.getLiked().addSong(songRepository.findById(songId).orElseThrow(SongNotFoundException::new));
         userRepository.save(user);
     }
 
     public void dislikeSong(UUID songId, AppUserDetails userDetails) {
-        User user = userRepository.findById(userDetails.getId()).orElseThrow();
-        user.getLiked().removeSong(songRepository.findById(songId).orElseThrow());
+        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
+        user.getLiked().removeSong(songRepository.findById(songId).orElseThrow(SongNotFoundException::new));
         userRepository.save(user);
     }
 
     public PlaylistDto findLiked(UUID id) {
-        return new PlaylistDto(userRepository.findById(id).orElseThrow().getLiked());
+        return new PlaylistDto(userRepository.findById(id).orElseThrow(UserNotFoundException::new).getLiked());
     }
 
     public List<PlaylistDto> findPlaylistsOfUser(UUID userId) {
-        return userRepository.findById(userId).orElseThrow().getPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
     }
 
     public List<SongDto> getSongsByUser(UUID userId) {
-        return userRepository.findById(userId).orElseThrow().getSongs().stream().map(SongDto::new).collect(Collectors.toList());
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getSongs().stream().map(SongDto::new).collect(Collectors.toList());
     }
 }

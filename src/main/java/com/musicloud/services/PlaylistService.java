@@ -3,6 +3,8 @@ package com.musicloud.services;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.dtos.playlist.PlaylistCreateDto;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
+import com.musicloud.models.exceptions.PlaylistNotFoundException;
+import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
@@ -28,12 +30,12 @@ public class PlaylistService {
 
 
     public PlaylistDto findById(UUID playlistDto) {
-        return playlistRepository.findById(playlistDto).map(PlaylistDto::new).orElseThrow();
+        return playlistRepository.findById(playlistDto).map(PlaylistDto::new).orElseThrow(PlaylistNotFoundException::new);
     }
 
     public PlaylistDto create(PlaylistCreateDto playlistCreateDto, AppUserDetails userDetails) throws IOException {
         Playlist playlist = mapper.map(playlistCreateDto, Playlist.class);
-        playlist.setUser(userRepository.findById(userDetails.getId()).orElseThrow());
+        playlist.setUser(userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new));
         String image = storageService.saveImage(playlistCreateDto.getImage());
         playlist.setImageUrl(image != null ? image : "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657567072/images/1482975da7275050a3a8406f90c4610d_f9qkkc.jpg");
         playlistRepository.save(playlist);

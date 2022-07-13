@@ -1,4 +1,3 @@
-import { csrf } from "../app.js";
 import { get, post, put } from "./api.js";
 
 const host = 'http://localhost:8080';

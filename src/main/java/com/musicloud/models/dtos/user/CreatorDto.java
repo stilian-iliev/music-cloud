@@ -13,6 +13,11 @@ public class CreatorDto {
         this.username = user.getUsername();
     }
 
+    public CreatorDto(UUID id, String displayName) {
+        this.id = id;
+        this.username = displayName;
+    }
+
     public UUID getId() {
         return id;
     }

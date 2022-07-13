@@ -19,7 +19,6 @@ authocontroller
 usercontroller
 songscontroller
 playlistcontroller
-likescontroller
 storageController
 
 guests can

@@ -2,7 +2,6 @@
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import {likeSong, dislikeSong} from '../../api/data.js';
-import { csrf } from '../../app.js';
 
 let songList;
 let trackNumber;
@@ -56,16 +55,16 @@ function onPlay(e) {
     }
 }
 
-function onLikeDislike(e) {
+async function onLikeDislike(e) {
     let el = e.target.parentElement.parentElement;
     if (e.target.classList.contains('fa-heart')) {
         
         if (e.target.classList.contains('far')) {
-            likeSong(el.id);
+            await likeSong(el.id);
             e.target.classList.remove('far');
             e.target.classList.add('fas');
         } else {
-            dislikeSong(el.id);
+            await dislikeSong(el.id);
             e.target.classList.remove('fas');
             e.target.classList.add('far');
         }

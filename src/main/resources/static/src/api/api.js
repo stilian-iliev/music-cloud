@@ -1,14 +1,25 @@
-async function request(url, methodd='get', data){
+const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+
+async function request(url, method='get', data){
+    const options = {method, headers: {}};
+    options.headers = { 'X-XSRF-TOKEN': csrfToken };
+    if (data != undefined) {
+        options['body'] = data;     
+    }
     try {
-        const res = await fetch(url, {method: methodd, body: data});
+        const res = await fetch(url, options);
         
         if (res.status == 200) {
             const data = res.json();
             if (data) return data;
             return;
         }
+        if (res.status == 400) {
+            throw "Bad Request";
+        }
     } catch(err) {
-        alert(err.message);
+        // alert(err.message);
+        // window.location.replace("/error");
         throw err;
     }
 }
@@ -28,3 +39,5 @@ export async function put(url, data){
 export async function del(url) {
     return request(url, 'delete');
 }
+
+

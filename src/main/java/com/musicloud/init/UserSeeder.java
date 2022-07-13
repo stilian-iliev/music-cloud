@@ -24,16 +24,16 @@ public class UserSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (userRepository.count() == 0) {
-            User user = new User();
-            user.setUsername("stili");
-            user.setEmail("stili@i.c");
-            user.setPassword(passwordEncoder.encode("r4peemee"));
-            user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
-            user.setLiked(new Playlist("default"));
-
-            userRepository.save(user);
-        }
+//        if (userRepository.count() == 0) {
+//            User user = new User();
+//            user.setUsername("stili");
+//            user.setEmail("stili@i.c");
+//            user.setPassword(passwordEncoder.encode("r4peemee"));
+//            user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
+//            user.setLiked(new Playlist("default"));
+//
+//            userRepository.save(user);
+//        }
 
     }
 }

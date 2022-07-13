@@ -4,6 +4,7 @@ import com.musicloud.models.Song;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.song.SongUploadDto;
+import com.musicloud.models.exceptions.SongNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
 import org.modelmapper.ModelMapper;
@@ -42,7 +43,7 @@ public class SongService {
     }
 
     public SongDto getSongById(UUID songId) {
-        return songRepository.findByIdOrderByCreationTime(songId).map(SongDto::new).orElseThrow();
+        return songRepository.findByIdOrderByCreationTime(songId).map(SongDto::new).orElseThrow(SongNotFoundException::new);
     }
 
     public List<SongDto> getAllSongs() {
