@@ -1,19 +1,19 @@
 welcome
 error
-library /home page /liked, playlists, following
+library /home page /liked, basePlaylists, following
 login
 register
 profile
 settings
 search results
-playlist
+basePlaylist
 upload song
 admin panel
 
 user
 user role
 song
-playlist
+basePlaylist
 
 authocontroller
 usercontroller
@@ -32,8 +32,8 @@ view their profile
 edit their profile
 search songs
 like songs
-make playlists
-add songs to playlist
+make basePlaylists
+add songs to basePlaylist
 upload songs
 
 
@@ -43,11 +43,11 @@ delete users songs
 js
 register validation
 media player 
-get playlists api
+get basePlaylists api
 get songs api
 upload userphoto as soon as its changed in js
 
-spa switch between profile, library, search, playlist
+spa switch between profile, library, search, basePlaylist
 server side guesthome, login, register, settings, upload, admin
 
 

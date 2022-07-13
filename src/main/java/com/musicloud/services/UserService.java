@@ -1,6 +1,6 @@
 package com.musicloud.services;
 
-import com.musicloud.models.Playlist;
+import com.musicloud.models.BasePlaylist;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
@@ -67,7 +67,7 @@ public class UserService {
     }
 
     public boolean existLikedSong(UUID userId, UUID songId) {
-        Playlist liked = userRepository.findById(userId).orElseThrow().getLiked();
+        BasePlaylist liked = userRepository.findById(userId).orElseThrow().getLiked();
         return liked.containsId(songId);
     }
 

@@ -1,14 +1,10 @@
 package com.musicloud.init;
 
-import com.musicloud.models.Playlist;
-import com.musicloud.models.User;
 import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class UserSeeder implements CommandLineRunner {

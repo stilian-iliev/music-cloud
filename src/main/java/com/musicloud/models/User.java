@@ -37,7 +37,7 @@ public class User {
     private List<Song> songs;
 
     @OneToOne(optional = false, cascade = CascadeType.ALL)
-    private Playlist liked;
+    private Liked liked;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Playlist> playlists;
@@ -98,11 +98,11 @@ public class User {
         this.password = password;
     }
 
-    public Playlist getLiked() {
+    public BasePlaylist getLiked() {
         return liked;
     }
 
-    public void setLiked(Playlist liked) {
+    public void setLiked(Liked liked) {
         this.liked = liked;
     }
 
@@ -110,8 +110,8 @@ public class User {
         return playlists;
     }
 
-    public void setPlaylists(List<Playlist> playlists) {
-        this.playlists = playlists;
+    public void setPlaylists(List<Playlist> basePlaylists) {
+        this.playlists = basePlaylists;
     }
 
     public String getImageUrl() {

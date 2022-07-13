@@ -1,6 +1,6 @@
 package com.musicloud.services;
 
-import com.musicloud.models.Playlist;
+import com.musicloud.models.Liked;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
 import com.musicloud.models.exceptions.UserNotFoundException;
@@ -30,7 +30,7 @@ public class AuthService {
     public void register(RegisterDto registerDto) {
         User user = mapper.map(registerDto, User.class);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-        user.setLiked(new Playlist("Liked songs."));
+        user.setLiked(new Liked("Liked songs"));
         //set up default user photo
         user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
 

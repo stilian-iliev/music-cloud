@@ -1,21 +1,20 @@
 package com.musicloud.models;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 
 @Entity
-@Table(name = "playlists")
-public class Playlist extends BasePlaylist {
-    @ManyToOne
+@Table(name = "liked")
+public class Liked extends BasePlaylist {
+    @OneToOne(optional = false, mappedBy = "liked")
     private User user;
 
-    public Playlist() {
+    public Liked() {
         super();
     }
 
-    public Playlist(String name) {
+    public Liked(String name) {
         super(name);
     }
 
@@ -26,6 +25,6 @@ public class Playlist extends BasePlaylist {
 
     @Override
     public void setUser(User user) {
-        this.user= user;
+        this.user = user;
     }
 }

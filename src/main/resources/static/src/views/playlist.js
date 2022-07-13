@@ -2,7 +2,7 @@ import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getPlaylist, getLiked } from '../api/data.js';
 import {songListTemplate} from './fragments/songlist.js';
 
-const playlistTemplate = (playlist, liked) => html`
+export const playlistTemplate = (playlist, liked) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">

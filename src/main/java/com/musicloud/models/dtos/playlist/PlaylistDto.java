@@ -1,6 +1,6 @@
 package com.musicloud.models.dtos.playlist;
 
-import com.musicloud.models.Playlist;
+import com.musicloud.models.BasePlaylist;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.CreatorDto;
 import com.musicloud.models.principal.AppUserDetails;
@@ -18,17 +18,17 @@ public class PlaylistDto {
     private String imageUrl;
     private List<SongDto> songs;
 
-    public PlaylistDto(Playlist playlist) {
-        this.id = playlist.getId();
-        this.name = playlist.getName();
-        if (playlist.getUser() != null){
-            this.creator = new CreatorDto(playlist.getUser());
+    public PlaylistDto(BasePlaylist basePlaylist) {
+        this.id = basePlaylist.getId();
+        this.name = basePlaylist.getName();
+        if (basePlaylist.getUser() != null){
+            this.creator = new CreatorDto(basePlaylist.getUser());
         } else {
             AppUserDetails userDetails = (AppUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             this.creator = new CreatorDto(userDetails.getId(), userDetails.getDisplayName());
         }
-        this.imageUrl = playlist.getImageUrl();
-        this.songs = playlist.getSongs().stream().map(SongDto::new).collect(Collectors.toList());
+        this.imageUrl = basePlaylist.getImageUrl();
+        this.songs = basePlaylist.getSongs().stream().map(SongDto::new).collect(Collectors.toList());
     }
 
     public UUID getId() {

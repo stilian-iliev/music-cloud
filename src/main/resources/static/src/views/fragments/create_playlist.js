@@ -6,6 +6,7 @@ import { playlistCardTemplate } from './playlist_card.js';
 let ctx;
 export const createPlaylistTemplate = (ctxT) => {
   ctx = ctxT;
+
   return html`
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
@@ -27,11 +28,11 @@ export const createPlaylistTemplate = (ctxT) => {
       <div class="row mb-4 justify-content-center">
           <div class="avatar-upload">
               <div class="avatar-edit">
-                  <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" name="image"/>
-                  <label class="circle justify-content-center align-items-center py-1 px-2"  for="imageUpload"> <i class="fas fa-pen"></i></label>
+                  <input type='file' id="playlistImage" accept=".png, .jpg, .jpeg" name="image"/>
+                  <label class="circle justify-content-center align-items-center py-1 px-2"  for="playlistImage"> <i class="fas fa-pen"></i></label>
               </div>
               <div class="avatar-preview">
-                  <div id="imagePreview"
+                  <div id="playlistImagePreview"
                   style="background-image: url();"
                   >
                   </div>
@@ -57,6 +58,26 @@ export const createPlaylistTemplate = (ctxT) => {
   </div>
 </div>
 `;}
+
+//todo fix playlist image preview
+function previewPlaylistPic() {
+  
+  let input = document.getElementById("playlistImagePreview");
+  input.addEventListener("change", changePic);
+
+}
+
+function changePic(e) {
+  var input = e.target;
+  if (input.files && input.files[0]) {
+      var file = input.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function(e) {
+          document.querySelector("#playlistImage").style.backgroundImage = 'url('+ reader.result +')';
+      }
+  }
+}
 
 async function onSubmit(e) {
   e.preventDefault();

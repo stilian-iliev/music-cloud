@@ -1,5 +1,6 @@
 package com.musicloud.services;
 
+import com.musicloud.models.BasePlaylist;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.dtos.playlist.PlaylistCreateDto;
 import com.musicloud.models.dtos.playlist.PlaylistDto;

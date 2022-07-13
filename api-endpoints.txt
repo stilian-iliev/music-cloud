@@ -1,6 +1,6 @@
 /api/users/{id}			gets profile information
 /api/users/{id}/songs		gets songs uploaded by user
-/api/users/{id}/playlists	gets playlists created by user
+/api/users/{id}/basePlaylists	gets basePlaylists created by user
 
 /api/me		returns current user id
 /api/liked	returns current user liked songs
@@ -9,5 +9,5 @@
 /api/song/dislike?id={songID}	removes the song from liked
 
 /profile/edit		updates the profile information
-/playlists/create	creates a new playlist
+/basePlaylists/create	creates a new basePlaylist
 

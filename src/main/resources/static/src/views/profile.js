@@ -86,7 +86,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                         <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? createPlaylistTemplate(ctx) : ''}</div>
                             <div id="profilePlaylists" class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
-                            ${playlistCardTemplate(liked)}
+                            ${playlistCardTemplate(liked, true)}
                             ${playlists.map(playlistCardTemplate)}
                             </div>
                         </div>
@@ -180,7 +180,10 @@ export async function profilePage(ctxT) {
     liked = await getLiked();
     await renderPage(user);
 
-    if (isOwner) previewPic();
+    if (isOwner) {
+
+        previewPic();
+    }
 }
 
 async function renderPage(user) {
