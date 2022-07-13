@@ -7,9 +7,13 @@ let songList;
 let trackNumber;
 let userLikedSongs;
 let myId;
-export const songListTemplate = (songs, liked, me) => {
+let playlistCratorId;
+let loc;
+export const songListTemplate = (songs, liked, me, pci) => {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
+    loc = window.location.pathname.split('/')[1];
     myId = me;
+    playlistCratorId = pci;
     songList = songs;
     userLikedSongs = liked.map(s => s.id);
     trackNumber = 0;
@@ -34,6 +38,23 @@ export const songListTemplate = (songs, liked, me) => {
                 </table>
             
         </section>
+<div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+<div class="modal-dialog  ">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">...</div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+        Close
+        </button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+    </div>
+    </div>
+</div>
+</div>
 `;}
 
 const songPreview = (song) => {
@@ -49,8 +70,8 @@ const songPreview = (song) => {
     data-mdb-toggle="dropdown"
     aria-expanded="false" class="fas fa-ellipsis-v px-2"></i><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     ${myId == song.creator.id ? html`<li><a class="dropdown-item" href="#">Edit song</a></li>` : ""}
-    <li><a class="dropdown-item" href="#">Add to playlist</a></li>
-    <li><a class="dropdown-item" href="#">Remove from playlist</a></li>
+    <li><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add to playlist</a></li>
+    ${loc == "playlist" && myId == playlistCratorId ? html`<li><a class="dropdown-item" href="#">Remove from playlist</a></li>` : ''}
   </ul><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
