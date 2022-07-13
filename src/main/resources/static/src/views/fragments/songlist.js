@@ -1,22 +1,17 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import {likeSong, dislikeSong} from '../../api/data.js';
+import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist} from '../../api/data.js';
 
+let userPlaylists;
 let songList;
 let trackNumber;
 let userLikedSongs;
 let myId;
 let playlistCratorId;
 let loc;
-export const songListTemplate = (songs, liked, me, pci) => {
+export const songListTemplate = (songs) => {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
-    loc = window.location.pathname.split('/')[1];
-    myId = me;
-    playlistCratorId = pci;
-    songList = songs;
-    userLikedSongs = liked.map(s => s.id);
-    trackNumber = 0;
     return html`
 <section class="pb-4">
             <table id="current-playlist">
@@ -38,24 +33,31 @@ export const songListTemplate = (songs, liked, me, pci) => {
                 </table>
             
         </section>
-<div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+<div class="modal top fade" id="addToPlaylistModal" tabindex="-1" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
 <div class="modal-dialog  ">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="addToPlaylistModalLabel">Modal title</h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
     </div>
-    <div class="modal-body">...</div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-        Close
-        </button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-    </div>
+    <div class="modal-body">
+    <div >
+    <!-- Default radio -->
+        ${userPlaylists.map(radioTemplate)}
+      </div>
+      <button id="closeAddToPlaylist" data-mdb-dismiss="modal" style="display: none;"/>
+      </div>
     </div>
 </div>
 </div>
 `;}
+
+const radioTemplate = (playlist) => html`
+<div class="form-check">
+  <input @change=${onAddToPlaylist} id="${playlist.id}" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+  <label class="form-check-label" for="flexRadioDefault1"> ${playlist.name} </label>
+</div>
+`;
 
 const songPreview = (song) => {
     trackNumber++;
@@ -70,11 +72,26 @@ const songPreview = (song) => {
     data-mdb-toggle="dropdown"
     aria-expanded="false" class="fas fa-ellipsis-v px-2"></i><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
     ${myId == song.creator.id ? html`<li><a class="dropdown-item" href="#">Edit song</a></li>` : ""}
-    <li><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Add to playlist</a></li>
+    <li @click=${setModalSongId}><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#addToPlaylistModal">Add to playlist</a></li>
     ${loc == "playlist" && myId == playlistCratorId ? html`<li><a class="dropdown-item" href="#">Remove from playlist</a></li>` : ''}
   </ul><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
+
+let ctx;
+export async function songListFragment(songs, liked, pci, ctxT) {
+    if (ctxT) {
+        ctx = ctxT;
+    }
+    loc = window.location.pathname.split('/')[1];
+    myId = await getMyId();
+    playlistCratorId = pci;
+    songList = songs;
+    userLikedSongs = liked.map(s => s.id);
+    trackNumber = 0;
+    userPlaylists = await getUserPlaylists(myId);
+    return songListTemplate(songs);
+}
 
 function onPlay(e) {
     let el = e.target.parentElement.parentElement;
@@ -99,6 +116,18 @@ async function onLikeDislike(e) {
         }
     }
     
+}
+
+function setModalSongId(e) {
+    let songId = e.target.parentElement.parentElement.parentElement.parentElement.id;
+    document.querySelector("#addToPlaylistModal").setAttribute('song', songId);
+}
+
+async function onAddToPlaylist(e) {
+    let songId = document.querySelector('#addToPlaylistModal').getAttribute('song');
+    let playlistId = e.target.id;
+    await addSongToPlaylist(songId, playlistId);
+    document.querySelector("#closeAddToPlaylist").click();
 }
 
 export function selectSong(songId) {

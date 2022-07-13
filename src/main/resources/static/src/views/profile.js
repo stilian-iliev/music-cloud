@@ -1,10 +1,10 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists, getLiked } from '../api/data.js';
-import { songListTemplate } from './fragments/songlist.js';
+import { songListFragment } from './fragments/songlist.js';
 import { playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
 
-const profileTemplate = (user, songs, playlists, liked) => html`
+const profileTemplate = async (user, songs, playlists, liked) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -75,7 +75,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-1"
                         >
-                            ${songListTemplate(songs, liked.songs, me)}
+                            ${await songListFragment(songs, liked.songs)}
                         </div>
                         <div
                                 class="tab-pane fade"
@@ -83,7 +83,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-2"
                         >
-                        <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? createPlaylistTemplate(ctx) : ''}</div>
+                        <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? await createPlaylistTemplate(ctx) : ''}</div>
                             <div id="profilePlaylists" class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
                             ${playlistCardTemplate(liked, true)}
@@ -165,7 +165,6 @@ const editProfileModal = (user) => html`
 
 
 let isOwner;
-let me;
 let songs;
 let playlists;
 let liked;
@@ -179,8 +178,9 @@ export async function profilePage(ctxT) {
     songs = await getUserSongs(ctx.params.id);
     playlists = await getUserPlaylists(ctx.params.id);
     liked = await getLiked();
-    me = await getMyId();
+
     await renderPage(user);
+    
 
     if (isOwner) {
 
@@ -190,7 +190,7 @@ export async function profilePage(ctxT) {
 
 async function renderPage(user) {
     document.title = `${user.username} - musiCloud`;
-    ctx.render(profileTemplate(user, songs, playlists, liked));
+    ctx.render(await profileTemplate(user, songs, playlists, liked));
 }
 
 

@@ -1,8 +1,8 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getPlaylist, getLiked, getMyId } from '../api/data.js';
-import {songListTemplate} from './fragments/songlist.js';
+import { getPlaylist, getLiked } from '../api/data.js';
+import {songListFragment} from './fragments/songlist.js';
 
-export const playlistTemplate = (playlist, liked, me) => html`
+export const playlistTemplate = async (playlist, liked) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -14,7 +14,7 @@ export const playlistTemplate = (playlist, liked, me) => html`
                         <address><a rel="artist">${playlist.creator.username}</a></address>
                     </div>
                 </section>
-                ${songListTemplate(playlist.songs, liked.songs, me, playlist.creator.id)}
+                ${await songListFragment(playlist.songs, liked.songs, playlist.creator.id, ctx)}
 
             </div>
         </div>
@@ -28,7 +28,6 @@ export async function playlistPage(ctxT) {
     ctx = ctxT;
     let playlist = await getPlaylist(ctx.params.id)
     let liked = await getLiked();
-    let me = await getMyId();
-    ctx.render(playlistTemplate(playlist, liked, me));
+    ctx.render(await playlistTemplate(playlist, liked));
 
 }

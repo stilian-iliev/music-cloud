@@ -4,21 +4,21 @@ import { playlistCardTemplate } from './playlist_card.js';
 
 
 let ctx;
-export const createPlaylistTemplate = (ctxT) => {
+export const createPlaylistTemplate = async (ctxT) => {
   ctx = ctxT;
 
   return html`
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+<button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#playlistModal">
   Create new playlist
 </button>
 
 <!-- Modal -->
-<div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+<div class="modal top fade" id="playlistModal" tabindex="-1" aria-labelledby="createPlaylistModal" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Create Playlist</h5>
+        <h5 class="modal-title" id="createPlaylistModal">Create Playlist</h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <form @submit=${async (e) => await onSubmit(e)} action="/playlists/create" method="post">
@@ -59,7 +59,7 @@ export const createPlaylistTemplate = (ctxT) => {
 </div>
 `;}
 
-//todo fix playlist image preview
+//todo fix playlist image
 function previewPlaylistPic() {
   
   let input = document.getElementById("playlistImagePreview");

@@ -42,3 +42,7 @@ export async function dislikeSong(songId) {
 export async function getPlaylist(id) {
     return await get(host + `/api/playlists/`+id);
 }
+
+export async function addSongToPlaylist(songId, playlistId) {
+    return await post(host + `/api/playlists/${playlistId}/add?id=${songId}`);
+}
