@@ -14,7 +14,7 @@ export const playlistTemplate = (playlist, liked) => html`
                         <address><a rel="artist">${playlist.creator.username}</a></address>
                     </div>
                 </section>
-                ${songListTemplate(playlist.songs, liked.songs)}
+                ${songListTemplate(playlist.songs, liked.songs, me)}
 
             </div>
         </div>

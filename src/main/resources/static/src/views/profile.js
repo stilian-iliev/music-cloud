@@ -75,7 +75,7 @@ const profileTemplate = (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-1"
                         >
-                            ${songListTemplate(songs, liked.songs)}
+                            ${songListTemplate(songs, liked.songs, me)}
                         </div>
                         <div
                                 class="tab-pane fade"
@@ -165,6 +165,7 @@ const editProfileModal = (user) => html`
 
 
 let isOwner;
+let me;
 let songs;
 let playlists;
 let liked;
@@ -178,6 +179,7 @@ export async function profilePage(ctxT) {
     songs = await getUserSongs(ctx.params.id);
     playlists = await getUserPlaylists(ctx.params.id);
     liked = await getLiked();
+    me = await getMyId();
     await renderPage(user);
 
     if (isOwner) {

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 
 @MatchingFields(first = "password", second = "confirmPassword", message = "Password are not matching!")
 public class ChangePasswordDto {
-    @CorrectPassword
+    @CorrectPassword(message = "Wrong password.")
     private String oldPassword;
 
     @NotBlank(message = "Password must be between 8 and 32 characters long.")

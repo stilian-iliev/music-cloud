@@ -1,4 +1,4 @@
-import { getLiked } from '../api/data.js';
+import { getLiked, getMyId } from '../api/data.js';
 import {playlistTemplate} from './playlist.js';
 
 

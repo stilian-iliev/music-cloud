@@ -6,8 +6,10 @@ import {likeSong, dislikeSong} from '../../api/data.js';
 let songList;
 let trackNumber;
 let userLikedSongs;
-export const songListTemplate = (songs, liked) => {
+let myId;
+export const songListTemplate = (songs, liked, me) => {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
+    myId = me;
     songList = songs;
     userLikedSongs = liked.map(s => s.id);
     trackNumber = 0;
@@ -43,7 +45,13 @@ const songPreview = (song) => {
     <td width="35%">
         <address><a rel="artist" href="${'/user/'+song.creator.id}">${song.creator.username}</a></address>
     </td>
-    <td @click=${onLikeDislike}>${userLikedSongs.includes(song.id) ? html`<i class="fas fa-heart px-2"></i>` : html`<i class="far fa-heart px-2"></i>`}<i class="fas fa-ellipsis-v px-2"></i><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
+    <td @click=${onLikeDislike}>${userLikedSongs.includes(song.id) ? html`<i class="fas fa-heart px-2"></i>` : html`<i class="far fa-heart px-2"></i>`}<i id="dropdownMenuButton"
+    data-mdb-toggle="dropdown"
+    aria-expanded="false" class="fas fa-ellipsis-v px-2"></i><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    ${myId == song.creator.id ? html`<li><a class="dropdown-item" href="#">Edit song</a></li>` : ""}
+    <li><a class="dropdown-item" href="#">Add to playlist</a></li>
+    <li><a class="dropdown-item" href="#">Remove from playlist</a></li>
+  </ul><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
 

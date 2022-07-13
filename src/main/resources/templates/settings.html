@@ -3,6 +3,16 @@
 <head>
   <title>Settings - musiCloud</title>
   <th:block th:replace="/fragments/head"></th:block>
+  <script th:if="${emailError}">
+              window.addEventListener("load", () => {
+              document.querySelector('#changeEmail').click();
+              });
+  </script>
+  <script th:if="${passError}">
+              window.addEventListener("load", () => {
+              document.querySelector('#changePass').click();
+              });
+  </script>
 </head>
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>
@@ -24,7 +34,7 @@
 
             </div>
             <div class="col-sm-2">
-              <a data-mdb-toggle="modal" data-mdb-target="#exampleModal"><i class="fas fa-edit"></i></a>
+              <a id="changeEmail" data-mdb-toggle="modal" data-mdb-target="#exampleModal"><i class="fas fa-edit"></i></a>
             </div>
           </div>
           <hr>
@@ -37,7 +47,7 @@
 
             </div>
             <div class="col-sm-2">
-              <a data-mdb-toggle="modal" data-mdb-target="#changePasswordModal"><i class="fas fa-edit"></i></a>
+              <a id="changePass" data-mdb-toggle="modal" data-mdb-target="#changePasswordModal"><i class="fas fa-edit"></i></a>
             </div>
           </div>
           <hr>
@@ -59,26 +69,29 @@
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:method="post" th:action="@{/settings/password}">
+        <form th:method="post" th:action="@{/settings/password}" th:object="${changePasswordDto}">
           <!-- Number input -->
           <div class="form-outline mb-4">
-            <input type="password" id="oldPassword" class="form-control" name="oldPassword">
+            <input type="password" id="oldPassword" class="form-control" th:field="*{oldPassword}" th:errorclass="is-invalid">
             <label class="form-label" for="oldPassword" style="margin-left: 0px;">Old password</label>
-            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
+            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div>
+            <div class="invalid-feedback mb-2" >Wrong password.</div></div>
 
           <!-- Message input -->
           <div class="row mb-4">
             <div class="col">
               <div class="form-outline">
-                <input type="password" id="password" class="form-control" name="password">
+                <input type="password" id="password" class="form-control" th:field="*{password}" th:errorclass="is-invalid">
                 <label class="form-label" for="password" style="margin-left: 0px;">New password</label>
-                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div>
+                <div class="invalid-feedback mb-2" >Password must be between 8 and 32 characters long.</div></div>
             </div>
             <div class="col">
               <div class="form-outline">
-                <input type="password" id="confirmPassword" class="form-control" name="confirmPassword">
+                <input type="password" id="confirmPassword" class="form-control" th:field="*{confirmPassword}" th:errorclass="is-invalid">
                 <label class="form-label" for="confirmPassword" style="margin-left: 0px;">Confirm password</label>
-                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div>
+                <div class="invalid-feedback mb-2" th:if="${#fields.hasErrors('confirmPassword')}" th:text="${#fields.errors('confirmPassword').get(0)}">Error</div></div>
             </div>
           </div>
           <div class="modal-footer">
@@ -102,11 +115,12 @@
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:method="post" th:action="@{/settings/email}">
+        <form th:method="post" th:action="@{/settings/email}" th:object="${changeEmailDto}">
           <div class="form-outline mb-4">
-            <input type="email" id="form6Example5" class="form-control" name="email">
+            <input type="email" id="form6Example5" class="form-control" th:classappend ="*{email != null && email.length > 0} ? active" th:field="*{email}" th:errorclass="is-invalid">
             <label class="form-label" for="form6Example5" style="margin-left: 0px;">Email</label>
-            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div></div>
+            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div>
+            <div class="invalid-feedback mb-2" th:if="${#fields.hasErrors('email')}" th:text="${#fields.errors('email').get(0)}">Error</div></div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-light" data-mdb-dismiss="modal">
@@ -147,6 +161,7 @@
     </div>
   </div>
 </div>
+
 </body>
 </html>
 

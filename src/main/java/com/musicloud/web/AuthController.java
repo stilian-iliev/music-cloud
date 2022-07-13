@@ -8,6 +8,7 @@ import com.musicloud.services.AuthService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -64,14 +65,22 @@ public class AuthController {
     }
 
     @GetMapping("/settings")
-    public String getSettings() {
+    public String getSettings(Model model) {
+        if (!model.containsAttribute("changePasswordDto")) {
+            model.addAttribute("changePasswordDto", new ChangePasswordDto());
+        }
+        if (!model.containsAttribute("changeEmailDto")) {
+            model.addAttribute("changeEmailDto", new ChangeEmailDto());
+        }
         return "settings";
     }
 
     @PostMapping("/settings/email")
     public String changeEmail(@Valid ChangeEmailDto changeEmailDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AppUserDetails userDetails) {
         if (bindingResult.hasErrors()) {
-            //todo:make validation (maybe just front end)
+            redirectAttributes.addFlashAttribute("emailError", true);
+            redirectAttributes.addFlashAttribute("changeEmailDto", changeEmailDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changeEmailDto", bindingResult);
             return "redirect:/settings";
         }
         authService.changeEmail(userDetails, changeEmailDto.getEmail());
@@ -82,7 +91,9 @@ public class AuthController {
     @PostMapping("/settings/password")
     public String changePassword(@Valid ChangePasswordDto changePasswordDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @AuthenticationPrincipal AppUserDetails userDetails) {
         if (bindingResult.hasErrors()) {
-            //todo: show notification if successful
+            redirectAttributes.addFlashAttribute("passError", true);
+            redirectAttributes.addFlashAttribute("changePasswordDto", changePasswordDto);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.changePasswordDto", bindingResult);
             return "redirect:/settings";
         }
         authService.changePassword(userDetails, changePasswordDto.getPassword());
