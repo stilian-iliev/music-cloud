@@ -9,7 +9,7 @@ export const createPlaylistTemplate = async (ctxT) => {
 
   return html`
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#playlistModal">
+<button type="button" class="btn btn-dark" data-mdb-toggle="modal" data-mdb-target="#playlistModal">
   Create new playlist
 </button>
 

@@ -1,6 +1,8 @@
 package com.musicloud.services;
 
 import com.musicloud.models.BasePlaylist;
+import com.musicloud.models.Playlist;
+import com.musicloud.models.Song;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -66,11 +69,6 @@ public class UserService {
         return userRepository.findById(userId).map(UserProfileDto::new).orElseThrow(UserNotFoundException::new);
     }
 
-    public boolean existLikedSong(UUID userId, UUID songId) {
-        BasePlaylist liked = userRepository.findById(userId).orElseThrow().getLiked();
-        return liked.containsId(songId);
-    }
-
     public void likeSong(UUID songId, AppUserDetails userDetails) {
         User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
         user.getLiked().addSong(songRepository.findById(songId).orElseThrow(SongNotFoundException::new));
@@ -88,10 +86,14 @@ public class UserService {
     }
 
     public List<PlaylistDto> findPlaylistsOfUser(UUID userId) {
-        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getPlaylists().stream()
+                .sorted(Comparator.comparing(Playlist::getCreationTime))
+                .map(PlaylistDto::new).collect(Collectors.toList());
     }
 
     public List<SongDto> getSongsByUser(UUID userId) {
-        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getSongs().stream().map(SongDto::new).collect(Collectors.toList());
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getSongs().stream()
+                .sorted(Comparator.comparing(Song::getCreationTime))
+                .map(SongDto::new).collect(Collectors.toList());
     }
 }

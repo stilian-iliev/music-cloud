@@ -86,7 +86,7 @@ const profileTemplate = async (user, songs, playlists, liked) => html`
                         <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? await createPlaylistTemplate(ctx) : ''}</div>
                             <div id="profilePlaylists" class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
-                            ${likedCardTemplate(liked)}
+                            ${isOwner ? likedCardTemplate(liked) : ''}
                             ${playlists.map(playlistCardTemplate)}
                             </div>
                         </div>
