@@ -422,6 +422,10 @@
     color: #4f4f4f;
 }
 
-.current a  {
+.current address a  {
   color: #FFF;
+}
+
+.sitecolor {
+background-color: #ffac44;
 }

@@ -24,7 +24,12 @@ public class PlaylistController {
     }
 
     @GetMapping("/playlist/{id}")
-    public String getPage() {
+    public String getPlaylistPage() {
+        return "index";
+    }
+
+    @GetMapping("/liked")
+    public String getLikedPage() {
         return "index";
     }
 

@@ -14,7 +14,7 @@ page('/user/:id', decorateContext, profilePage);
 // page('/search', decorateContext, playlistPage);
 page('/', decorateContext, libraryPage);
 page('/playlist/:id', decorateContext, playlistPage);
-page('/collection', decorateContext, likedPlaylistPage);
+page('/liked', decorateContext, likedPlaylistPage);
 
 
 

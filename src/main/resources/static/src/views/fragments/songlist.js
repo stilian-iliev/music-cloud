@@ -34,10 +34,10 @@ export const songListTemplate = (songs) => {
             
         </section>
 <div class="modal top fade" id="addToPlaylistModal" tabindex="-1" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
-<div class="modal-dialog  ">
+<div class="modal-dialog modal-sm ">
     <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="addToPlaylistModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="addToPlaylistModalLabel">Choose playlist</h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
@@ -54,7 +54,7 @@ export const songListTemplate = (songs) => {
 
 const radioTemplate = (playlist) => html`
 <div class="form-check">
-  <input @change=${onAddToPlaylist} id="${playlist.id}" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+  <input @change=${onAddToPlaylist} id="${playlist.id}" class="form-check-input pl-radio" type="radio" name="flexRadioDefault"/>
   <label class="form-check-label" for="flexRadioDefault1"> ${playlist.name} </label>
 </div>
 `;
@@ -127,6 +127,7 @@ async function onAddToPlaylist(e) {
     let songId = document.querySelector('#addToPlaylistModal').getAttribute('song');
     let playlistId = e.target.id;
     await addSongToPlaylist(songId, playlistId);
+    document.querySelectorAll('.pl-radio').forEach(r => r.checked = false);
     document.querySelector("#closeAddToPlaylist").click();
 }
 

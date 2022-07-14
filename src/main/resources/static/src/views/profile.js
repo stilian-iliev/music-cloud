@@ -1,7 +1,7 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists, getLiked } from '../api/data.js';
 import { songListFragment } from './fragments/songlist.js';
-import { playlistCardTemplate } from './fragments/playlist_card.js';
+import { likedCardTemplate, playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
 
 const profileTemplate = async (user, songs, playlists, liked) => html`
@@ -86,7 +86,7 @@ const profileTemplate = async (user, songs, playlists, liked) => html`
                         <div class="d-grid gap-4 col-4 mx-auto pb-4">${isOwner ? await createPlaylistTemplate(ctx) : ''}</div>
                             <div id="profilePlaylists" class="row row-cols-1 row-cols-md-3 g-4 pb-4">
                             
-                            ${playlistCardTemplate(liked, true)}
+                            ${likedCardTemplate(liked)}
                             ${playlists.map(playlistCardTemplate)}
                             </div>
                         </div>
