@@ -90,8 +90,7 @@ async function onSubmit(e) {
   }
   //todo order playlists on /api/user/playlists
   //todo: close modal add playlist to template
-  let res = await createPlaylist(formData);
-  
-  ctx.render(playlistCardTemplate(res), document.querySelector("#profilePlaylists"));
+  await createPlaylist(formData);
   document.querySelector("#closeCreatePlaylist").click();
+  ctx.page.redirect(window.location.pathname);
 }

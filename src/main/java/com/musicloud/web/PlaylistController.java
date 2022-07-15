@@ -71,4 +71,11 @@ public class PlaylistController {
         playlistService.editPlaylist(playlistId, playlistDto, userDetails);
         return ResponseEntity.noContent().build();
     }
+
+    @ResponseBody
+    @DeleteMapping("/api/playlists/{playlistId}")
+    public ResponseEntity<ResponseStatus> deletePlaylist(@PathVariable("playlistId")UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        playlistService.deletePlaylist(playlistId, userDetails);
+        return ResponseEntity.noContent().build();
+    }
 }

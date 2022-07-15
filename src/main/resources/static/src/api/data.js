@@ -62,3 +62,7 @@ export async function editSong(songId, formData) {
 export async function deleteSong(songId) {
     return await del(host + `/api/songs/${songId}`);
 }
+
+export async function deletePlaylist(playlistId) {
+    return await del(host + `/api/playlists/${playlistId}`);
+}

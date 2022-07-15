@@ -76,4 +76,10 @@ public class PlaylistService {
 
         playlistRepository.save(playlist);
     }
+
+    public void deletePlaylist(UUID playlistId, AppUserDetails userDetails) {
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
+        if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+        playlistRepository.delete(playlist);
+    }
 }

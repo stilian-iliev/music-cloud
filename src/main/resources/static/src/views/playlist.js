@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getPlaylist, getLiked, getMyId, editPlaylist } from '../api/data.js';
+import { getPlaylist, getLiked, getMyId, editPlaylist, deletePlaylist } from '../api/data.js';
 import {songListFragment} from './fragments/songlist.js';
 
 export const playlistTemplate = async (playlist, liked, isOwner) => html`
@@ -63,9 +63,8 @@ const editPlaylistModal = () => html`
       
       </div>
       <div class="modal-footer">
-        <button id="closeEditPlaylist" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
-          Close
-        </button>
+        <button @click=${onDelete} type="button" class="btn btn-danger">Delete playlist</button>
+        <button id="closeEditPlaylist" type="button" style="display: none;" data-mdb-dismiss="modal"/>
         <button type="submit" class="btn btn-primary">Edit Playlist</button>
       </div>
       </form>
@@ -103,6 +102,13 @@ async function onEdit(e) {
     
     ctx.page.redirect(window.location.pathname);
     document.querySelector("#closeEditPlaylist").click();
+}
+
+async function onDelete(e) {
+  window.confirm("Are you sure you want to delete this playlist?");
+  await deletePlaylist(playlist.id);
+  document.querySelector("#closeEditPlaylist").click();
+  ctx.page.redirect("/");
 }
 
 function previewPic() {

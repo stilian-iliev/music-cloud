@@ -12,10 +12,13 @@ public class Liked extends BasePlaylist {
 
     public Liked() {
         super();
+        super.setImageUrl("todo");
     }
 
     public Liked(String name) {
         super(name);
+        //todo find image for liked songs
+        super.setImageUrl("todo");
     }
 
     @Override
