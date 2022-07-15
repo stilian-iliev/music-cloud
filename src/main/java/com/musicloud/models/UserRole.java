@@ -11,8 +11,16 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
     private UserRoleEnum name;
+
+    public UserRole() {
+    }
+
+    public UserRole(UserRoleEnum name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

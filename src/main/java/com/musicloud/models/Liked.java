@@ -10,13 +10,9 @@ public class Liked extends BasePlaylist {
     @OneToOne(optional = false, mappedBy = "liked")
     private User user;
 
-    public Liked() {
-        super();
-        super.setImageUrl("todo");
-    }
 
-    public Liked(String name) {
-        super(name);
+    public Liked() {
+        super("Liked songs");
         //todo find image for liked songs
         super.setImageUrl("todo");
     }
