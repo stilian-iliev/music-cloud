@@ -75,7 +75,7 @@ const profileTemplate = async (user, songs, playlists, liked) => html`
                                 role="tabpanel"
                                 aria-labelledby="ex2-tab-1"
                         >
-                            ${await songListFragment(songs, liked.songs)}
+                            ${await songListFragment(songs, liked.songs, undefined, ctx)}
                         </div>
                         <div
                                 class="tab-pane fade"

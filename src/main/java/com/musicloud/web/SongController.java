@@ -1,5 +1,6 @@
 package com.musicloud.web;
 
+import com.musicloud.models.dtos.song.EditSongDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.song.SongUploadDto;
 import com.musicloud.models.principal.AppUserDetails;
@@ -66,6 +67,14 @@ public class SongController {
     public ResponseEntity<Boolean> dislike(@RequestParam("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.dislikeSong(songId, userDetails);
         return ResponseEntity.ok(Boolean.TRUE);
+    }
+
+    @ResponseBody
+    @PutMapping("/api/songs/{songId}/edit")
+    public ResponseEntity<ResponseStatus> editSong(@PathVariable("songId") UUID songId, @Valid EditSongDto songDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails){
+        if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
+        songService.editSong(songId, songDto, userDetails);
+        return ResponseEntity.noContent().build();
     }
 
     //todo:get search and pagable

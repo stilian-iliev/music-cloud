@@ -2,9 +2,11 @@ package com.musicloud.services;
 
 import com.musicloud.models.Song;
 import com.musicloud.models.User;
+import com.musicloud.models.dtos.song.EditSongDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.song.SongUploadDto;
 import com.musicloud.models.exceptions.SongNotFoundException;
+import com.musicloud.models.exceptions.UnauthorizedException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
 import org.modelmapper.ModelMapper;
@@ -49,4 +51,12 @@ public class SongService {
     public List<SongDto> getAllSongs() {
         return songRepository.findAll().stream().map(SongDto::new).collect(Collectors.toList());
     }
+
+    public void editSong(UUID songId, EditSongDto songDto, AppUserDetails userDetails) {
+        Song song = songRepository.findById(songId).orElseThrow(SongNotFoundException::new);
+        if (!song.getCreator().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+        song.setTitle(songDto.getTitle());
+        songRepository.save(song);
+    }
+
 }

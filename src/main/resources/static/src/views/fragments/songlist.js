@@ -1,7 +1,7 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist} from '../../api/data.js';
+import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong} from '../../api/data.js';
 
 let userPlaylists;
 let songList;
@@ -50,6 +50,7 @@ export const songListTemplate = (songs) => {
     </div>
 </div>
 </div>
+${editSongModal()}
 `;}
 
 const radioTemplate = (playlist) => html`
@@ -71,12 +72,42 @@ const songPreview = (song) => {
     <td @click=${onLikeDislike}>${userLikedSongs.includes(song.id) ? html`<i class="fas fa-heart px-2"></i>` : html`<i class="far fa-heart px-2"></i>`}<i id="dropdownMenuButton"
     data-mdb-toggle="dropdown"
     aria-expanded="false" class="fas fa-ellipsis-v px-2"></i><ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-    ${myId == song.creator.id ? html`<li><a class="dropdown-item" href="#">Edit song</a></li>` : ""}
-    <li @click=${setModalSongId}><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#addToPlaylistModal">Add to playlist</a></li>
+    ${myId == song.creator.id ? html`<li @click=${(e) => {setModalSongId(e, "#editSongModal"); document.querySelector("#songTitle").value = songList.find(s => s.id == document.querySelector("#editSongModal").getAttribute('song')).title}}><a class="dropdown-item" type="button" data-mdb-toggle="modal" data-mdb-target="#editSongModal">Edit song</a></li>` : ""}
+    <li @click=${(e) => setModalSongId(e, "#addToPlaylistModal")}><a class="dropdown-item" href="#" data-mdb-toggle="modal" data-mdb-target="#addToPlaylistModal">Add to playlist</a></li>
     ${loc == "playlist" && myId == playlistCratorId ? html`<li @click=${onRemoveFromPlaylist}><a class="dropdown-item" href="#">Remove from playlist</a></li>` : ''}
   </ul><span class="runtime">${getTimeCodeFromNum(song.duration)}</span></td>
     </tr>
 `;}
+
+const editSongModal = () => html`
+<div class="modal top fade" id="editSongModal" tabindex="-1" aria-labelledby="editSongModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+<div class="modal-dialog  ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form @submit=${onEditSong}>
+          <div class="form-outline mb-4">
+            <input type="text" id="songTitle" name="title" class="form-control active">
+            <label class="form-label" for="songTitle" style="margin-left: 0px;">Title</label>
+            <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div>
+            <div class="invalid-feedback mb-2">Title is required!</div></div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger">
+              Delete song
+            </button>
+            <button type="submit" class="btn btn-primary text-dark" style="background-color: #ffac44;">Change title</button>
+          </div>
+        </form>
+        <button id="closeEditSong" type="button" style="display:none;" data-mdb-dismiss="modal"/>
+      </div>
+    </div>
+  </div>
+</div>
+`;
 
 let ctx;
 export async function songListFragment(songs, liked, pci, ctxT) {
@@ -118,9 +149,9 @@ async function onLikeDislike(e) {
     
 }
 
-function setModalSongId(e) {
+function setModalSongId(e, domId) {
     let songId = e.target.parentElement.parentElement.parentElement.parentElement.id;
-    document.querySelector("#addToPlaylistModal").setAttribute('song', songId);
+    document.querySelector(domId).setAttribute('song', songId);
 }
 
 async function onAddToPlaylist(e) {
@@ -142,6 +173,25 @@ export function selectSong(songId) {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
     let song = document.getElementById(songId);
     if (song) song.classList.add('current');
+}
+
+async function onEditSong(e) {
+    e.preventDefault();
+    let songId = document.querySelector('#editSongModal').getAttribute('song');
+
+    let formData = new FormData(e.target);
+    if (!formData.get('title').trim()) {
+        document.querySelector("#editSongModal #songTitle").classList.add("is-invalid");
+    } else {
+        document.querySelector("#editSongModal #songTitle").classList.remove("is-invalid");
+    }
+    await editSong(songId, formData);
+    document.querySelector("#closeEditSong").click();
+    ctx.page.redirect(window.location.pathname);
+}
+
+export function onDeleteSong(e) {
+    //todo
 }
 
 function getTimeCodeFromNum(num) {
