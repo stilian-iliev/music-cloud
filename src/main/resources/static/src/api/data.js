@@ -58,3 +58,7 @@ export async function editPlaylist(playlistId, formData) {
 export async function editSong(songId, formData) {
     return await put(host + `/api/songs/${songId}/edit`, formData);
 }
+
+export async function deleteSong(songId) {
+    return await del(host + `/api/songs/${songId}`);
+}

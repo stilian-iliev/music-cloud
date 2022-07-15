@@ -1,7 +1,7 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong} from '../../api/data.js';
+import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong, deleteSong} from '../../api/data.js';
 
 let userPlaylists;
 let songList;
@@ -96,7 +96,7 @@ const editSongModal = () => html`
             <div class="invalid-feedback mb-2">Title is required!</div></div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger">
+            <button @click=${onDeleteSong} type="button" class="btn btn-danger">
               Delete song
             </button>
             <button type="submit" class="btn btn-primary text-dark" style="background-color: #ffac44;">Change title</button>
@@ -190,8 +190,12 @@ async function onEditSong(e) {
     ctx.page.redirect(window.location.pathname);
 }
 
-export function onDeleteSong(e) {
-    //todo
+async function onDeleteSong(e) {
+    window.confirm(`Are you sure you want to delete this song?`);
+    let songId = document.querySelector('#editSongModal').getAttribute('song');
+    await deleteSong(songId);
+    document.querySelector("#closeEditSong").click();
+    ctx.page.redirect(window.location.pathname);
 }
 
 function getTimeCodeFromNum(num) {

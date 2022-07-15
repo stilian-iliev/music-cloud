@@ -77,6 +77,14 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
+    @ResponseBody
+    @DeleteMapping("/api/songs/{songId}")
+    public ResponseEntity<ResponseStatus> deleteSong(@PathVariable("songId") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails){
+        //todo: fix this or sth
+        songService.deleteSong(songId, userDetails);
+        return ResponseEntity.noContent().build();
+    }
+
     //todo:get search and pagable
 //    @GetMapping("/api/songs?page={page}")
 //    @ResponseBody

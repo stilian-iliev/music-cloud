@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -29,6 +30,12 @@ public class Song {
     private String songUrl;
 
     private LocalDateTime creationTime;
+
+    @ManyToMany(mappedBy = "songs")
+    private List<Liked> likedPlaylists;
+
+    @ManyToMany(mappedBy = "songs")
+    private List<Playlist> playlists;
 
     public Song() {
         creationTime = LocalDateTime.now();
@@ -85,6 +92,14 @@ public class Song {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public List<Liked> getLikedPlaylists() {
+        return likedPlaylists;
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
     }
 
     public LocalDateTime getCreationTime() {

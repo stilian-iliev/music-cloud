@@ -1,7 +1,6 @@
 package com.musicloud.services;
 
-import com.musicloud.models.Song;
-import com.musicloud.models.User;
+import com.musicloud.models.*;
 import com.musicloud.models.dtos.song.EditSongDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.song.SongUploadDto;
@@ -59,4 +58,16 @@ public class SongService {
         songRepository.save(song);
     }
 
+    public void deleteSong(UUID songId, AppUserDetails userDetails) {
+        Song song = songRepository.findById(songId).orElseThrow(SongNotFoundException::new);
+        if (!song.getCreator().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+        for (Liked playlist : song.getLikedPlaylists()) {
+            playlist.removeSong(song);
+        }
+        for (Playlist playlist : song.getPlaylists()) {
+            playlist.removeSong(song);
+        }
+        songRepository.delete(song);
+
+    }
 }
