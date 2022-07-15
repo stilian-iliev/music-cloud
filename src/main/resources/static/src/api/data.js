@@ -50,3 +50,7 @@ export async function addSongToPlaylist(songId, playlistId) {
 export async function removeSongFromPlaylist(songId, playlistId) {
     return await del(host + `/api/playlists/${playlistId}/remove?id=${songId}`);
 }
+
+export async function editPlaylist(playlistId, formData) {
+    return await put(host + `/api/playlists/${playlistId}/edit`, formData);
+}

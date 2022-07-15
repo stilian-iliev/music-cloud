@@ -64,4 +64,16 @@ public class PlaylistService {
 
         playlistRepository.save(playlist);
     }
+
+    public void editPlaylist(UUID playlistId, PlaylistCreateDto playlistDto, AppUserDetails userDetails) throws IOException {
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
+        if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+        playlist.setName(playlistDto.getName());
+        if (!playlistDto.getImage().isEmpty()) {
+            String image = storageService.saveImage(playlistDto.getImage());
+            playlist.setImageUrl(image);
+        }
+
+        playlistRepository.save(playlist);
+    }
 }

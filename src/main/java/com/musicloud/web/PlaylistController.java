@@ -63,4 +63,12 @@ public class PlaylistController {
         playlistService.removeSongFromPlaylist(playlistId, songId, userDetails);
         return ResponseEntity.noContent().build();
     }
+
+    @ResponseBody
+    @PutMapping("/api/playlists/{playlistId}/edit")
+    public ResponseEntity<ResponseStatus> editPlaylist(@PathVariable("playlistId")UUID playlistId, @Valid PlaylistCreateDto playlistDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
+        if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
+        playlistService.editPlaylist(playlistId, playlistDto, userDetails);
+        return ResponseEntity.noContent().build();
+    }
 }
