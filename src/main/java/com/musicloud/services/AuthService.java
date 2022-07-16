@@ -65,4 +65,8 @@ public class AuthService {
     public void unauthorize() {
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
     }
+
+    public void deleteUser() {
+
+    }
 }

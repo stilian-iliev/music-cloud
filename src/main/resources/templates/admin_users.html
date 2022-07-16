@@ -3,51 +3,18 @@
 <head>
     <th:block th:replace="/fragments/head"></th:block>
     <title>Title</title>
-    <style>
- /* The side navigation menu */
-.sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 15%; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 0; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: #FFF; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-}
-
-/* The navigation menu links */
-.sidenav a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: black;
-}
 
 
-    </style>
 </head>
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>
 
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
-
+    <th:block th:replace="/fragments/admin_sidenav"></th:block>
 
 
     <div class="row d-flex justify-content-center mt-5">
-        <div id="mySidenav" class="sidenav">
-            <a th:href="@{/admin}">Dashboard</a>
-            <a th:href="@{/admin/users}">Users</a>
-        </div>
+
 
 
         <div class="col col-lg-9 col-xl-8">
@@ -62,13 +29,31 @@
                                 <div class="flex-shrink-0">
                                     <img th:src="*{imageUrl}" alt="Generic placeholder image" class="img-fluid" style="width: 100px; border-radius: 10px;">
                                 </div>
-                                <div class="flex-grow-1 ms-3">
+                                <div class="flex-grow-1 ms-3 ">
                                     <h5 class="mb-1" th:text="*{fullName}">Danny McLoan</h5>
-                                    <p class="mb-2 pb-1" style="color: #2b2a2a;" >Senior Journalist</p>
+                                    <p class="mb-2" th:text="*{email}"> </p>
 
-                                    <div class="text-end">
 
-                                        <button type="button" class="btn btn-danger flex-grow-1">Delete</button>
+                                    <div class="grid-container">
+                                    <div class="grid-child align-items-center">
+                                        <form th:method="post" th:action="@{/admin/users}">
+                                        <div class="form-check form-check-inline grid-child">
+                                            <input class="form-check-input" type="checkbox" id="userCheckbox" value="option1" checked disabled/>
+                                            <label class="form-check-label" for="userCheckbox">User</label>
+                                        </div>
+                                        <div class="form-check form-check-inline grid-child">
+                                            <input class="form-check-input" type="checkbox" id="adminCheckbox" value="option1" />
+                                            <label class="form-check-label" for="adminCheckbox">Admin</label>
+                                        </div>
+                                        <button type="submit" class="btn btn-outline-primary btn-rounded mx-3">save</button>
+                                        </form>
+                                    </div>
+                                    <div class="text-end grid-child">
+                                        <form th:method="DELETE" th:action="@{/admin/users}">
+                                            <input style="display: none;" name="id" th:value="*{id}">
+                                        <button type="submit" class="btn btn-danger flex-grow-1">Delete</button>
+                                        </form>
+                                    </div>
                                     </div>
                                 </div>
                             </div>

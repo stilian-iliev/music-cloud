@@ -12,11 +12,8 @@ async function request(url, method='get', data){
         if (res.status == 200) {
             const data = res.json();
             if (data) return data;
-            return;
         }
-        if (res.status == 400) {
-            throw "Bad Request";
-        }
+        return res;
     } catch(err) {
         // alert(err.message);
         // window.location.replace("/error");

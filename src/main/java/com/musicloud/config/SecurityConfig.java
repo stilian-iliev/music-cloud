@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .antMatchers("/").permitAll()
                 .antMatchers("/login", "/register").anonymous()
 //                .antMatchers("/songs/add").hasRole(UserRoleEnum.CREATOR.name())
-                .antMatchers("/admin").hasRole(UserRoleEnum.ADMIN.name())
+                .antMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
