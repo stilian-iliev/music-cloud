@@ -51,7 +51,7 @@ public class UserService {
         user.setFirstName(editProfileDto.getFirstName());
         user.setLastName(editProfileDto.getLastName());
         if (!editProfileDto.getImage().isEmpty()) {
-            String imageUrl = storageService.saveImage(editProfileDto.getImage());
+            String imageUrl = storageService.saveImage(editProfileDto.getImage(), "avatars");
             if (imageUrl != null) {
                 user.setImageUrl(imageUrl);
                 userDetails.setImageUrl(imageUrl);
@@ -95,5 +95,11 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new).getSongs().stream()
                 .sorted(Comparator.comparing(Song::getCreationTime))
                 .map(SongDto::new).collect(Collectors.toList());
+    }
+
+    public void clearStorage() throws Exception {
+        List<String> active = userRepository.findAll().stream()
+                .map(User::getImageUrl).toList();
+        storageService.deleteUnusedFilesFromFolder("avatars", active);
     }
 }

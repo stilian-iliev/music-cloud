@@ -4,6 +4,7 @@ import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
+import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.UserService;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,7 @@ public class ProfileController {
     @ResponseBody
     @GetMapping("/api/me")
     public ResponseEntity<UUID> getMyId(@AuthenticationPrincipal AppUserDetails appUserDetails) {
+        if (appUserDetails == null) throw new UserNotFoundException();
         return ResponseEntity.ok(appUserDetails.getId());
     }
 

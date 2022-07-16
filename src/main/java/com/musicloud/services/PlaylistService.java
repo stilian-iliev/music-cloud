@@ -1,6 +1,7 @@
 package com.musicloud.services;
 
 import com.musicloud.models.Playlist;
+import com.musicloud.models.Song;
 import com.musicloud.models.dtos.playlist.PlaylistCreateDto;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.exceptions.PlaylistNotFoundException;
@@ -15,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,7 +43,7 @@ public class PlaylistService {
     public PlaylistDto create(PlaylistCreateDto playlistCreateDto, AppUserDetails userDetails) throws IOException {
         Playlist playlist = mapper.map(playlistCreateDto, Playlist.class);
         playlist.setUser(userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new));
-        String image = storageService.saveImage(playlistCreateDto.getImage());
+        String image = storageService.saveImage(playlistCreateDto.getImage(), "playlist_images");
         playlist.setImageUrl(image != null ? image : "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657567072/images/1482975da7275050a3a8406f90c4610d_f9qkkc.jpg");
         playlistRepository.save(playlist);
         return new PlaylistDto(playlist);
@@ -70,7 +72,7 @@ public class PlaylistService {
         if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
         playlist.setName(playlistDto.getName());
         if (!playlistDto.getImage().isEmpty()) {
-            String image = storageService.saveImage(playlistDto.getImage());
+            String image = storageService.saveImage(playlistDto.getImage(), "playlist_images");
             playlist.setImageUrl(image);
         }
 
@@ -81,5 +83,11 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
         if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
         playlistRepository.delete(playlist);
+    }
+
+    public void clearStorage() throws Exception {
+        List<String> active = playlistRepository.findAll().stream()
+                .map(Playlist::getImageUrl).toList();
+        storageService.deleteUnusedFilesFromFolder("playlist_images", active);
     }
 }

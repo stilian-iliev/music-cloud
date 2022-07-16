@@ -70,4 +70,10 @@ public class SongService {
         songRepository.delete(song);
 
     }
+
+    public void clearStorage() throws Exception {
+        List<String> active = songRepository.findAll().stream()
+                .map(Song::getSongUrl).toList();
+        storageService.deleteUnusedFilesFromFolder("songs", active);
+    }
 }

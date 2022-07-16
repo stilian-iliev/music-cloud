@@ -84,6 +84,10 @@
 
                     </li>
                     <li>
+                        <a class="dropdown-item" th:href="@{/admin}" sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
+
+                    </li>
+                    <li>
                         <a class="dropdown-item" th:href="@{/settings}">Settings</a>
                     </li>
                     <li>

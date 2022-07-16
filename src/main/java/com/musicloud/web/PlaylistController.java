@@ -64,6 +64,7 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
     }
 
+    //todo just keep put
     @ResponseBody
     @PutMapping("/api/playlists/{playlistId}/edit")
     public ResponseEntity<ResponseStatus> editPlaylist(@PathVariable("playlistId")UUID playlistId, @Valid PlaylistCreateDto playlistDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
