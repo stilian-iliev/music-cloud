@@ -102,4 +102,8 @@ public class UserService {
                 .map(User::getImageUrl).toList();
         storageService.deleteUnusedFilesFromFolder("avatars", active);
     }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

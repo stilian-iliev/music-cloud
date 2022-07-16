@@ -1,14 +1,15 @@
 welcome
 error
-library /home page /liked, basePlaylists, following
+//library /home page /liked, basePlaylists, following
 login
 register
 profile
 settings
-search results
-basePlaylist
+//search results
+playlist
 upload song
-admin panel
+//admin dashboard
+//admin users
 
 user
 user role

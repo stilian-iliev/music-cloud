@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <th:block th:replace="/fragments/head"></th:block>
+  <title>Title</title>
+  <style>
+ /* The side navigation menu */
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 15%; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 0; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #FFF; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: black;
+}
+
+
+    </style>
+</head>
+<body class="bg-dark bg-opacity-10">
+<th:block th:replace="/fragments/nav"></th:block>
+
+<section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
+
+
+
+  <div class="row d-flex justify-content-center mt-5">
+    <div id="mySidenav" class="sidenav">
+      <a th:href="@{/admin}">Dashboard</a>
+      <a th:href="@{/admin/users}">User management</a>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

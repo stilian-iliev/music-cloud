@@ -104,7 +104,6 @@ public class StorageService {
         CloudinaryResponse resources = mapper.map(response, CloudinaryResponse.class);
         for (CloudinaryEntry resource : resources.getResources()) {
             if (!activeFilesUrls.contains(resource.getUrl())) {
-                System.out.println("deleting " + resource.getUrl());
                 cloudinary.uploader().destroy(resource.getPublic_id(), ObjectUtils.asMap("resource_type", resource.getResource_type()));
             }
         }
