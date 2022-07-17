@@ -8,6 +8,7 @@ import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
+import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.models.exceptions.SongNotFoundException;
 import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
@@ -106,4 +107,5 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
 }

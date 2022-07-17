@@ -37,12 +37,13 @@
                                     <div class="grid-container">
                                     <div class="grid-child align-items-center">
                                         <form th:method="post" th:action="@{/admin/users}">
+                                            <input style="display: none;" name="id" th:value="*{id}">
                                         <div class="form-check form-check-inline grid-child">
                                             <input class="form-check-input" type="checkbox" id="userCheckbox" value="option1" checked disabled/>
                                             <label class="form-check-label" for="userCheckbox">User</label>
                                         </div>
                                         <div class="form-check form-check-inline grid-child">
-                                            <input class="form-check-input" type="checkbox" id="adminCheckbox" value="option1" />
+                                            <input class="form-check-input" type="checkbox" id="adminCheckbox" value="true" name="isAdmin" th:checked="*{roles.contains('ADMIN')}"/>
                                             <label class="form-check-label" for="adminCheckbox">Admin</label>
                                         </div>
                                         <button type="submit" class="btn btn-outline-primary btn-rounded mx-3">save</button>

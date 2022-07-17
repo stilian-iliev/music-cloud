@@ -32,8 +32,8 @@ public class UserSeeder implements CommandLineRunner {
             user.setPassword(passwordEncoder.encode("r4peemee"));
             user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
             user.setLiked(new Liked());
-            user.setRoles(Set.of(roleRepository.findById(1L).get()));
-            user.setRoles(Set.of(roleRepository.findById(2L).get()));
+            user.addRole(roleRepository.findById(1L).get());
+            user.addRole(roleRepository.findById(2L).get());
 
             userRepository.save(user);
         }

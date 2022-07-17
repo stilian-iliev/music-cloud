@@ -102,7 +102,7 @@ public class AuthController {
 
     @PostMapping("/settings/delete")
     public String deleteAcc(@AuthenticationPrincipal AppUserDetails userDetails) {
-        authService.deleteAccount(userDetails);
+        authService.deleteAccount(userDetails.getId());
         authService.unauthorize();
         return "redirect:/";
     }

@@ -49,6 +49,7 @@ public class User {
     private Set<UserRole> roles;
 
     public User() {
+        roles = new HashSet<>();
     }
 
     public UUID getId() {
@@ -146,5 +147,13 @@ public class User {
         sb.append(lastName != null ? lastName : "");
         if (sb.isEmpty()) sb.append(username);
         return sb.toString();
+    }
+
+    public void addRole(UserRole role) {
+        roles.add(role);
+    }
+
+    public void removeRole(UserRole role) {
+        roles.remove(role);
     }
 }

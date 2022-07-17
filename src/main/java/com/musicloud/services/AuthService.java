@@ -3,13 +3,17 @@ package com.musicloud.services;
 import com.musicloud.models.Liked;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
+import com.musicloud.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -17,12 +21,14 @@ public class AuthService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
+    private UserRoleRepository roleRepository;
 
-    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper) {
+    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -30,6 +36,7 @@ public class AuthService {
         User user = mapper.map(registerDto, User.class);
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
         user.setLiked(new Liked());
+        user.addRole(roleRepository.findByName(UserRoleEnum.USER));
         //set up default user photo
         user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
 
@@ -58,15 +65,23 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public void deleteAccount(AppUserDetails userDetails) {
-        userRepository.deleteById(userDetails.getId());
+    public void deleteAccount(UUID userId) {
+        userRepository.deleteById(userId);
     }
 
     public void unauthorize() {
         SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
     }
 
-    public void deleteUser() {
+    public void addRole(UUID userId, UserRoleEnum role) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        user.addRole(roleRepository.findByName(role));
+        userRepository.save(user);
+    }
 
+    public void removeRole(UUID userId, UserRoleEnum role) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        user.removeRole(roleRepository.findByName(role));
+        userRepository.save(user);
     }
 }
