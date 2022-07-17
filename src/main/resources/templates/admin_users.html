@@ -30,7 +30,7 @@
                                     <img th:src="*{imageUrl}" alt="Generic placeholder image" class="img-fluid" style="width: 100px; border-radius: 10px;">
                                 </div>
                                 <div class="flex-grow-1 ms-3 ">
-                                    <h5 class="mb-1" th:text="*{fullName}">Danny McLoan</h5>
+                                    <a class="mb-1 text-dark fs-4" th:text="*{fullName}" th:href="@{'/user/' + *{id}}">Danny McLoan</a>
                                     <p class="mb-2" th:text="*{email}"> </p>
 
 

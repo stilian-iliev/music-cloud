@@ -26,18 +26,6 @@ export const createPlaylistTemplate = async (ctxT) => {
       <div class="modal-body">
       
       <div class="row mb-4 justify-content-center">
-          <div class="avatar-upload">
-              <div class="avatar-edit">
-                  <input type='file' id="playlistImage" accept=".png, .jpg, .jpeg" name="image"/>
-                  <label class="circle justify-content-center align-items-center py-1 px-2"  for="playlistImage"> <i class="fas fa-pen"></i></label>
-              </div>
-              <div class="avatar-preview">
-                  <div id="playlistImagePreview"
-                  style="background-image: url();"
-                  >
-                  </div>
-              </div>
-          </div>
       </div>
       <div class="form-outline mb-4">
                         <input type="text" id="playlistName" name="name" class="form-control">
@@ -48,36 +36,16 @@ export const createPlaylistTemplate = async (ctxT) => {
       
       </div>
       <div class="modal-footer">
-        <button id="closeCreatePlaylist" type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+        <button id="closeCreatePlaylist" type="button" class="btn btn-light" data-mdb-dismiss="modal">
           Close
         </button>
-        <button type="submit" class="btn btn-primary">Create Playlist</button>
+        <button type="submit" class="btn sitecolor text-dark">Create Playlist</button>
       </div>
       </form>
     </div>
   </div>
 </div>
 `;}
-
-//todo fix playlist image
-function previewPlaylistPic() {
-  
-  let input = document.getElementById("playlistImagePreview");
-  input.addEventListener("change", changePic);
-
-}
-
-function changePic(e) {
-  var input = e.target;
-  if (input.files && input.files[0]) {
-      var file = input.files[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function(e) {
-          document.querySelector("#playlistImage").style.backgroundImage = 'url('+ reader.result +')';
-      }
-  }
-}
 
 async function onSubmit(e) {
   e.preventDefault();
