@@ -70,7 +70,7 @@ public class SongController {
     }
 
     @ResponseBody
-    @PutMapping("/api/songs/{songId}/edit")
+    @PutMapping("/api/songs/{songId}")
     public ResponseEntity<ResponseStatus> editSong(@PathVariable("songId") UUID songId, @Valid EditSongDto songDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails){
         if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
         songService.editSong(songId, songDto, userDetails);
@@ -80,7 +80,6 @@ public class SongController {
     @ResponseBody
     @DeleteMapping("/api/songs/{songId}")
     public ResponseEntity<ResponseStatus> deleteSong(@PathVariable("songId") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails){
-        //todo: fix this or sth
         songService.deleteSong(songId, userDetails);
         return ResponseEntity.noContent().build();
     }

@@ -52,11 +52,11 @@ export async function removeSongFromPlaylist(songId, playlistId) {
 }
 
 export async function editPlaylist(playlistId, formData) {
-    return await put(host + `/api/playlists/${playlistId}/edit`, formData);
+    return await put(host + `/api/playlists/${playlistId}`, formData);
 }
 
 export async function editSong(songId, formData) {
-    return await put(host + `/api/songs/${songId}/edit`, formData);
+    return await put(host + `/api/songs/${songId}`, formData);
 }
 
 export async function deleteSong(songId) {

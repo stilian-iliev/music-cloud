@@ -3,8 +3,8 @@ package com.musicloud.web;
 import com.musicloud.models.dtos.user.UserSummaryDto;
 import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.services.AuthService;
+import com.musicloud.services.DashboardService;
 import com.musicloud.services.UserService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,14 +20,17 @@ import java.util.stream.Collectors;
 public class AdminController {
     private final AuthService authService;
     private final UserService userService;
+    private final DashboardService dashboardService;
 
-    public AdminController(AuthService authService, UserService userService) {
+    public AdminController(AuthService authService, UserService userService, DashboardService dashboardService) {
         this.authService = authService;
         this.userService = userService;
+        this.dashboardService = dashboardService;
     }
 
     @GetMapping("/admin")
-    public String getPage() {
+    public String getPage(Model model) {
+        model.addAttribute("dashboardDto", dashboardService.getDashboardDto());
         return "admin_dashboard";
     }
     @GetMapping("/admin/users")
@@ -35,7 +38,7 @@ public class AdminController {
         if (keyword != null) {
             model.addAttribute("keyword", keyword);
         }
-        List<UserSummaryDto> collect = userService.getAllUsersMatching(keyword).stream().map(UserSummaryDto::new).collect(Collectors.toList());
+        List<UserSummaryDto> collect = userService.getAllUsersOrderedByRole(keyword).stream().map(UserSummaryDto::new).collect(Collectors.toList());
         model.addAttribute("users", collect);
         return "admin_users";
     }

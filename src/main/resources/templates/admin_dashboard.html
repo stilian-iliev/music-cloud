@@ -15,7 +15,7 @@
 
 
     <!--Section: Statistics with subtitles-->
-    <section>
+    <section th:object="${dashboardDto}">
       <div class="row">
         <div class="col-xl-6 col-md-12 mb-4">
           <div class="card">
@@ -30,7 +30,7 @@
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <h2 class="h1 mb-0">18,000</h2>
+                  <h2 class="h1 mb-0" th:text="*{users}">0</h2>
                 </div>
               </div>
             </div>
@@ -49,7 +49,7 @@
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <h2 class="h1 mb-0">84,695</h2>
+                  <h2 class="h1 mb-0" th:text="*{newUsers}">0</h2>
                 </div>
               </div>
             </div>
@@ -70,7 +70,7 @@
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <h2 class="h1 mb-0">84,695</h2>
+                  <h2 class="h1 mb-0" th:text="*{songs}">0</h2>
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@
                   </div>
                 </div>
                 <div class="align-self-center">
-                  <h2 class="h1 mb-0">84,695</h2>
+                  <h2 class="h1 mb-0" th:text="*{playlists}">0</h2>
                 </div>
               </div>
             </div>

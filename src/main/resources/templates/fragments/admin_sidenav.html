@@ -1,40 +1,4 @@
 <th:block>
-    <style>
-
-
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  padding: 58px 0 0; /* Height of navbar */
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-  width: 240px;
-  z-index: 600;
-}
-
-@media (max-width: 991.98px) {
-  .sidebar {
-    width: 100%;
-  }
-}
-.sidebar .active {
-  border-radius: 5px;
-  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-}
-
-.sidebar-sticky {
-  position: relative;
-  top: 0;
-  height: calc(100vh - 48px);
-  padding-top: 0.5rem;
-  overflow-x: hidden;
-  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-}
-
-
-    </style>
     <nav style="z-index: 0;" id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
@@ -46,10 +10,4 @@
             </div>
         </div>
     </nav>
-<!--    <div id="mySidenav" class="sidenav">-->
-<!--        <a th:href="@{/admin}">Dashboard</a>-->
-<!--        <a th:href="@{/admin/users}">Users</a>-->
-<!--    </div>-->
-    <!--Main Navigation-->
-
 </th:block>

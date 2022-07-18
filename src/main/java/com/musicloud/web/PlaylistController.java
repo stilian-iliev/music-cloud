@@ -64,9 +64,8 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
     }
 
-    //todo just keep put
     @ResponseBody
-    @PutMapping("/api/playlists/{playlistId}/edit")
+    @PutMapping("/api/playlists/{playlistId}")
     public ResponseEntity<ResponseStatus> editPlaylist(@PathVariable("playlistId")UUID playlistId, @Valid PlaylistCreateDto playlistDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
         if (bindingResult.hasErrors()) return ResponseEntity.badRequest().build();
         playlistService.editPlaylist(playlistId, playlistDto, userDetails);
