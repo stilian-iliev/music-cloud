@@ -19,10 +19,20 @@
                 <div class="card-header py-3">
                     <h5 class="mb-0 text-center"><strong>Users</strong></h5>
                     <div class="input-group rounded py-3">
-                        <input type="search" class="form-control rounded" placeholder="Search users" aria-label="Search users" aria-describedby="search-addon" />
-                        <span class="input-group-text border-0" id="search-addon">
-                            <i class="fas fa-search"></i>
-                        </span>
+                        <form class="input-group w-auto my-auto d-none d-sm-flex" >
+                            <input  th:value="${keyword} ? ${keyword} : ''"
+                                    name="q"
+                                    autocomplete="off"
+                                    type="search"
+                                    class="form-control rounded"
+                                    placeholder="Search"
+                                    style="min-width: 125px;"
+                            />
+                            <span class="input-group-text border-0 d-none d-lg-flex"
+                            ><i class="fas fa-search"></i
+                            ></span>
+                            <h3 th:if="${keyword!=null && keyword.length > 0}" th:text="'Search results for ' + ${keyword}"></h3>
+                        </form>
                     </div>
                 </div>
                     <div class="card" th:each="user : ${users}" th:object="${user}">

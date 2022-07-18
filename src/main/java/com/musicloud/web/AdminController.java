@@ -4,6 +4,7 @@ import com.musicloud.models.dtos.user.UserSummaryDto;
 import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.services.AuthService;
 import com.musicloud.services.UserService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -29,8 +31,12 @@ public class AdminController {
         return "admin_dashboard";
     }
     @GetMapping("/admin/users")
-    public String getUserManagement(Model model) {
-        model.addAttribute("users", userService.getAllUsers().stream().map(UserSummaryDto::new).collect(Collectors.toList()));
+    public String getUserManagement(Model model, @RequestParam(value = "q", required = false) String keyword) {
+        if (keyword != null) {
+            model.addAttribute("keyword", keyword);
+        }
+        List<UserSummaryDto> collect = userService.getAllUsersMatching(keyword).stream().map(UserSummaryDto::new).collect(Collectors.toList());
+        model.addAttribute("users", collect);
         return "admin_users";
     }
 

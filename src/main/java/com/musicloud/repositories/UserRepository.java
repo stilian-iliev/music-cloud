@@ -20,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("select new com.musicloud.models.dtos.song.SongDto(s) from User u join Song s where u.email = ?1")
     List<SongDto> getSongsFromUserWithId(String email);
+
+    @Query("select u from User u where concat_ws(' ', u.username, u.email, u.firstName, COALESCE(u.firstName, ''), COALESCE(u.lastName,'') ) like %?1%")
+    List<User> findAll(String keyword);
 }

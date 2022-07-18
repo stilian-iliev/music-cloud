@@ -105,7 +105,16 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll().stream().sorted(Comparator.comparing((User u) -> u.getRoles().size()).reversed()).collect(Collectors.toList());
+        return userRepository.findAll();
+    }
+
+    public List<User> getAllUsersMatching(String keyword) {
+        if (keyword == null) return getAllUsers();
+        return userRepository.findAll(keyword);
+    }
+
+    public List<User> getAllUsersOrderedByRole(String keyword) {
+        return getAllUsersMatching(keyword).stream().sorted(Comparator.comparing((User u) -> u.getRoles().size()).reversed()).collect(Collectors.toList());
     }
 
 }

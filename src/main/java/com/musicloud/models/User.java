@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -48,8 +49,11 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<UserRole> roles;
 
+    private LocalDateTime creationDate;
+
     public User() {
         roles = new HashSet<>();
+        this.creationDate = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -138,6 +142,14 @@ public class User {
 
     public void setSongs(List<Song> songs) {
         this.songs = songs;
+    }
+
+    public LocalDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     public String getFullName() {
