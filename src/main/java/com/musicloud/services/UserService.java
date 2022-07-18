@@ -105,7 +105,7 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.findAll().stream().sorted(Comparator.comparing((User u) -> u.getRoles().size()).reversed()).collect(Collectors.toList());
     }
 
 }

@@ -1,38 +1,55 @@
 <th:block>
     <style>
- /* The side navigation menu */
-.sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 15%; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 0; /* Stay on top */
-  top: 0; /* Stay at the top */
+
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
   left: 0;
-  background-color: #FFF; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  padding: 58px 0 0; /* Height of navbar */
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+  width: 240px;
+  z-index: 600;
 }
 
-/* The navigation menu links */
-.sidenav a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
+@media (max-width: 991.98px) {
+  .sidebar {
+    width: 100%;
+  }
+}
+.sidebar .active {
+  border-radius: 5px;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
 }
 
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: black;
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 48px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
 
     </style>
-    <div id="mySidenav" class="sidenav">
-        <a th:href="@{/admin}">Dashboard</a>
-        <a th:href="@{/admin/users}">Users</a>
-    </div>
+    <nav style="z-index: 0;" id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <a th:href="@{/admin}" class="list-group-item list-group-item-action py-2 ripple" aria-current="true">
+                    <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Main dashboard</span>
+                </a>
+                <a th:href="@{/admin/users}" class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-users fa-fw me-3"></i><span>Users</span></a>
+
+            </div>
+        </div>
+    </nav>
+<!--    <div id="mySidenav" class="sidenav">-->
+<!--        <a th:href="@{/admin}">Dashboard</a>-->
+<!--        <a th:href="@{/admin/users}">Users</a>-->
+<!--    </div>-->
+    <!--Main Navigation-->
+
 </th:block>

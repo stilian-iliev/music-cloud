@@ -9,21 +9,23 @@
 <body class="bg-dark bg-opacity-10">
 <th:block th:replace="/fragments/nav"></th:block>
 
-<section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
     <th:block th:replace="/fragments/admin_sidenav"></th:block>
 
-
-    <div class="row d-flex justify-content-center mt-5">
-
-
-
-        <div class="col col-lg-9 col-xl-8">
+<main style="margin-top: 58px">
+    <div class="container pt-4">
+        <!-- Section: Main chart -->
+        <section class="mb-4">
             <div class="card">
-                <div class="col col-md-9 col-lg-7 col-xl-12"
-                    th:each="user : ${users}" th:object="${user}">
-
-
-                    <div class="card" style="border-radius: 15px;">
+                <div class="card-header py-3">
+                    <h5 class="mb-0 text-center"><strong>Users</strong></h5>
+                    <div class="input-group rounded py-3">
+                        <input type="search" class="form-control rounded" placeholder="Search users" aria-label="Search users" aria-describedby="search-addon" />
+                        <span class="input-group-text border-0" id="search-addon">
+                            <i class="fas fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+                    <div class="card" th:each="user : ${users}" th:object="${user}">
                         <div class="card-body p-4">
                             <div class="d-flex text-black">
                                 <div class="flex-shrink-0">
@@ -35,26 +37,26 @@
 
 
                                     <div class="grid-container">
-                                    <div class="grid-child align-items-center">
-                                        <form th:method="post" th:action="@{/admin/users}">
-                                            <input style="display: none;" name="id" th:value="*{id}">
-                                        <div class="form-check form-check-inline grid-child">
-                                            <input class="form-check-input" type="checkbox" id="userCheckbox" value="option1" checked disabled/>
-                                            <label class="form-check-label" for="userCheckbox">User</label>
+                                        <div class="grid-child align-items-center">
+                                            <form th:method="post" th:action="@{/admin/users}">
+                                                <input style="display: none;" name="id" th:value="*{id}">
+                                                <div class="form-check form-check-inline grid-child">
+                                                    <input class="form-check-input" type="checkbox" id="userCheckbox" value="option1" checked disabled/>
+                                                    <label class="form-check-label" for="userCheckbox">User</label>
+                                                </div>
+                                                <div class="form-check form-check-inline grid-child">
+                                                    <input class="form-check-input" type="checkbox" id="adminCheckbox" value="true" name="isAdmin" th:checked="*{roles.contains('ADMIN')}"/>
+                                                    <label class="form-check-label" for="adminCheckbox">Admin</label>
+                                                </div>
+                                                <button type="submit" class="btn btn-outline-primary btn-rounded mx-3">save</button>
+                                            </form>
                                         </div>
-                                        <div class="form-check form-check-inline grid-child">
-                                            <input class="form-check-input" type="checkbox" id="adminCheckbox" value="true" name="isAdmin" th:checked="*{roles.contains('ADMIN')}"/>
-                                            <label class="form-check-label" for="adminCheckbox">Admin</label>
+                                        <div class="text-end grid-child">
+                                            <form th:method="DELETE" th:action="@{/admin/users}">
+                                                <input style="display: none;" name="id" th:value="*{id}">
+                                                <button type="submit" class="btn btn-danger flex-grow-1">Delete</button>
+                                            </form>
                                         </div>
-                                        <button type="submit" class="btn btn-outline-primary btn-rounded mx-3">save</button>
-                                        </form>
-                                    </div>
-                                    <div class="text-end grid-child">
-                                        <form th:method="DELETE" th:action="@{/admin/users}">
-                                            <input style="display: none;" name="id" th:value="*{id}">
-                                        <button type="submit" class="btn btn-danger flex-grow-1">Delete</button>
-                                        </form>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -62,13 +64,14 @@
                     </div>
                 </div>
 
-
-
-            </div>
-
-        </div>
+        </section>
+        <!--Section: Statistics with subtitles-->
     </div>
-</section>
+</main>
+
+
+
+
 
 </body>
 </html>

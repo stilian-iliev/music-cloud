@@ -1,7 +1,7 @@
 
 import { queueList, isPlaying } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
-import {likeSong, dislikeSong, getMyId, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong, deleteSong} from '../../api/data.js';
+import {likeSong, dislikeSong, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong, deleteSong} from '../../api/data.js';
 
 let userPlaylists;
 let songList;
@@ -115,7 +115,7 @@ export async function songListFragment(songs, liked, pci, ctxT) {
         ctx = ctxT;
     }
     loc = window.location.pathname.split('/')[1];
-    myId = await getMyId();
+    myId = sessionStorage.getItem('userId');
     playlistCratorId = pci;
     songList = songs;
     userLikedSongs = liked.map(s => s.id);
@@ -191,7 +191,7 @@ async function onEditSong(e) {
 }
 
 async function onDeleteSong(e) {
-    window.confirm(`Are you sure you want to delete this song?`);
+    if (!window.confirm(`Are you sure you want to delete this song?`)){ return; }
     let songId = document.querySelector('#editSongModal').getAttribute('song');
     await deleteSong(songId);
     document.querySelector("#closeEditSong").click();

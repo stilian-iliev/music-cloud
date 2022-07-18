@@ -79,7 +79,7 @@ export async function playlistPage(ctxT) {
     ctx = ctxT;
     playlist = await getPlaylist(ctx.params.id)
     let liked = await getLiked();
-    let isOwner = await getMyId() == playlist.creator.id;
+    let isOwner = sessionStorage.getItem('userId') == playlist.creator.id;
 
     ctx.render(await playlistTemplate(playlist, liked, isOwner));
     if (isOwner) {
@@ -105,7 +105,7 @@ async function onEdit(e) {
 }
 
 async function onDelete(e) {
-  window.confirm("Are you sure you want to delete this playlist?");
+  if(!window.confirm("Are you sure you want to delete this playlist?")){ return; }
   await deletePlaylist(playlist.id);
   document.querySelector("#closeEditPlaylist").click();
   ctx.page.redirect("/");

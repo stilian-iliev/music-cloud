@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getProfileDto, editProfile, getUserSongs, getMyId, getUserPlaylists, getLiked } from '../api/data.js';
+import { getProfileDto, editProfile, getUserSongs, getUserPlaylists, getLiked } from '../api/data.js';
 import { songListFragment } from './fragments/songlist.js';
 import { likedCardTemplate, playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
@@ -170,7 +170,7 @@ let liked;
 let ctx;
 export async function profilePage(ctxT) {
     ctx = ctxT;
-    isOwner = await getMyId() == ctx.params.id;
+    isOwner = sessionStorage.getItem('userId') == ctx.params.id;
     
 
     const user = await getProfileDto(ctx.params.id);
