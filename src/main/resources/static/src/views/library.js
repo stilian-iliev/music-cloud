@@ -1,9 +1,9 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getUserPlaylists } from '../api/data.js';
-import { playlistCardTemplate } from './fragments/playlist_card.js';
+import { getFollowingPlaylists, getLiked, getUserPlaylists } from '../api/data.js';
+import { likedCardTemplate, playlistCardTemplate } from './fragments/playlist_card.js';
 import { userCardTemplate } from './fragments/user_card.js';
 
-const libraryTemplate = (playlists, following) => html`
+const libraryTemplate = (liked, playlists, following) => html`
 
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
@@ -50,7 +50,7 @@ const libraryTemplate = (playlists, following) => html`
     aria-labelledby="ex3-tab-1"
   >
   
-  ${playlists.length > 0 ? libraryPlaylistsTemplate(playlists) : html`<p>You have no playlists yet</p>`}
+  ${libraryPlaylistsTemplate(liked, playlists)}
   
   </div>
   <div
@@ -78,11 +78,11 @@ const libraryTemplate = (playlists, following) => html`
 </section>
 `;
 
-const libraryPlaylistsTemplate = (playlists) => html`
+const libraryPlaylistsTemplate = (liked, playlists) => html`
 <div class="mx-4">
 <h4 class="my-3"><strong>Hear your own playlists and the playlists you’ve liked:</strong></h4>
   <div class="row row-cols-1 row-cols-md-3 g-4 pb-4 mt-2"> 
-  
+      ${likedCardTemplate(liked)}
   
       ${playlists.map(playlistCardTemplate)}
   </div>
@@ -90,6 +90,8 @@ const libraryPlaylistsTemplate = (playlists) => html`
 `;
 
 export async function libraryPage(ctx) {
+    let liked = await getLiked();
     let playlists = await getUserPlaylists(sessionStorage.getItem('userId'));
-    ctx.render(libraryTemplate(playlists));
+    let followedPlaylists = await getFollowingPlaylists();
+    ctx.render(libraryTemplate(liked, playlists.concat(followedPlaylists)));
 }

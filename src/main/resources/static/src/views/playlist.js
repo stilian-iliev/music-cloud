@@ -13,7 +13,8 @@ export const playlistTemplate = async (playlist, liked, isOwner, isFollowed) => 
                     <img src="${playlist.imageUrl}" width="250px" height="250px">
                     <div id="playlist-details"><cite class="title">${playlist.name}</cite>
                         <address><a rel="artist">${playlist.creator.username}</a></address>
-                        ${isOwner ? editPlaylistModal() : followTemplate(isFollowed)}
+                        ${isOwner && playlist != liked ? editPlaylistModal() : ''}
+                        ${!isOwner ? followTemplate(isFollowed) : ''}
                     </div>
                 </section>
                 ${await songListFragment(playlist.songs, liked.songs, playlist.creator.id, ctx)}

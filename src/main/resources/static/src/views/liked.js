@@ -6,6 +6,6 @@ let ctx;
 export async function likedPlaylistPage(ctxT) {
     ctx = ctxT;
     let liked = await getLiked();
-    ctx.render(await playlistTemplate(liked, liked));
+    ctx.render(await playlistTemplate(liked, liked, true));
 
 }
