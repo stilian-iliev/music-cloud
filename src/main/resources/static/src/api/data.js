@@ -66,3 +66,15 @@ export async function deleteSong(songId) {
 export async function deletePlaylist(playlistId) {
     return await del(host + `/api/playlists/${playlistId}`);
 }
+
+export async function getFollowingPlaylists() {
+    return await get(host + '/api/following/playlists');
+}
+
+export async function followPlaylist(playlistId) {
+    return await post(host + `/api/follow/playlist?id=${playlistId}`);
+}
+
+export async function unfollowPlaylist(playlistId) {
+    return await del(host + `/api/follow/playlist?id=${playlistId}`);
+}

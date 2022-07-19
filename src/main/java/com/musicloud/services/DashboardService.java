@@ -6,6 +6,8 @@ import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class DashboardService {
     private final UserRepository userRepository;
@@ -20,6 +22,6 @@ public class DashboardService {
 
     public DashboardDto getDashboardDto() {
         //todo: get new users
-        return new DashboardDto(userRepository.count(), songRepository.count(), playlistRepository.count(), userRepository.count());
+        return new DashboardDto(userRepository.count(), songRepository.count(), playlistRepository.count(), userRepository.countByCreationDateAfter(LocalDateTime.now().minusDays(1)));
     }
 }

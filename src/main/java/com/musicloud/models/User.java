@@ -51,8 +51,15 @@ public class User {
 
     private LocalDateTime creationDate;
 
+    @ManyToMany
+    private Set<Playlist> followedPlaylists;
+
+    @ManyToMany
+    private Set<User> followedUsers;
+
+
     public User() {
-        roles = new HashSet<>();
+        this.roles = new HashSet<>();
         this.creationDate = LocalDateTime.now();
     }
 
@@ -152,6 +159,22 @@ public class User {
         this.creationDate = creationDate;
     }
 
+    public Set<Playlist> getFollowedPlaylists() {
+        return followedPlaylists;
+    }
+
+    public void setFollowedPlaylists(Set<Playlist> followedPlaylists) {
+        this.followedPlaylists = followedPlaylists;
+    }
+
+    public Set<User> getFollowedUsers() {
+        return followedUsers;
+    }
+
+    public void setFollowedUsers(Set<User> followedUsers) {
+        this.followedUsers = followedUsers;
+    }
+
     public String getFullName() {
         StringBuilder sb = new StringBuilder();
         sb.append(firstName != null ? firstName : "");
@@ -167,5 +190,13 @@ public class User {
 
     public void removeRole(UserRole role) {
         roles.remove(role);
+    }
+
+    public void followPlaylist(Playlist playlist) {
+        followedPlaylists.add(playlist);
+    }
+
+    public void unfollowPlaylist(Playlist playlist) {
+        followedPlaylists.remove(playlist);
     }
 }

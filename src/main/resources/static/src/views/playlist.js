@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getPlaylist, getLiked, getMyId, editPlaylist, deletePlaylist } from '../api/data.js';
+import { getPlaylist, getLiked, editPlaylist, deletePlaylist, followPlaylist } from '../api/data.js';
 import {songListFragment} from './fragments/songlist.js';
 
 export const playlistTemplate = async (playlist, liked, isOwner) => html`
@@ -13,7 +13,7 @@ export const playlistTemplate = async (playlist, liked, isOwner) => html`
                     <img src="${playlist.imageUrl}" width="250px" height="250px">
                     <div id="playlist-details"><cite class="title">${playlist.name}</cite>
                         <address><a rel="artist">${playlist.creator.username}</a></address>
-                        ${isOwner ? editPlaylistModal() : ''}
+                        ${isOwner ? editPlaylistModal() : followTemplate()}
                     </div>
                 </section>
                 ${await songListFragment(playlist.songs, liked.songs, playlist.creator.id, ctx)}
@@ -23,6 +23,10 @@ export const playlistTemplate = async (playlist, liked, isOwner) => html`
     </div>
 </section>
 
+`;
+
+const followTemplate = () => html`
+<div class="d-flex align-items-end"> <button @click=${onFollow} type="button" >follow</button></div>
 `;
 
 const editPlaylistModal = () => html`
@@ -108,6 +112,11 @@ async function onDelete(e) {
   if(!window.confirm("Are you sure you want to delete this playlist?")){ return; }
   await deletePlaylist(playlist.id);
   document.querySelector("#closeEditPlaylist").click();
+  ctx.page.redirect("/");
+}
+
+async function onFollow(e) {
+  await followPlaylist(playlist.id);
   ctx.page.redirect("/");
 }
 

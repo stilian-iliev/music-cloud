@@ -1,8 +1,9 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
 import { getUserPlaylists } from '../api/data.js';
 import { playlistCardTemplate } from './fragments/playlist_card.js';
+import { userCardTemplate } from './fragments/user_card.js';
 
-const libraryTemplate = (playlists) => html`
+const libraryTemplate = (playlists, following) => html`
 
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
@@ -21,7 +22,7 @@ const libraryTemplate = (playlists) => html`
       role="tab"
       aria-controls="ex3-tabs-1"
       aria-selected="true"
-      >Link</a
+      >Playlists</a
     >
   </li>
   <li class="nav-item" role="presentation">
@@ -33,7 +34,7 @@ const libraryTemplate = (playlists) => html`
       role="tab"
       aria-controls="ex3-tabs-2"
       aria-selected="false"
-      >Very very very very long link</a
+      >Following</a
     >
   </li>
 
@@ -48,7 +49,9 @@ const libraryTemplate = (playlists) => html`
     role="tabpanel"
     aria-labelledby="ex3-tab-1"
   >
-    Tab 1 content
+  
+  ${playlists.length > 0 ? libraryPlaylistsTemplate(playlists) : html`<p>You have no playlists yet</p>`}
+  
   </div>
   <div
     class="tab-pane fade"
@@ -56,23 +59,34 @@ const libraryTemplate = (playlists) => html`
     role="tabpanel"
     aria-labelledby="ex3-tab-2"
   >
-    Tab 2 content
+    <div class="mx-4">
+    <h4 class="my-3"><strong>Hear what the people you follow have posted:</strong></h4>
+    <div class="row row-cols-1 row-cols-md-4 g-4 pb-4 mt-2"> 
+    
+    
+        ${playlists.map(userCardTemplate)}
+    </div>
+    </div>
   </div>
 
 </div>
 <!-- Tabs content -->
-            <div class="mx-4">
-            <h4 class="my-3"><strong>Your playlists</strong></h4>
-            <div class="row row-cols-1 row-cols-md-3 g-4 pb-4 mt-2"> 
             
-            
-                ${playlists.map(playlistCardTemplate)}
-            </div>
-            </div>
             </div>
         </div>
     </div>
 </section>
+`;
+
+const libraryPlaylistsTemplate = (playlists) => html`
+<div class="mx-4">
+<h4 class="my-3"><strong>Hear your own playlists and the playlists you’ve liked:</strong></h4>
+  <div class="row row-cols-1 row-cols-md-3 g-4 pb-4 mt-2"> 
+  
+  
+      ${playlists.map(playlistCardTemplate)}
+  </div>
+</div>
 `;
 
 export async function libraryPage(ctx) {

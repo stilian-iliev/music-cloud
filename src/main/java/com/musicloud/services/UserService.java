@@ -1,6 +1,5 @@
 package com.musicloud.services;
 
-import com.musicloud.models.BasePlaylist;
 import com.musicloud.models.Playlist;
 import com.musicloud.models.Song;
 import com.musicloud.models.User;
@@ -8,10 +7,11 @@ import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
-import com.musicloud.models.enums.UserRoleEnum;
+import com.musicloud.models.exceptions.PlaylistNotFoundException;
 import com.musicloud.models.exceptions.SongNotFoundException;
 import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
+import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,12 +27,14 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final SongRepository songRepository;
+    private final PlaylistRepository playlistRepository;
     private final StorageService storageService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, SongRepository songRepository, StorageService storageService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, SongRepository songRepository, PlaylistRepository playlistRepository, StorageService storageService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.songRepository = songRepository;
+        this.playlistRepository = playlistRepository;
         this.storageService = storageService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -117,4 +119,25 @@ public class UserService {
         return getAllUsersMatching(keyword).stream().sorted(Comparator.comparing((User u) -> u.getRoles().size()).reversed()).collect(Collectors.toList());
     }
 
+    public List<PlaylistDto> findFollowingPlaylists(UUID id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getFollowedPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
+    }
+
+    public List<UserProfileDto> findFollowingUsers(UUID id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getFollowedUsers().stream().map(UserProfileDto::new).collect(Collectors.toList());
+    }
+
+    public void followPlaylist(UUID userId, UUID playlistId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
+        user.followPlaylist(playlist);
+        userRepository.save(user);
+    }
+
+    public void unfollowPlaylist(UUID userId, UUID playlistId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
+        user.unfollowPlaylist(playlist);
+        userRepository.save(user);
+    }
 }

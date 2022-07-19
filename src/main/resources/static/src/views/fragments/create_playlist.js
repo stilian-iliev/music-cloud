@@ -60,5 +60,6 @@ async function onSubmit(e) {
   //todo: close modal add playlist to template
   await createPlaylist(formData);
   document.querySelector("#closeCreatePlaylist").click();
+  e.target.reset();
   ctx.page.redirect(window.location.pathname);
 }

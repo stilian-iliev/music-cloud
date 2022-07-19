@@ -21,7 +21,7 @@ public class AuthService {
     private final EmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
-    private UserRoleRepository roleRepository;
+    private final UserRoleRepository roleRepository;
 
     public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository) {
         this.userRepository = userRepository;

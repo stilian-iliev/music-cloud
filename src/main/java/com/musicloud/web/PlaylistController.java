@@ -78,4 +78,5 @@ public class PlaylistController {
         playlistService.deletePlaylist(playlistId, userDetails);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -73,4 +73,33 @@ public class ProfileController {
         List<SongDto> songsByUserId = userService.getSongsByUser(userId);
         return ResponseEntity.ok(songsByUserId);
     }
+
+    @ResponseBody
+    @GetMapping("/api/following/playlists")
+    public ResponseEntity<List<PlaylistDto>> getFollowingPlaylists(@AuthenticationPrincipal AppUserDetails userDetails) {
+        List<PlaylistDto> playlist = userService.findFollowingPlaylists(userDetails.getId());
+        return ResponseEntity.ok(playlist);
+    }
+
+    @ResponseBody
+    @GetMapping("/api/following/users")
+    public ResponseEntity<List<UserProfileDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
+        List<UserProfileDto> playlist = userService.findFollowingUsers(userDetails.getId());
+        return ResponseEntity.ok(playlist);
+    }
+
+    @ResponseBody
+    @PostMapping("/api/follow/playlist")
+    public ResponseEntity<ResponseStatus> followPlaylist(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.followPlaylist(userDetails.getId(), playlistId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/api/follow/playlist")
+    public ResponseEntity<ResponseStatus> unfollowPlaylist(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.unfollowPlaylist(userDetails.getId(), playlistId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

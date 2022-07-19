@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,4 +24,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("select u from User u where concat_ws(' ', u.username, u.email, u.firstName, COALESCE(u.firstName, ''), COALESCE(u.lastName,'') ) like %?1%")
     List<User> findAll(String keyword);
+
+    long countByCreationDateAfter(LocalDateTime time);
 }
