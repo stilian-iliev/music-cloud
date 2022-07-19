@@ -1,8 +1,8 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getPlaylist, getLiked, editPlaylist, deletePlaylist, followPlaylist } from '../api/data.js';
+import { getPlaylist, getLiked, editPlaylist, deletePlaylist, followPlaylist, unfollowPlaylist, isFollowed } from '../api/data.js';
 import {songListFragment} from './fragments/songlist.js';
 
-export const playlistTemplate = async (playlist, liked, isOwner) => html`
+export const playlistTemplate = async (playlist, liked, isOwner, isFollowed) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -13,7 +13,7 @@ export const playlistTemplate = async (playlist, liked, isOwner) => html`
                     <img src="${playlist.imageUrl}" width="250px" height="250px">
                     <div id="playlist-details"><cite class="title">${playlist.name}</cite>
                         <address><a rel="artist">${playlist.creator.username}</a></address>
-                        ${isOwner ? editPlaylistModal() : followTemplate()}
+                        ${isOwner ? editPlaylistModal() : followTemplate(isFollowed)}
                     </div>
                 </section>
                 ${await songListFragment(playlist.songs, liked.songs, playlist.creator.id, ctx)}
@@ -25,8 +25,8 @@ export const playlistTemplate = async (playlist, liked, isOwner) => html`
 
 `;
 
-const followTemplate = () => html`
-<div class="d-flex align-items-end"> <button @click=${onFollow} type="button" >follow</button></div>
+const followTemplate = (isFollowed) => html`
+<div class="d-flex align-items-end"> ${!isFollowed ? html`<button class="btn" @click=${onFollow} type="button" >Follow</button>` : html`<button class="btn" @click=${onUnfollow} type="button" >Unfollow</button>`}</div>
 `;
 
 const editPlaylistModal = () => html`
@@ -84,12 +84,12 @@ export async function playlistPage(ctxT) {
     playlist = await getPlaylist(ctx.params.id)
     let liked = await getLiked();
     let isOwner = sessionStorage.getItem('userId') == playlist.creator.id;
+    let followed = await isFollowed(playlist.id);
 
-    ctx.render(await playlistTemplate(playlist, liked, isOwner));
+    ctx.render(await playlistTemplate(playlist, liked, isOwner, followed));
     if (isOwner) {
         previewPic();
     }
-
 }
 
 async function onEdit(e) {
@@ -117,7 +117,12 @@ async function onDelete(e) {
 
 async function onFollow(e) {
   await followPlaylist(playlist.id);
-  ctx.page.redirect("/");
+  ctx.page.redirect(window.location.pathname);
+}
+
+async function onUnfollow(e) {
+  await unfollowPlaylist(playlist.id);
+  ctx.page.redirect(window.location.pathname);
 }
 
 function previewPic() {

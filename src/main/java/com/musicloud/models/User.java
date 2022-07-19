@@ -199,4 +199,8 @@ public class User {
     public void unfollowPlaylist(Playlist playlist) {
         followedPlaylists.remove(playlist);
     }
+
+    public boolean isFollowing(UUID playlistId) {
+        return getFollowedPlaylists().stream().anyMatch(p -> p.getId().equals(playlistId));
+    }
 }

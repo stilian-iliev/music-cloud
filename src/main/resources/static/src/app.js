@@ -9,7 +9,9 @@ import page from "//unpkg.com/page/page.mjs";
 
 import { getMyId } from './api/data.js';
 
-sessionStorage.setItem('userId', await getMyId());
+
+window.addEventListener('load', async () => {
+    sessionStorage.setItem('userId', await getMyId());
 
 
 const main = document.querySelector('#page-container');
@@ -30,4 +32,4 @@ console.log("page started");
 function decorateContext(ctx, next) {
     ctx.render = (content, loc=main) => render(content, loc);
     next();
-}
+}})

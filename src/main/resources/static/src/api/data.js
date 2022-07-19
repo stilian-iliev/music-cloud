@@ -78,3 +78,7 @@ export async function followPlaylist(playlistId) {
 export async function unfollowPlaylist(playlistId) {
     return await del(host + `/api/follow/playlist?id=${playlistId}`);
 }
+
+export async function isFollowed(playlistId) {
+    return await get(host + `/api/follow/playlist?id=${playlistId}`);
+}

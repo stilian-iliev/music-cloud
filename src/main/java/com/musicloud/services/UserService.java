@@ -140,4 +140,9 @@ public class UserService {
         user.unfollowPlaylist(playlist);
         userRepository.save(user);
     }
+
+    public boolean isFollowed(UUID userId, UUID playlistId) {
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return user.isFollowing(playlistId);
+    }
 }
