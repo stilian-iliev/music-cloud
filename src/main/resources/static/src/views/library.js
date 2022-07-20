@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getFollowingPlaylists, getLiked, getUserPlaylists } from '../api/data.js';
+import { getFollowingPlaylists, getFollowingUsers, getLiked, getUserPlaylists } from '../api/data.js';
 import { likedCardTemplate, playlistCardTemplate } from './fragments/playlist_card.js';
 import { userCardTemplate } from './fragments/user_card.js';
 
@@ -64,7 +64,7 @@ const libraryTemplate = (liked, playlists, following) => html`
     <div class="row row-cols-1 row-cols-md-4 g-4 pb-4 mt-2"> 
     
     
-        ${playlists.map(userCardTemplate)}
+        ${following.map(userCardTemplate)}
     </div>
     </div>
   </div>
@@ -93,5 +93,6 @@ export async function libraryPage(ctx) {
     let liked = await getLiked();
     let playlists = await getUserPlaylists(sessionStorage.getItem('userId'));
     let followedPlaylists = await getFollowingPlaylists();
-    ctx.render(libraryTemplate(liked, playlists.concat(followedPlaylists)));
+    let followingUsers = await getFollowingUsers();
+    ctx.render(libraryTemplate(liked, playlists.concat(followedPlaylists), followingUsers));
 }

@@ -21,7 +21,6 @@ public class DashboardService {
     }
 
     public DashboardDto getDashboardDto() {
-        //todo: get new users
         return new DashboardDto(userRepository.count(), songRepository.count(), playlistRepository.count(), userRepository.countByCreationDateAfter(LocalDateTime.now().minusDays(1)));
     }
 }

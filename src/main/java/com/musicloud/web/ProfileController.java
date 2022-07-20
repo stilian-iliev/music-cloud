@@ -82,13 +82,6 @@ public class ProfileController {
     }
 
     @ResponseBody
-    @GetMapping("/api/following/users")
-    public ResponseEntity<List<UserProfileDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
-        List<UserProfileDto> playlist = userService.findFollowingUsers(userDetails.getId());
-        return ResponseEntity.ok(playlist);
-    }
-
-    @ResponseBody
     @PostMapping("/api/follow/playlist")
     public ResponseEntity<ResponseStatus> followPlaylist(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.followPlaylist(userDetails.getId(), playlistId);
@@ -107,6 +100,34 @@ public class ProfileController {
     public ResponseEntity<Boolean> isFollowed(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
         boolean followed = userService.isFollowed(userDetails.getId(), playlistId);
         return ResponseEntity.ok(followed);
+    }
+
+    @ResponseBody
+    @GetMapping("/api/following/users")
+    public ResponseEntity<List<UserProfileDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
+        List<UserProfileDto> playlist = userService.findFollowingUsers(userDetails.getId());
+        return ResponseEntity.ok(playlist);
+    }
+
+    @ResponseBody
+    @PostMapping("/api/follow/user")
+    public ResponseEntity<ResponseStatus> followUser(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.followUser(userDetails.getId(), userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ResponseBody
+    @DeleteMapping("/api/follow/user")
+    public ResponseEntity<ResponseStatus> unfollowUser(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        userService.unfollowUser(userDetails.getId(), userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/follow/user")
+    public ResponseEntity<Boolean> isUserFollowed(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        boolean isFollowed = userService.isUserFollowed(userDetails.getId(), userId);
+        return ResponseEntity.ok(isFollowed);
     }
 
 }

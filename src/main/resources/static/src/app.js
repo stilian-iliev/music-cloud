@@ -4,20 +4,19 @@ import { profilePage } from './views/profile.js';
 import { libraryPage } from './views/library.js';
 import { playlistPage } from './views/playlist.js';
 import { likedPlaylistPage } from './views/liked.js';
+import {searchPage} from './views/search.js';
 
 import page from "//unpkg.com/page/page.mjs";
 
 import { getMyId } from './api/data.js';
 
-
-window.addEventListener('load', async () => {
-    sessionStorage.setItem('userId', await getMyId());
+sessionStorage.setItem('userId', await getMyId());
 
 
 const main = document.querySelector('#page-container');
 
 page('/user/:id', decorateContext, profilePage);
-// page('/search', decorateContext, playlistPage);
+page('/search', decorateContext, searchPage);
 page('/', decorateContext, libraryPage);
 page('/library', decorateContext, libraryPage);
 page('/playlist/:id', decorateContext, playlistPage);
@@ -32,4 +31,4 @@ console.log("page started");
 function decorateContext(ctx, next) {
     ctx.render = (content, loc=main) => render(content, loc);
     next();
-}})
+}

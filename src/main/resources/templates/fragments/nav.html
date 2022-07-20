@@ -42,9 +42,10 @@
             </ul>
             <!-- Left links -->
             <div class="w-100 p-1 px-4" sec:authorize="isAuthenticated()">
-                <form class="input-group w-auto my-auto d-none d-sm-flex">
+                <form class="input-group w-auto my-auto d-none d-sm-flex" th:action="@{/search}">
                     <input
                             autocomplete="off"
+                            name="q"
                             type="search"
                             class="form-control rounded"
                             placeholder="Search"

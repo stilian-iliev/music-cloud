@@ -1,10 +1,10 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getProfileDto, editProfile, getUserSongs, getUserPlaylists, getLiked } from '../api/data.js';
+import { getProfileDto, editProfile, getUserSongs, getUserPlaylists, getLiked, followUser, isUserFollowed, unfollowUser } from '../api/data.js';
 import { songListFragment } from './fragments/songlist.js';
 import { likedCardTemplate, playlistCardTemplate } from './fragments/playlist_card.js';
 import { createPlaylistTemplate } from './fragments/create_playlist.js';
 
-const profileTemplate = async (user, songs, playlists, liked) => html`
+const profileTemplate = async (user, songs, playlists, liked, isFollowed) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -13,7 +13,7 @@ const profileTemplate = async (user, songs, playlists, liked) => html`
                 <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
                     <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                         <img src="${user.imageUrl}" alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
-                        ${ isOwner ? html`<button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>` : '' }
+                        ${ isOwner ? html`<button style="z-index: 1;" type="button" class="btn-dark" data-mdb-toggle="modal" data-mdb-target="#editProfileModal">Edit Profile</button>` : followButton(isFollowed) }
                         
                     </div>
                     <div class="ms-3" style="margin-top: 150px;">
@@ -159,15 +159,18 @@ const editProfileModal = (user) => html`
             </div>
         </div>
     </div>
-`
+`;
 
-
+const followButton = (isFollowed) => html`
+<button @click=${isFollowed ? onUnfollow : onFollow} style="z-index: 1;" type="button" class="btn-dark" >${isFollowed ? 'Unfollow' : 'Follow'}</button>
+`;
 
 let isOwner;
 let songs;
 let playlists;
 let liked;
 let ctx;
+let isFollowed;
 export async function profilePage(ctxT) {
     ctx = ctxT;
     isOwner = sessionStorage.getItem('userId') == ctx.params.id;
@@ -177,10 +180,10 @@ export async function profilePage(ctxT) {
     songs = await getUserSongs(ctx.params.id);
     playlists = await getUserPlaylists(ctx.params.id);
     liked = await getLiked();
-
+    
+    if (!isOwner) isFollowed = await isUserFollowed(ctx.params.id);
     await renderPage(user);
     
-
     if (isOwner) {
 
         previewPic();
@@ -189,7 +192,7 @@ export async function profilePage(ctxT) {
 
 async function renderPage(user) {
     document.title = `${user.username} - musiCloud`;
-    ctx.render(await profileTemplate(user, songs, playlists, liked));
+    ctx.render(await profileTemplate(user, songs, playlists, liked, isFollowed));
 }
 
 
@@ -207,6 +210,16 @@ async function onEditProfile(e) {
     await renderPage(res);
     document.querySelector("#navName").textContent = res.username;
     document.querySelector("#navPhoto").src = res.imageUrl;
+}
+
+async function onFollow(e) {
+    await followUser(ctx.params.id);
+    ctx.page.redirect(window.location.pathname);
+}
+
+async function onUnfollow(e) {
+    await unfollowUser(ctx.params.id);
+    ctx.page.redirect(window.location.pathname);
 }
 
 function previewPic() {

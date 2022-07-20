@@ -1,5 +1,5 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getPlaylist, getLiked, editPlaylist, deletePlaylist, followPlaylist, unfollowPlaylist, isFollowed } from '../api/data.js';
+import { getPlaylist, getLiked, editPlaylist, deletePlaylist, followPlaylist, unfollowPlaylist, isPlaylistFollowed } from '../api/data.js';
 import {songListFragment} from './fragments/songlist.js';
 
 export const playlistTemplate = async (playlist, liked, isOwner, isFollowed) => html`
@@ -85,7 +85,7 @@ export async function playlistPage(ctxT) {
     playlist = await getPlaylist(ctx.params.id)
     let liked = await getLiked();
     let isOwner = sessionStorage.getItem('userId') == playlist.creator.id;
-    let followed = await isFollowed(playlist.id);
+    let followed = await isPlaylistFollowed(playlist.id);
 
     ctx.render(await playlistTemplate(playlist, liked, isOwner, followed));
     if (isOwner) {

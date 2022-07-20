@@ -143,6 +143,26 @@ public class UserService {
 
     public boolean isFollowed(UUID userId, UUID playlistId) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        return user.isFollowing(playlistId);
+        return user.isFollowingPlaylist(playlistId);
+    }
+
+    public void followUser(UUID myId, UUID userId) {
+        User me = userRepository.findById(myId).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        me.followUser(user);
+        userRepository.save(me);
+    }
+
+    public void unfollowUser(UUID myId, UUID userId) {
+        User me = userRepository.findById(myId).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        me.unfollowUser(user);
+        userRepository.save(me);
+    }
+
+    public boolean isUserFollowed(UUID myId, UUID userId) {
+        User me = userRepository.findById(myId).orElseThrow(UserNotFoundException::new);
+        return me.isFollowingUser(userId);
+
     }
 }

@@ -79,6 +79,22 @@ export async function unfollowPlaylist(playlistId) {
     return await del(host + `/api/follow/playlist?id=${playlistId}`);
 }
 
-export async function isFollowed(playlistId) {
+export async function isPlaylistFollowed(playlistId) {
     return await get(host + `/api/follow/playlist?id=${playlistId}`);
+}
+
+export async function getFollowingUsers() {
+    return await get(host + '/api/following/users');
+}
+
+export async function followUser(userId) {
+    return await post(host + `/api/follow/user?id=${userId}`);
+}
+
+export async function unfollowUser(userId) {
+    return await del(host + `/api/follow/user?id=${userId}`);
+}
+
+export async function isUserFollowed(userId) {
+    return await get(host + `/api/follow/user?id=${userId}`);
 }

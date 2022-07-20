@@ -200,7 +200,19 @@ public class User {
         followedPlaylists.remove(playlist);
     }
 
-    public boolean isFollowing(UUID playlistId) {
+    public boolean isFollowingPlaylist(UUID playlistId) {
         return getFollowedPlaylists().stream().anyMatch(p -> p.getId().equals(playlistId));
+    }
+
+    public void followUser(User user) {
+        followedUsers.add(user);
+    }
+
+    public void unfollowUser(User user) {
+        followedUsers.remove(user);
+    }
+
+    public boolean isFollowingUser(UUID userId) {
+        return getFollowedUsers().stream().anyMatch(u -> u.getId().equals(userId));
     }
 }
