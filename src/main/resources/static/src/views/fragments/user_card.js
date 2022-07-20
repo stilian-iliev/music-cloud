@@ -4,7 +4,7 @@ export const userCardTemplate = (user) => html`
 <div class="card mb-4">
             <div class="card-body text-center">
               <img src="${user.imageUrl}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
-              <h5 class="my-3">${user.username}</h5>
+              <a class="mb-1 text-dark fs-4" href="/user/${user.id}" style="display:block;">${user.username}</a>
               
               
               <div class="d-flex justify-content-center mb-2">
