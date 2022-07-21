@@ -2,7 +2,7 @@ package com.musicloud.web;
 
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
-import com.musicloud.models.dtos.user.BasicUserDto;
+import com.musicloud.models.dtos.user.UserCardDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
 import com.musicloud.models.exceptions.UserNotFoundException;
@@ -105,8 +105,8 @@ public class ProfileController {
 
     @ResponseBody
     @GetMapping("/api/following/users")
-    public ResponseEntity<List<BasicUserDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
-        List<BasicUserDto> playlist = userService.findFollowingUsers(userDetails.getId());
+    public ResponseEntity<List<UserCardDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
+        List<UserCardDto> playlist = userService.findFollowingUsers(userDetails.getId());
         return ResponseEntity.ok(playlist);
     }
 

@@ -5,7 +5,7 @@ import com.musicloud.models.Song;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.playlist.PlaylistDto;
 import com.musicloud.models.dtos.song.SongDto;
-import com.musicloud.models.dtos.user.BasicUserDto;
+import com.musicloud.models.dtos.user.UserCardDto;
 import com.musicloud.models.dtos.user.EditProfileDto;
 import com.musicloud.models.dtos.user.UserProfileDto;
 import com.musicloud.models.exceptions.PlaylistNotFoundException;
@@ -124,8 +124,9 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getFollowedPlaylists().stream().map(PlaylistDto::new).collect(Collectors.toList());
     }
 
-    public List<BasicUserDto> findFollowingUsers(UUID id) {
-        return userRepository.findById(id).orElseThrow(UserNotFoundException::new).getFollowedUsers().stream().map(BasicUserDto::new).collect(Collectors.toList());
+    public List<UserCardDto> findFollowingUsers(UUID id) {
+        User currentUser = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        return currentUser.getFollowedUsers().stream().map(u -> new UserCardDto(u, currentUser)).collect(Collectors.toList());
     }
 
     public void followPlaylist(UUID userId, UUID playlistId) {

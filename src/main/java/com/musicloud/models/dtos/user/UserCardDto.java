@@ -4,15 +4,17 @@ import com.musicloud.models.User;
 
 import java.util.UUID;
 
-public class BasicUserDto {
+public class UserCardDto {
     private String username;
     private String imageUrl;
     private UUID id;
+    private boolean followed;
 
-    public BasicUserDto(User user) {
+    public UserCardDto(User user, User current) {
         this.username = user.getUsername();
         this.imageUrl = user.getImageUrl();
         this.id = user.getId();
+        this.followed = current.getFollowedUsers().stream().anyMatch(u -> u == user);
     }
 
     public String getUsername() {
@@ -25,5 +27,9 @@ public class BasicUserDto {
 
     public UUID getId() {
         return id;
+    }
+
+    public boolean isFollowed() {
+        return followed;
     }
 }

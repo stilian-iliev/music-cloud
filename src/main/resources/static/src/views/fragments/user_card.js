@@ -1,4 +1,5 @@
 import { html } from '../../../node_modules/lit-html/lit-html.js';
+import { followUser, unfollowUser } from '../../api/data.js';
 
 export const userCardTemplate = (user) => html`
 <div class="card mb-4">
@@ -8,9 +9,22 @@ export const userCardTemplate = (user) => html`
               
               
               <div class="d-flex justify-content-center mb-2">
-                <button type="button" class="btn btn-primary">Follow</button>
+                <button @click=${onFollowToggle} type="button" class="btn btn-primary" id="${user.id}">${user.followed ? 'Unfollow' : 'Follow'}</button>
                 
               </div>
             </div>
           </div>
 `;
+
+
+async function onFollowToggle(e) {
+  if (e.target.textContent == 'Follow') {
+    await followUser(e.target.id);
+    e.target.textContent = 'Unfollow';
+  } else if (e.target.textContent == 'Unfollow') {
+    await unfollowUser(e.target.id);
+    e.target.textContent = 'Follow';
+  }
+
+  
+}
