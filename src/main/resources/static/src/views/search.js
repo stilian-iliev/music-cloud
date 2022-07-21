@@ -1,6 +1,15 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
+import { getUserSongs } from '../api/data.js';
+import { songListFragment } from './fragments/songlist.js';
+import page from "//unpkg.com/page/page.mjs";
 
-const searchPageTemplete = () => html`
+const searchPageTemplete = async (songs) => html`
+<section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
+
+    <div class="row d-flex justify-content-center">
+    
+        <div class="col col-lg-9 col-xl-8 mx-4">
+            <div class="card">
 <div class="row">
   <div class="col-3">
     <!-- Tab navs -->
@@ -18,7 +27,7 @@ const searchPageTemplete = () => html`
         role="tab"
         aria-controls="v-tabs-home"
         aria-selected="true"
-        >Home</a
+        >Songs</a
       >
       <a
         class="nav-link"
@@ -28,7 +37,7 @@ const searchPageTemplete = () => html`
         role="tab"
         aria-controls="v-tabs-profile"
         aria-selected="false"
-        >Profile</a
+        >Playlists</a
       >
       <a
         class="nav-link"
@@ -38,7 +47,7 @@ const searchPageTemplete = () => html`
         role="tab"
         aria-controls="v-tabs-messages"
         aria-selected="false"
-        >Messages</a
+        >Users</a
       >
     </div>
     <!-- Tab navs -->
@@ -53,7 +62,7 @@ const searchPageTemplete = () => html`
         role="tabpanel"
         aria-labelledby="v-tabs-home-tab"
       >
-        Home content
+        ${await songListFragment(songs, songs)}
       </div>
       <div
         class="tab-pane fade"
@@ -75,8 +84,25 @@ const searchPageTemplete = () => html`
     <!-- Tab content -->
   </div>
 </div>
+</div>
+</div>
+</div>
+</section>
 `;
 
-export async function searchPage(ctx) {
-    ctx.render(searchPageTemplete());
+document.querySelector('#search').addEventListener('submit', onSearch);
+
+let ctx;
+export async function searchPage(ctxT) {
+  ctx = ctxT;
+  let songs = await getUserSongs(sessionStorage.getItem('userId'));
+    ctx.render(await searchPageTemplete(songs));
+}
+
+async function onSearch(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  page.redirect('/search?q=' + formData.get('q'));
+
+  console.log("searching");
 }

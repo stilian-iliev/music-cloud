@@ -10,7 +10,7 @@ let userLikedSongs;
 let myId;
 let playlistCratorId;
 let loc;
-export const songListTemplate = (songs) => {
+const songListTemplate = (songs) => {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
     return html`
 <section class="pb-4">

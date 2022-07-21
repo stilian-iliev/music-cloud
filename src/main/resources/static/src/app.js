@@ -17,7 +17,7 @@ const main = document.querySelector('#page-container');
 
 page('/user/:id', decorateContext, profilePage);
 page('/search', decorateContext, searchPage);
-page('/', decorateContext, libraryPage);
+page('/', decorateContext, searchPage);
 page('/library', decorateContext, libraryPage);
 page('/playlist/:id', decorateContext, playlistPage);
 page('/liked', decorateContext, likedPlaylistPage);

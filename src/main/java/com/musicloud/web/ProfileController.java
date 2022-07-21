@@ -124,11 +124,5 @@ public class ProfileController {
         return ResponseEntity.noContent().build();
     }
 
-    @ResponseBody
-    @GetMapping("/api/follow/user")
-    public ResponseEntity<Boolean> isUserFollowed(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
-        boolean isFollowed = userService.isUserFollowed(userDetails.getId(), userId);
-        return ResponseEntity.ok(isFollowed);
-    }
 
 }
