@@ -1,6 +1,6 @@
 welcome
 error
-//library /home page /liked, basePlaylists, following
+library /home page /liked, basePlaylists, following
 login
 register
 profile
@@ -8,8 +8,8 @@ settings
 //search results
 playlist
 upload song
-//admin dashboard
-//admin users
+admin dashboard
+admin users
 
 user
 user role
@@ -46,7 +46,6 @@ register validation
 media player 
 get basePlaylists api
 get songs api
-upload userphoto as soon as its changed in js
 
 spa switch between profile, library, search, basePlaylist
 server side guesthome, login, register, settings, upload, admin

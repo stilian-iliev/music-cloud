@@ -51,15 +51,15 @@ public class PlaylistController {
     }
 
     @ResponseBody
-    @PostMapping("/api/playlists/{playlistId}/add")
-    public ResponseEntity<ResponseStatus> addSongToPlaylist(@PathVariable("playlistId")UUID playlistId, @RequestParam("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @PostMapping("/api/playlists/{playlistId}/songs/{songId}")
+    public ResponseEntity<ResponseStatus> addSongToPlaylist(@PathVariable("playlistId")UUID playlistId, @PathVariable("songId") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
         playlistService.addSongToPlaylist(playlistId, songId, userDetails);
         return ResponseEntity.noContent().build();
     }
 
     @ResponseBody
-    @DeleteMapping("/api/playlists/{playlistId}/remove")
-    public ResponseEntity<ResponseStatus> removeSongFromPlaylist(@PathVariable("playlistId")UUID playlistId, @RequestParam("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @DeleteMapping("/api/playlists/{playlistId}/songs/{songId}")
+    public ResponseEntity<ResponseStatus> removeSongFromPlaylist(@PathVariable("playlistId")UUID playlistId, @PathVariable("songId") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
         playlistService.removeSongFromPlaylist(playlistId, songId, userDetails);
         return ResponseEntity.noContent().build();
     }

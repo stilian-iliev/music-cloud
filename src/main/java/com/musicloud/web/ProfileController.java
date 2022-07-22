@@ -76,22 +76,22 @@ public class ProfileController {
     }
 
     @ResponseBody
-    @GetMapping("/api/following/playlists")
+    @GetMapping("/api/playlists/following")
     public ResponseEntity<List<PlaylistDto>> getFollowingPlaylists(@AuthenticationPrincipal AppUserDetails userDetails) {
         List<PlaylistDto> playlist = userService.findFollowingPlaylists(userDetails.getId());
         return ResponseEntity.ok(playlist);
     }
 
     @ResponseBody
-    @PostMapping("/api/follow/playlist")
-    public ResponseEntity<ResponseStatus> followPlaylist(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @PostMapping("/api/playlists/{playlistId}/follow")
+    public ResponseEntity<ResponseStatus> followPlaylist(@PathVariable("playlistId") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.followPlaylist(userDetails.getId(), playlistId);
         return ResponseEntity.noContent().build();
     }
 
     @ResponseBody
-    @DeleteMapping("/api/follow/playlist")
-    public ResponseEntity<ResponseStatus> unfollowPlaylist(@RequestParam("id") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @DeleteMapping("/api/playlists/{playlistId}/follow")
+    public ResponseEntity<ResponseStatus> unfollowPlaylist(@PathVariable("playlistId") UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.unfollowPlaylist(userDetails.getId(), playlistId);
         return ResponseEntity.noContent().build();
     }
@@ -104,25 +104,31 @@ public class ProfileController {
     }
 
     @ResponseBody
-    @GetMapping("/api/following/users")
+    @GetMapping("/api/users/following")
     public ResponseEntity<List<UserCardDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
         List<UserCardDto> playlist = userService.findFollowingUsers(userDetails.getId());
         return ResponseEntity.ok(playlist);
     }
 
     @ResponseBody
-    @PostMapping("/api/follow/user")
-    public ResponseEntity<ResponseStatus> followUser(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @PostMapping("/api/users/{userId}/follow")
+    public ResponseEntity<ResponseStatus> followUser(@PathVariable("userId") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.followUser(userDetails.getId(), userId);
         return ResponseEntity.noContent().build();
     }
 
     @ResponseBody
-    @DeleteMapping("/api/follow/user")
-    public ResponseEntity<ResponseStatus> unfollowUser(@RequestParam("id") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    @DeleteMapping("/api/users/{userId}/follow")
+    public ResponseEntity<ResponseStatus> unfollowUser(@PathVariable("userId") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.unfollowUser(userDetails.getId(), userId);
         return ResponseEntity.noContent().build();
     }
 
+    @ResponseBody
+    @GetMapping("/api/users/{userId}/follow")
+    public ResponseEntity<Boolean> isFollowing(@PathVariable("userId") UUID userId, @AuthenticationPrincipal AppUserDetails userDetails) {
+        boolean followed = userService.isUserFollowed(userDetails.getId(), userId);
+        return ResponseEntity.ok(followed);
+    }
 
 }

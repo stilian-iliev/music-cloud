@@ -32,11 +32,11 @@ export async function createPlaylist(data) {
 }
 
 export async function likeSong(songId) {
-    return await post(host + `/api/song/like?id=${songId}`);
+    return await post(host + `/api/songs/${songId}/like`);
 }
 
 export async function dislikeSong(songId) {
-    return await post(host + `/api/song/dislike?id=${songId}`);
+    return await del(host + `/api/songs/${songId}/like`);
 }
 
 export async function getPlaylist(id) {
@@ -44,11 +44,11 @@ export async function getPlaylist(id) {
 }
 
 export async function addSongToPlaylist(songId, playlistId) {
-    return await post(host + `/api/playlists/${playlistId}/add?id=${songId}`);
+    return await post(host + `/api/playlists/${playlistId}/songs/${songId}`);
 }
 
 export async function removeSongFromPlaylist(songId, playlistId) {
-    return await del(host + `/api/playlists/${playlistId}/remove?id=${songId}`);
+    return await del(host + `/api/playlists/${playlistId}/songs/${songId}`);
 }
 
 export async function editPlaylist(playlistId, formData) {
@@ -68,33 +68,33 @@ export async function deletePlaylist(playlistId) {
 }
 
 export async function getFollowingPlaylists() {
-    return await get(host + '/api/following/playlists');
+    return await get(host + '/api/playlists/following');
 }
 
 export async function followPlaylist(playlistId) {
-    return await post(host + `/api/follow/playlist?id=${playlistId}`);
+    return await post(host + `/api/playlists/${playlistId}/follow`);
 }
 
 export async function unfollowPlaylist(playlistId) {
-    return await del(host + `/api/follow/playlist?id=${playlistId}`);
+    return await del(host + `/api/playlists/${playlistId}/follow`);
 }
 
 export async function isPlaylistFollowed(playlistId) {
     return await get(host + `/api/follow/playlist?id=${playlistId}`);
 }
-
+//todo make /users/following
 export async function getFollowingUsers() {
-    return await get(host + '/api/following/users');
+    return await get(host + '/api/users/following');
 }
-
+//todo make /users/{id}/follow
 export async function followUser(userId) {
-    return await post(host + `/api/follow/user?id=${userId}`);
+    return await post(host + `/api/users/${userId}/follow`);
 }
 
 export async function unfollowUser(userId) {
-    return await del(host + `/api/follow/user?id=${userId}`);
+    return await del(host + `/api/users/${userId}/follow`);
 }
 
 export async function isUserFollowed(userId) {
-    return await get(host + `/api/follow/user?id=${userId}`);
+    return await get(host + `/api/users/${userId}/follow`);
 }
