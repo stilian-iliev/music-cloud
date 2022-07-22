@@ -84,12 +84,12 @@ public class SongController {
         return ResponseEntity.noContent().build();
     }
 
-    //todo:get search and pagable
-//    @GetMapping("/api/songs?page={page}")
-//    @ResponseBody
-//    public ResponseEntity<List<SongDto>> getAllSongs() {
-//        List<SongDto> allSongs = songService.getAllSongs();
-//        return ResponseEntity.ok(allSongs);
-//    }
+
+    @GetMapping("/api/songs")
+    @ResponseBody
+    public ResponseEntity<List<SongDto>> getAllSongs() {
+        List<SongDto> allSongs = songService.getAllSongs();
+        return ResponseEntity.ok(allSongs);
+    }
 
 }

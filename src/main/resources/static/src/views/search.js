@@ -1,9 +1,10 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getUserSongs } from '../api/data.js';
+import { getAllSongs, getLiked, getUserPlaylists, getUserSongs } from '../api/data.js';
+import { playlistCardTemplate } from './fragments/playlist_card.js';
 import { songListFragment } from './fragments/songlist.js';
 import page from "//unpkg.com/page/page.mjs";
 
-const searchPageTemplete = async (songs) => html`
+const searchPageTemplete = async (songs, liked, playlists) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -62,7 +63,7 @@ const searchPageTemplete = async (songs) => html`
         role="tabpanel"
         aria-labelledby="v-tabs-home-tab"
       >
-        ${await songListFragment(songs, songs)}
+        ${await songListFragment(songs, liked)}
       </div>
       <div
         class="tab-pane fade"
@@ -70,7 +71,10 @@ const searchPageTemplete = async (songs) => html`
         role="tabpanel"
         aria-labelledby="v-tabs-profile-tab"
       >
-        Profile content
+        <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+                            
+        ${playlists.map(playlistCardTemplate)}
+        </div>
       </div>
       <div
         class="tab-pane fade"
@@ -95,8 +99,12 @@ document.querySelector('#search').addEventListener('submit', onSearch);
 let ctx;
 export async function searchPage(ctxT) {
   ctx = ctxT;
-  let songs = await getUserSongs(sessionStorage.getItem('userId'));
-    ctx.render(await searchPageTemplete(songs));
+  let songs = await getAllSongs();
+  let liked = await getLiked();
+  //todo
+  let playlists = await getUserPlaylists(sessionStorage.getItem('userId'));
+  console.log(playlists);
+    ctx.render(await searchPageTemplete(songs, liked.songs, playlists));
 }
 
 async function onSearch(e) {

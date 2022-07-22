@@ -82,11 +82,11 @@ export async function unfollowPlaylist(playlistId) {
 export async function isPlaylistFollowed(playlistId) {
     return await get(host + `/api/follow/playlist?id=${playlistId}`);
 }
-//todo make /users/following
+
 export async function getFollowingUsers() {
     return await get(host + '/api/users/following');
 }
-//todo make /users/{id}/follow
+
 export async function followUser(userId) {
     return await post(host + `/api/users/${userId}/follow`);
 }
@@ -97,4 +97,8 @@ export async function unfollowUser(userId) {
 
 export async function isUserFollowed(userId) {
     return await get(host + `/api/users/${userId}/follow`);
+}
+
+export async function getAllSongs() {
+    return await get(host + `/api/songs`);
 }
