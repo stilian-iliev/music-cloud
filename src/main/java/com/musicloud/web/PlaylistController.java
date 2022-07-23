@@ -80,10 +80,6 @@ public class PlaylistController {
         return ResponseEntity.noContent().build();
     }
 
-    @ResponseBody
-    @GetMapping("/api/playlists")
-    public ResponseEntity<List<PlaylistDto>> getAllPlaylists() {
-        return ResponseEntity.ok(playlistService.findAll());
-    }
+
 
 }

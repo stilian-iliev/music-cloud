@@ -1,7 +1,9 @@
 package com.musicloud.repositories;
 
 import com.musicloud.models.Song;
+import com.musicloud.models.dtos.song.SongDto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -16,4 +18,7 @@ public interface SongRepository extends JpaRepository<Song, UUID> {
     Optional<Song> findByIdOrderByCreationTime(UUID songId);
 
     List<Song> findAllByCreatorIdOrderByCreationTime(UUID id);
+
+    @Query("select s from Song s where concat_ws(' ', s.title, s.creator.username) like %?1%")
+    List<Song> findAllByMatching(String query);
 }

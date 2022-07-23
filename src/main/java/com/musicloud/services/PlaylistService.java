@@ -95,4 +95,9 @@ public class PlaylistService {
     public List<PlaylistDto> findAll() {
         return playlistRepository.findAll().stream().map(PlaylistDto::new).collect(Collectors.toList());
     }
+
+    public List<PlaylistDto> findAll(String query) {
+        if (query == null) return findAll();
+        return playlistRepository.findAll(query).stream().map(PlaylistDto::new).collect(Collectors.toList());
+    }
 }

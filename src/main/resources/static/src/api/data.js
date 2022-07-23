@@ -99,14 +99,14 @@ export async function isUserFollowed(userId) {
     return await get(host + `/api/users/${userId}/follow`);
 }
 
-export async function getAllSongs() {
-    return await get(host + `/api/songs`);
+export async function getAllSongs(query) {
+    return await get(host + `/api/songs${query ? `?q=${query}` : ''}`);
 }
 
-export async function getAllPlaylists() {
-    return await get(host + `/api/playlists`);
+export async function getAllPlaylists(query) {
+    return await get(host + `/api/playlists${query ? `?q=${query}` : ''}`);
 }
 
-export async function getAllUsers() {
-    return await get(host + `/api/users`);
+export async function getAllUsers(query) {
+    return await get(host + `/api/users${query ? `?q=${query}` : ''}`);
 }

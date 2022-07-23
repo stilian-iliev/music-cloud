@@ -171,4 +171,9 @@ public class UserService {
     public List<UserCardDto> getAllUserCards(UUID myId) {
         return getAllUsers().stream().map(u -> new UserCardDto(u, userRepository.findById(myId).orElseThrow(UserNotFoundException::new))).collect(Collectors.toList());
     }
+
+    public List<UserCardDto> getAllUserCards(UUID id, String query) {
+        if (query == null) return getAllUserCards(id);
+        return userRepository.findAll(query).stream().map(u -> new UserCardDto(u, userRepository.findById(id).orElseThrow(UserNotFoundException::new))).collect(Collectors.toList());
+    }
 }

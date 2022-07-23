@@ -85,11 +85,4 @@ public class SongController {
     }
 
 
-    @GetMapping("/api/songs")
-    @ResponseBody
-    public ResponseEntity<List<SongDto>> getAllSongs() {
-        List<SongDto> allSongs = songService.getAllSongs();
-        return ResponseEntity.ok(allSongs);
-    }
-
 }

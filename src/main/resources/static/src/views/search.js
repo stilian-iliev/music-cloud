@@ -102,10 +102,16 @@ document.querySelector('#search').addEventListener('submit', onSearch);
 let ctx;
 export async function searchPage(ctxT) {
   ctx = ctxT;
-  let songs = await getAllSongs();
+  let query = ctx.querystring.split('q=')[1];
+
+  await renderPage(query);
+}
+
+async function renderPage(query) {
+  let songs = await getAllSongs(query);
   let liked = await getLiked();
-  let playlists = await getAllPlaylists();
-  let users = await getAllUsers();
+  let playlists = await getAllPlaylists(query);
+  let users = await getAllUsers(query);
     ctx.render(await searchPageTemplete(songs, liked.songs, playlists, users));
 }
 
@@ -113,6 +119,4 @@ async function onSearch(e) {
   e.preventDefault();
   const formData = new FormData(e.target);
   page.redirect('/search?q=' + formData.get('q'));
-
-  console.log("searching");
 }

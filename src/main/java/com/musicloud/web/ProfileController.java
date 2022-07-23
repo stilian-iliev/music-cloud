@@ -131,10 +131,5 @@ public class ProfileController {
         return ResponseEntity.ok(followed);
     }
 
-    @ResponseBody
-    @GetMapping("/api/users")
-    public ResponseEntity<List<UserCardDto>> getAllUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
-        return ResponseEntity.ok(userService.getAllUserCards(userDetails.getId()));
-    }
 
 }

@@ -76,4 +76,9 @@ public class SongService {
                 .map(Song::getSongUrl).toList();
         storageService.deleteUnusedFilesFromFolder("songs", active);
     }
+
+    public List<SongDto> getAllSongs(String query) {
+        if (query == null) return getAllSongs();
+        return songRepository.findAllByMatching(query).stream().map(SongDto::new).collect(Collectors.toList());
+    }
 }
