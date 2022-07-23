@@ -76,51 +76,20 @@
   justify-content: center;
   align-items: center;
 }
-.audio-player .controls .toggle-play.play {
-  cursor: pointer;
-  position: relative;
-  left: 0;
-  height: 0;
-  width: 0;
-  border: 7px solid #0000;
-  border-left: 13px solid white;
-}
 
 
-.audio-player .controls .toggle-play.play:hover {
+.audio-player .controls .toggle-play:hover {
   transform: scale(1.1);
 }
 
 .audio-player .controls .next:hover {
   transform: scale(1.1);
 }
-.audio-player .controls .toggle-play.pause {
-  height: 15px;
-  width: 20px;
-  cursor: pointer;
-  position: relative;
-}
-.audio-player .controls .toggle-play.pause:before {
-  position: absolute;
-  top: 0;
-  left: 0px;
-  background: white;
-  content: "";
-  height: 15px;
-  width: 3px;
-}
-.audio-player .controls .toggle-play.pause:after {
-  position: absolute;
-  top: 0;
-  right: 8px;
-  background: white;
-  content: "";
-  height: 15px;
-  width: 3px;
-}
-.audio-player .controls .toggle-play.pause:hover {
+
+.audio-player .controls .previous:hover {
   transform: scale(1.1);
 }
+
 .audio-player .controls .time {
   display: flex;
 }

@@ -34,11 +34,10 @@ export function queueList(q, offset) {
 }
 
 function playNext() {
-    if (index < queue.length) {
+    if (index+1 < queue.length) {
+      
+      
       index++;
-      if (index == queue.length) {
-        return;
-      }
       
       songTitle.textContent = queue[index].title;
       audio.src=queue[index].songUrl;
@@ -49,6 +48,25 @@ function playNext() {
       }
 
     }
+
+}
+
+function playPrev() {
+  if (index > 0) {
+    
+    
+    index--;
+    
+    songTitle.textContent = queue[index].title;
+    audio.src=queue[index].songUrl;
+    selectSong(queue[index].id);
+    
+    if (audio.paused) {
+      playBtn.click();
+    }
+
+  }
+
 }
 
 
@@ -91,12 +109,12 @@ playBtn.addEventListener(
 "click",
 () => {
   if (audio.paused) {
-    playBtn.classList.remove("play");
-    playBtn.classList.add("pause");
+    playBtn.classList.remove("fa-play");
+    playBtn.classList.add("fa-pause");
     audio.play();
   } else {
-    playBtn.classList.remove("pause");
-    playBtn.classList.add("play");
+    playBtn.classList.remove("fa-pause");
+    playBtn.classList.add("fa-play");
     audio.pause();
   }
 },
@@ -104,6 +122,9 @@ false);
 
 const nextBtn = document.querySelector(".next");
 nextBtn.addEventListener('click', playNext);
+
+const prevBtn = document.querySelector('.previous');
+prevBtn.addEventListener('click', playPrev);
 
 
 
