@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PlaylistService {
@@ -89,5 +90,9 @@ public class PlaylistService {
         List<String> active = playlistRepository.findAll().stream()
                 .map(Playlist::getImageUrl).toList();
         storageService.deleteUnusedFilesFromFolder("playlist_images", active);
+    }
+
+    public List<PlaylistDto> findAll() {
+        return playlistRepository.findAll().stream().map(PlaylistDto::new).collect(Collectors.toList());
     }
 }

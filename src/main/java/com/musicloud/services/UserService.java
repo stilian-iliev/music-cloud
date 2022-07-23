@@ -167,4 +167,8 @@ public class UserService {
         return me.isFollowingUser(userId);
 
     }
+
+    public List<UserCardDto> getAllUserCards(UUID myId) {
+        return getAllUsers().stream().map(u -> new UserCardDto(u, userRepository.findById(myId).orElseThrow(UserNotFoundException::new))).collect(Collectors.toList());
+    }
 }

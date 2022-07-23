@@ -102,3 +102,11 @@ export async function isUserFollowed(userId) {
 export async function getAllSongs() {
     return await get(host + `/api/songs`);
 }
+
+export async function getAllPlaylists() {
+    return await get(host + `/api/playlists`);
+}
+
+export async function getAllUsers() {
+    return await get(host + `/api/users`);
+}

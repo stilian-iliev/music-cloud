@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -77,6 +78,12 @@ public class PlaylistController {
     public ResponseEntity<ResponseStatus> deletePlaylist(@PathVariable("playlistId")UUID playlistId, @AuthenticationPrincipal AppUserDetails userDetails) {
         playlistService.deletePlaylist(playlistId, userDetails);
         return ResponseEntity.noContent().build();
+    }
+
+    @ResponseBody
+    @GetMapping("/api/playlists")
+    public ResponseEntity<List<PlaylistDto>> getAllPlaylists() {
+        return ResponseEntity.ok(playlistService.findAll());
     }
 
 }

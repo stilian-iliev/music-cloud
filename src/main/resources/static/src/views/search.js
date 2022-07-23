@@ -1,10 +1,11 @@
 import { html } from '../../node_modules/lit-html/lit-html.js';
-import { getAllSongs, getLiked, getUserPlaylists, getUserSongs } from '../api/data.js';
+import { getAllPlaylists, getAllSongs, getLiked, getAllUsers } from '../api/data.js';
 import { playlistCardTemplate } from './fragments/playlist_card.js';
 import { songListFragment } from './fragments/songlist.js';
+import { userCardTemplate } from './fragments/user_card.js';
 import page from "//unpkg.com/page/page.mjs";
 
-const searchPageTemplete = async (songs, liked, playlists) => html`
+const searchPageTemplete = async (songs, liked, playlists, users) => html`
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
     <div class="row d-flex justify-content-center">
@@ -12,7 +13,7 @@ const searchPageTemplete = async (songs, liked, playlists) => html`
         <div class="col col-lg-9 col-xl-8 mx-4">
             <div class="card">
 <div class="row">
-  <div class="col-3">
+  <div class="col-2">
     <!-- Tab navs -->
     <div
       class="nav flex-column nav-tabs text-center"
@@ -54,7 +55,7 @@ const searchPageTemplete = async (songs, liked, playlists) => html`
     <!-- Tab navs -->
   </div>
 
-  <div class="col-9">
+  <div class="col-10">
     <!-- Tab content -->
     <div class="tab-content" id="v-tabs-tabContent">
       <div
@@ -71,9 +72,9 @@ const searchPageTemplete = async (songs, liked, playlists) => html`
         role="tabpanel"
         aria-labelledby="v-tabs-profile-tab"
       >
-        <div class="row row-cols-1 row-cols-md-3 g-4 pb-4">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4 py-4 pe-4">
                             
-        ${playlists.map(playlistCardTemplate)}
+          ${playlists.map(playlistCardTemplate)}
         </div>
       </div>
       <div
@@ -82,7 +83,9 @@ const searchPageTemplete = async (songs, liked, playlists) => html`
         role="tabpanel"
         aria-labelledby="v-tabs-messages-tab"
       >
-        Messages content
+        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-3 g-4 py-4 pe-4">
+          ${users.map(userCardTemplate)}
+        </div>
       </div>
     </div>
     <!-- Tab content -->
@@ -101,10 +104,9 @@ export async function searchPage(ctxT) {
   ctx = ctxT;
   let songs = await getAllSongs();
   let liked = await getLiked();
-  //todo
-  let playlists = await getUserPlaylists(sessionStorage.getItem('userId'));
-  console.log(playlists);
-    ctx.render(await searchPageTemplete(songs, liked.songs, playlists));
+  let playlists = await getAllPlaylists();
+  let users = await getAllUsers();
+    ctx.render(await searchPageTemplete(songs, liked.songs, playlists, users));
 }
 
 async function onSearch(e) {
