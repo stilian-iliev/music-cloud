@@ -11,6 +11,7 @@ const songTitle = document.querySelector(".name");
 let queue;
 let index;
 let audio = new Audio();
+let volume = .75;
 
 export function isPlaying(id) {
   return queue && index < queue.length && queue[index].id == id;
@@ -22,24 +23,31 @@ audio.addEventListener(
     audioPlayer.querySelector(".time .length").textContent = getTimeCodeFromNum(
     audio.duration);
   
-    audio.volume = .75;
+    audio.volume = volume;
   },
   false);
 
 export function queueList(q, offset) {
   queue = q;
-  index = offset - 1;
+  index = offset - 2;
   playNext();
 }
 
 function playNext() {
     if (index < queue.length) {
+      index++;
+      if (index == queue.length) {
+        return;
+      }
+      
       songTitle.textContent = queue[index].title;
       audio.src=queue[index].songUrl;
       selectSong(queue[index].id);
+      
       if (audio.paused) {
         playBtn.click();
       }
+
     }
 }
 
@@ -58,6 +66,7 @@ volumeSlider.addEventListener('click', e => {
   const sliderWidth = window.getComputedStyle(volumeSlider).width;
   const newVolume = e.offsetX / parseInt(sliderWidth);
   audio.volume = newVolume;
+  volume = newVolume;
   audioPlayer.querySelector(".controls .volume-percentage").style.width = newVolume * 100 + '%';
 }, false);
 
@@ -69,7 +78,7 @@ setInterval(() => {
     audioPlayer.querySelector(".time .currentTime").textContent = getTimeCodeFromNum(
     audio.currentTime);
     if (progressBar.style.width == '100%') {
-      index++;
+
       playNext();
     }
   }
@@ -92,6 +101,9 @@ playBtn.addEventListener(
   }
 },
 false);
+
+const nextBtn = document.querySelector(".next");
+nextBtn.addEventListener('click', playNext);
 
 
 

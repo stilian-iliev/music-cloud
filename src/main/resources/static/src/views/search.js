@@ -72,7 +72,7 @@ const searchPageTemplete = async (songs, liked, playlists, users) => html`
         role="tabpanel"
         aria-labelledby="v-tabs-profile-tab"
       >
-        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-4 py-4 pe-4">
+        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-3 g-4 py-4 pe-4">
                             
           ${playlists.map(playlistCardTemplate)}
         </div>

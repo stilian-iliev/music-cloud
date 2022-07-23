@@ -85,7 +85,13 @@
   border: 7px solid #0000;
   border-left: 13px solid white;
 }
+
+
 .audio-player .controls .toggle-play.play:hover {
+  transform: scale(1.1);
+}
+
+.audio-player .controls .next:hover {
   transform: scale(1.1);
 }
 .audio-player .controls .toggle-play.pause {
