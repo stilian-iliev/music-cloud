@@ -33,20 +33,21 @@ export function queueList(q, offset) {
   playNext();
 }
 
+function playSong() {
+  songTitle.textContent = queue[index].title;
+  audio.src=queue[index].songUrl;
+  selectSong(queue[index].id);
+  
+  if (audio.paused) {
+    playBtn.click();
+  }
+}
+
 function playNext() {
     if (index+1 < queue.length) {
       
-      
       index++;
-      
-      songTitle.textContent = queue[index].title;
-      audio.src=queue[index].songUrl;
-      selectSong(queue[index].id);
-      
-      if (audio.paused) {
-        playBtn.click();
-      }
-
+      playSong();
     }
 
 }
@@ -57,13 +58,7 @@ function playPrev() {
     
     index--;
     
-    songTitle.textContent = queue[index].title;
-    audio.src=queue[index].songUrl;
-    selectSong(queue[index].id);
-    
-    if (audio.paused) {
-      playBtn.click();
-    }
+    playSong();
 
   }
 

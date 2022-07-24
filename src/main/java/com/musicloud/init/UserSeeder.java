@@ -29,7 +29,7 @@ public class UserSeeder implements CommandLineRunner {
             User user = new User();
             user.setUsername("stili");
             user.setEmail("stili@i.c");
-            user.setPassword(passwordEncoder.encode("r4peemee"));
+            user.setPassword(passwordEncoder.encode("topsecret"));
             user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
             user.setLiked(new Liked());
             user.addRole(roleRepository.findById(1L).get());

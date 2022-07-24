@@ -43,7 +43,7 @@ public class AuthService {
         userRepository.save(user);
 //      TODO: send email;
 
-//        emailService.sendSimpleMessage(user.getEmail(), "Welcome!", "Thanks for joining us!");
+        emailService.sendEmail(user.getEmail(), "Welcome!", "Thanks for joining us!");
     }
 
     public boolean passwordCorrect(String raw) {

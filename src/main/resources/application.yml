@@ -14,3 +14,8 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+mail:
+  host:
+  port: 587
+  username:
+  password:
