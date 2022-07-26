@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import javax.mail.MessagingException;
 import java.util.Properties;
 
 @Configuration
@@ -17,14 +18,14 @@ public class MailSenderConfig {
             @Value("${mail.username}") String userName,
             @Value("${mail.password}") String password
 
-    ) {
+    ) throws MessagingException {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(mailHost);
         javaMailSender.setPort(mailPort);
         javaMailSender.setUsername(userName);
         javaMailSender.setPassword(password);
+
         javaMailSender.setJavaMailProperties(mailProperties());
-        javaMailSender.setDefaultEncoding("UTF-8");
 
         return javaMailSender;
     }
@@ -34,7 +35,8 @@ public class MailSenderConfig {
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.transport.protocol", "smtp");
         properties.setProperty("mail.smtp.starttls.enable", "true");
-        properties.setProperty("mail.debug", "true");
+
+//        properties.setProperty("mail.debug", "true");
         return properties;
     }
 }
