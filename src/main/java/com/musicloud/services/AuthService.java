@@ -41,6 +41,7 @@ public class AuthService {
         user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
 
         userRepository.save(user);
+
 //      TODO: send email;
 
         emailService.sendEmail(user.getEmail(), "Welcome!", "Thanks for joining us!");
