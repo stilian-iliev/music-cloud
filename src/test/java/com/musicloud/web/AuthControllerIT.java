@@ -1,6 +1,7 @@
 package com.musicloud.web;
 
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.repositories.UserRepository;
 import com.musicloud.services.EmailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.verify;
@@ -21,6 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AuthControllerIT {
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private UserRepository userRepository;
     @MockBean
     private EmailService mockEmailService;
 
@@ -32,6 +37,7 @@ public class AuthControllerIT {
         registerDto.setUsername("test");
         registerDto.setPassword("topsecret");
         registerDto.setConfirmPassword("topsecret");
+
     }
 
     @Test
@@ -109,5 +115,12 @@ public class AuthControllerIT {
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andExpect(forwardedUrl("/login-error"));
+    }
+
+    @Test
+    @WithUserDetails("admin@musicloud.com")
+    void testSettingsPage() throws Exception {
+        mockMvc.perform(get("/settings"))
+                .andExpect(view().name("settings"));
     }
 }
