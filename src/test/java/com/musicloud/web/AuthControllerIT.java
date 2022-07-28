@@ -3,6 +3,7 @@ package com.musicloud.web;
 import com.musicloud.models.Liked;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.repositories.UserRoleRepository;
@@ -19,7 +20,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.verify;
@@ -46,19 +46,18 @@ public class AuthControllerIT {
 
     private AppUserDetails testUser;
 
-
     private RegisterDto registerDto;
 
     @BeforeEach
     void setUp() throws Exception {
-        addTestUser();
         registerDto = new RegisterDto();
         registerDto.setUsername("test");
         registerDto.setPassword("topsecret");
         registerDto.setConfirmPassword("topsecret");
+        addTestUser();
 
         User byEmail = userRepository.findByEmail("admin@test.com");
-        testUser = new AppUserDetails(byEmail, byEmail.getRoles()
+        this.testUser = new AppUserDetails(byEmail, byEmail.getRoles()
                 .stream().map(u -> "ROLE_" + u.getName().name())
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList()));
@@ -71,15 +70,14 @@ public class AuthControllerIT {
 
     void addTestUser() {
         User user = new User();
-        user.setId(UUID.fromString("5048a6d4-0e8a-11ed-861d-0242ac120002"));
         user.setUsername("admin");
         user.setEmail("admin@test.com");
         user.setPassword(passwordEncoder.encode("topsecret"));
-        user.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657215390/default-avatar_idvjto.png");
+        user.setImageUrl("imageUrl");
         user.setLiked(new Liked());
         user.addRole(roleRepository.findById(1L).get());
         user.addRole(roleRepository.findById(2L).get());
-        System.out.println(user.getId());
+
         userRepository.save(user);
     }
 
@@ -168,7 +166,9 @@ public class AuthControllerIT {
     @Test
     void testSettingsPage() throws Exception {
 
-        mockMvc.perform(get("/settings").with(user(testUser)))
+        mockMvc.perform(get("/settings")
+                        .with(user(testUser))
+                )
                 .andExpect(view().name("settings"));
     }
 
@@ -180,7 +180,18 @@ public class AuthControllerIT {
                         .with(user(testUser)))
                 .andExpect(status().is3xxRedirection());
 
-        Assertions.assertEquals(userRepository.findById(testUser.getId()).get().getEmail(), "changed@test.com");
+        Assertions.assertEquals("changed@test.com", userRepository.findById(testUser.getId()).get().getEmail());
+    }
+
+    @Test
+    void testChangingEmailWithInvalidEmail() throws Exception {
+        mockMvc.perform(post("/settings/email")
+                        .param("email", "invalid-email")
+                        .with(csrf())
+                        .with(user(testUser)))
+                .andExpect(status().is3xxRedirection());
+
+        Assertions.assertEquals(testUser.getUsername(), userRepository.findById(testUser.getId()).get().getEmail());
     }
 
     @Test
@@ -190,9 +201,36 @@ public class AuthControllerIT {
                         .param("password", "changedpass")
                         .param("confirmPassword", "changedpass")
                         .with(csrf())
-                        .with(user(testUser)))
+                        .with(user(testUser))
+                )
                 .andExpect(status().is3xxRedirection());
 
         Assertions.assertTrue(passwordEncoder.matches("changedpass", userRepository.findById(testUser.getId()).get().getPassword()));
+    }
+
+    @Test
+    void testChangingPasswordWithWrongPassword() throws Exception {
+        mockMvc.perform(post("/settings/password")
+                        .param("oldPassword", "incorrect")
+                        .param("password", "changedpass")
+                        .param("confirmPassword", "changedpass")
+                        .with(csrf())
+                        .with(user(testUser))
+                )
+                .andExpect(status().is3xxRedirection());
+
+        Assertions.assertEquals(testUser.getPassword(), userRepository.findByEmail(testUser.getUsername()).getPassword());
+    }
+
+    @Test
+    void testDeletingAccount() throws Exception {
+        mockMvc.perform(post("/settings/delete")
+                        .with(csrf())
+                        .with(user(testUser))
+                )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/"));
+
+        Assertions.assertFalse(userRepository.existsByEmail(testUser.getUsername()));
     }
 }
