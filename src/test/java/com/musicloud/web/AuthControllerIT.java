@@ -3,21 +3,24 @@ package com.musicloud.web;
 import com.musicloud.models.Liked;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
+import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.repositories.UserRoleRepository;
 import com.musicloud.services.EmailService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -41,20 +44,32 @@ public class AuthControllerIT {
     @MockBean
     private EmailService mockEmailService;
 
+    private AppUserDetails testUser;
+
+
     private RegisterDto registerDto;
 
     @BeforeEach
-    void setUp() {
-        userRepository.deleteAll();
-        addUser();
+    void setUp() throws Exception {
+        addTestUser();
         registerDto = new RegisterDto();
         registerDto.setUsername("test");
         registerDto.setPassword("topsecret");
         registerDto.setConfirmPassword("topsecret");
 
+        User byEmail = userRepository.findByEmail("admin@test.com");
+        testUser = new AppUserDetails(byEmail, byEmail.getRoles()
+                .stream().map(u -> "ROLE_" + u.getName().name())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList()));
     }
 
-    void addUser() {
+    @AfterEach
+    void tearDown() {
+        userRepository.deleteAll();
+    }
+
+    void addTestUser() {
         User user = new User();
         user.setId(UUID.fromString("5048a6d4-0e8a-11ed-861d-0242ac120002"));
         user.setUsername("admin");
@@ -88,6 +103,10 @@ public class AuthControllerIT {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
 
+        Assertions.assertEquals(registerDto.getEmail(), userRepository.findByEmail(registerDto.getEmail()).getEmail());
+        Assertions.assertEquals(registerDto.getUsername(), userRepository.findByEmail(registerDto.getEmail()).getUsername());
+        Assertions.assertTrue(passwordEncoder.matches(registerDto.getPassword(), userRepository.findByEmail(registerDto.getEmail()).getPassword()));
+
         verify(mockEmailService).sendEmail(registerDto.getEmail(), "Welcome!", "Thanks for joining us!");
 
     }
@@ -105,6 +124,7 @@ public class AuthControllerIT {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/register"));
 
+        Assertions.assertEquals(1, userRepository.count());
     }
 
     @Test
@@ -146,29 +166,33 @@ public class AuthControllerIT {
     }
 
     @Test
-    @WithUserDetails("admin@test.com")
     void testSettingsPage() throws Exception {
-        mockMvc.perform(get("/settings"))
+
+        mockMvc.perform(get("/settings").with(user(testUser)))
                 .andExpect(view().name("settings"));
     }
 
-//    @Test
-//    @WithUserDetails
-//    void testChangingEmail() throws Exception {
-//        mockMvc.perform(post("/settings/email")
-//                        .param("email", "changed@test.com")
-//                        .with(csrf()))
-//                .andExpect(status().is3xxRedirection());
-//    }
+    @Test
+    void testChangingEmail() throws Exception {
+        mockMvc.perform(post("/settings/email")
+                        .param("email", "changed@test.com")
+                        .with(csrf())
+                        .with(user(testUser)))
+                .andExpect(status().is3xxRedirection());
 
-//    @Test
-//    @WithUserDetails("admin@musicloud.com")
-//    void testChangingPassword() throws Exception {
-//        mockMvc.perform(post("/settings/password")
-//                        .param("oldPassword", "topsecret")
-//                        .param("password", "changedpass")
-//                        .param("confirmPassword", "changedpass")
-//                        .with(csrf()))
-//                .andExpect(status().is3xxRedirection());
-//    }
+        Assertions.assertEquals(userRepository.findById(testUser.getId()).get().getEmail(), "changed@test.com");
+    }
+
+    @Test
+    void testChangingPassword() throws Exception {
+        mockMvc.perform(post("/settings/password")
+                        .param("oldPassword", "topsecret")
+                        .param("password", "changedpass")
+                        .param("confirmPassword", "changedpass")
+                        .with(csrf())
+                        .with(user(testUser)))
+                .andExpect(status().is3xxRedirection());
+
+        Assertions.assertTrue(passwordEncoder.matches("changedpass", userRepository.findById(testUser.getId()).get().getPassword()));
+    }
 }
