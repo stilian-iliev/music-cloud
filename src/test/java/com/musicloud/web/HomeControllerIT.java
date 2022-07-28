@@ -43,3 +43,5 @@ public class HomeControllerIT {
         mockMvc.perform(get("/library")).andExpect(view().name("index"));
     }
 }
+
+//TODO: unit-> dashboard
