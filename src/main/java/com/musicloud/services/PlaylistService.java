@@ -72,7 +72,7 @@ public class PlaylistService {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow(PlaylistNotFoundException::new);
         if (!playlist.getUser().getId().equals(userDetails.getId())) throw new UnauthorizedException();
         playlist.setName(playlistDto.getName());
-        if (!playlistDto.getImage().isEmpty()) {
+        if (playlistDto.getImage() != null && !playlistDto.getImage().isEmpty()) {
             String image = storageService.saveImage(playlistDto.getImage(), "playlist_images");
             playlist.setImageUrl(image);
         }

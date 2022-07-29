@@ -28,7 +28,7 @@ export async function getLiked() {
 }
 
 export async function createPlaylist(data) {
-    return await post(host + `/playlists/create`, data);
+    return await post(host + `/api/playlists`, data);
 }
 
 export async function likeSong(songId) {

@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,13 +36,13 @@ public class PlaylistController {
     }
 
     @ResponseBody
-    @PostMapping("/playlists/create")
+    @PostMapping("/api/playlists")
     public ResponseEntity<PlaylistDto> createPlaylist(@Valid PlaylistCreateDto playlistCreateDto, BindingResult bindingResult, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().build();
         }
         PlaylistDto playlist = playlistService.create(playlistCreateDto, userDetails);
-        return ResponseEntity.ok(playlist);
+        return ResponseEntity.created(URI.create("/api/playlists/"+ playlist.getId())).body(playlist);
     }
 
     @ResponseBody
