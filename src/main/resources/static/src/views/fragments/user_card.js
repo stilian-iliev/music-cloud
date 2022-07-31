@@ -9,7 +9,7 @@ export const userCardTemplate = (user) => html`
               
               
               <div class="d-flex justify-content-center mb-2">
-                ${user.id != sessionStorage.getItem('userId') ? html`<button @click=${onFollowToggle} type="button" class="btn btn-primary" id="${user.id}">${user.followed ? 'Unfollow' : 'Follow'}</button>` : ''}
+                ${user.id != sessionStorage.getItem('userId') ? html`<button @click=${onFollowToggle} type="button" class="btn text-dark sitecolor" id="${user.id}">${user.followed ? 'Unfollow' : 'Follow'}</button>` : ''}
                 
               </div>
             </div>

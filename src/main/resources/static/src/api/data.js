@@ -1,6 +1,6 @@
 import { get, post, put, del } from "./api.js";
 
-const host = 'http://localhost:8080';
+const host = 'http://192.168.0.100:8080';
 
 export async function getProfileDto(id) {
     return await get(host + "/api/users/" + id);

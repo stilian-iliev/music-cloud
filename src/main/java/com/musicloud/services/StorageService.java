@@ -19,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,7 +69,7 @@ public class StorageService {
         return convertBufferedImageToFile(resizedImage, file.getOriginalFilename());
     }
 
-    public Map<String, Integer> saveSong(MultipartFile songFile) throws IOException {
+    public Map<String, String > saveSong(MultipartFile songFile) throws IOException {
         File file = convertMultipartFileToFile(songFile);
         String fileType = Files.probeContentType(file.toPath());
         long fileSize = Files.size(file.toPath());
@@ -88,7 +89,10 @@ public class StorageService {
             }
         }
         file.delete();
-        return Map.of(url, duration);
+        Map<String ,String > output = new HashMap<>();
+        output.put("url", url);
+        output.put("duration", String.valueOf(duration));
+        return output;
     }
 
     private File convertMultipartFileToFile(MultipartFile file) throws IOException {

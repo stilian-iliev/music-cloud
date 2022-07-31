@@ -5,6 +5,7 @@ import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.repositories.UserRoleRepository;
+import com.musicloud.services.StorageService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithAnonymousUser;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.stream.Collectors;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,6 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PlaylistControllerIT {
+    @MockBean
+    private StorageService mockStorageService;
     @Autowired
     private MockMvc mockMvc;
 
@@ -47,6 +52,7 @@ public class PlaylistControllerIT {
     private UserRoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @BeforeEach
     void setUp() {
@@ -99,6 +105,8 @@ public class PlaylistControllerIT {
                         .param("name", "testPlaylist")
                         .with(csrf()))
                 .andExpect(status().isCreated());
+
+        Assertions.assertEquals(1, playlistRepository.count());
     }
 
     @Test

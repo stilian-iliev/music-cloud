@@ -70,7 +70,7 @@ const editPlaylistModal = () => html`
       <div class="modal-footer">
         <button @click=${onDelete} type="button" class="btn btn-danger">Delete playlist</button>
         <button id="closeEditPlaylist" type="button" style="display: none;" data-mdb-dismiss="modal"/>
-        <button type="submit" class="btn btn-primary">Edit Playlist</button>
+        <button type="submit" class="btn text-dark sitecolor">Edit Playlist</button>
       </div>
       </form>
     </div>

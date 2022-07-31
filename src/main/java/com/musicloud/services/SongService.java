@@ -34,9 +34,9 @@ public class SongService {
 
     public void add(SongUploadDto songUploadDto, AppUserDetails userDetails) throws IOException {
         Song song = mapper.map(songUploadDto, Song.class);
-        Map<String, Integer> songInfo = storageService.saveSong(songUploadDto.getSongFile());
-        song.setSongUrl(songInfo.keySet().stream().findFirst().orElseThrow());
-        song.setDuration(songInfo.values().stream().findFirst().orElseThrow());
+        Map<String, String > songInfo = storageService.saveSong(songUploadDto.getSongFile());
+        song.setSongUrl(songInfo.get("url"));
+        song.setDuration(Integer.parseInt(songInfo.get("duration")));
         User user = userService.getUserById(userDetails.getId());
         song.setCreator(user);
 
