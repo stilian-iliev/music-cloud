@@ -57,16 +57,16 @@ public class SongController {
 
     @PostMapping("/api/songs/{id}/like")
     @ResponseBody
-    public ResponseEntity<Boolean> like(@PathVariable("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    public ResponseEntity<ResponseStatus> like(@PathVariable("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.likeSong(songId, userDetails);
-        return ResponseEntity.ok(Boolean.TRUE);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/api/songs/{id}/like")
     @ResponseBody
-    public ResponseEntity<Boolean> dislike(@PathVariable("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
+    public ResponseEntity<ResponseStatus> dislike(@PathVariable("id") UUID songId, @AuthenticationPrincipal AppUserDetails userDetails) {
         userService.dislikeSong(songId, userDetails);
-        return ResponseEntity.ok(Boolean.TRUE);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseBody
