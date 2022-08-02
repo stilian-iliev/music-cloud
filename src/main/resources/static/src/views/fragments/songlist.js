@@ -1,5 +1,5 @@
 
-import { queueList, isPlaying } from './audioplayer.js'
+import { queueList, removeFromQueue, getCurrent } from './audioplayer.js'
 import { html } from '../../../node_modules/lit-html/lit-html.js';
 import {likeSong, dislikeSong, getUserPlaylists, addSongToPlaylist, removeSongFromPlaylist, editSong, deleteSong} from '../../api/data.js';
 
@@ -12,6 +12,7 @@ let playlistCratorId;
 let loc;
 const songListTemplate = (songs) => {
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
+    trackNumber = 0;
     return html`
 <section class="pb-4">
             <table id="current-playlist">
@@ -51,7 +52,8 @@ const songListTemplate = (songs) => {
 </div>
 </div>
 ${editSongModal()}
-`;}
+`;
+}
 
 const radioTemplate = (playlist) => html`
 <div class="form-check">
@@ -63,7 +65,7 @@ const radioTemplate = (playlist) => html`
 const songPreview = (song) => {
     trackNumber++;
     return html`
-    <tr id="${song.id}" class="song ${isPlaying(song.id) ? 'current' : ''}" data-track-number="${trackNumber}" data-source="Heavydirtysoul.mp3">
+    <tr id="${song.id}" class="song ${getCurrent() == song.id ? 'current' : ''}" data-track-number="${trackNumber}">
     <td @click=${onPlay} class="playTrack"><span class="track-number">${trackNumber}</span></td>
     <td width="65%"><cite class="title">${song.title}</cite></td>
     <td width="35%">
@@ -119,7 +121,6 @@ export async function songListFragment(songs, liked, pci, ctxT) {
     playlistCratorId = pci;
     songList = songs;
     userLikedSongs = liked.map(s => s.id);
-    trackNumber = 0;
     userPlaylists = await getUserPlaylists(myId);
     return songListTemplate(songs);
 }
@@ -163,13 +164,16 @@ async function onAddToPlaylist(e) {
 }
 
 async function onRemoveFromPlaylist(e) {
-    let songId = e.target.parentElement.parentElement.parentElement.parentElement.id;
+    e.preventDefault();
+    let songEl = e.target.parentElement.parentElement.parentElement.parentElement;
+    let songId = songEl.id;
     let playlistId = ctx.params.id;
     await removeSongFromPlaylist(songId, playlistId);
     ctx.page.redirect(window.location.pathname);
 }
 
 export function selectSong(songId) {
+    console.log(songId);
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
     let song = document.getElementById(songId);
     if (song) song.classList.add('current');

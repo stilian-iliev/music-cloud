@@ -13,8 +13,21 @@ let index;
 let audio = new Audio();
 let volume = .75;
 
-export function isPlaying(id) {
-  return queue && index < queue.length && queue[index].id == id;
+export function removeFromQueue(index) {
+  if (!queue) {
+    return;
+  }
+  queue = queue.splice(index, 1);
+}
+
+// export function isPlaying(id) {
+//   console.log(id);
+//   return queue && index < queue.length && queue[index].id == id;
+// }
+
+export function getCurrent() {
+  if (!queue) return;
+  return queue[index].id;
 }
 
 audio.addEventListener(
