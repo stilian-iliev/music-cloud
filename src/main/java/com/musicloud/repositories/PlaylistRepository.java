@@ -15,6 +15,6 @@ public interface PlaylistRepository extends JpaRepository<Playlist, UUID> {
 
     List<Playlist> findAllByUserIdOrderByCreationTime(UUID userId);
 
-    @Query("select p from Playlist p where concat_ws(' ', p.name) like %?1%")
+    @Query("select p from Playlist p where p.name like %?1%")
     List<Playlist> findAll(String query);
 }

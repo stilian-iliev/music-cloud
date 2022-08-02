@@ -283,7 +283,6 @@ public class SongControllerIT {
                         .with(csrf()))
                 .andExpect(status().isNoContent());
 
-
         Assertions.assertEquals(0, songRepository.count());
 
     }
