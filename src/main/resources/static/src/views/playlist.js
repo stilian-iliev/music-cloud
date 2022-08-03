@@ -102,7 +102,6 @@ async function onEdit(e) {
     } else {
       document.querySelector('#playlistName').classList.remove('is-invalid');
     }
-    console.log("here");
     await editPlaylist(playlist.id, formData);
     
     ctx.page.redirect(window.location.pathname);

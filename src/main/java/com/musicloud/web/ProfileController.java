@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -34,7 +35,7 @@ public class ProfileController {
 
     @ResponseBody
     @PutMapping("/profile/edit")
-    public ResponseEntity<UserProfileDto> editProfile(EditProfileDto editProfileDto, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
+    public ResponseEntity<UserProfileDto> editProfile(@Valid EditProfileDto editProfileDto, @AuthenticationPrincipal AppUserDetails userDetails) throws IOException {
         userService.editProfile(editProfileDto, userDetails);
         UserProfileDto profileDto = userService.getProfileDto(userDetails.getId());
         return ResponseEntity.ok(profileDto);

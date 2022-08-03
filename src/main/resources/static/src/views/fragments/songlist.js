@@ -169,11 +169,10 @@ async function onRemoveFromPlaylist(e) {
     let songId = songEl.id;
     let playlistId = ctx.params.id;
     await removeSongFromPlaylist(songId, playlistId);
-    ctx.page.redirect(window.location.pathname);
+    songEl.remove();
 }
 
 export function selectSong(songId) {
-    console.log(songId);
     document.querySelectorAll('.current').forEach(e => e.classList.remove('current'));
     let song = document.getElementById(songId);
     if (song) song.classList.add('current');

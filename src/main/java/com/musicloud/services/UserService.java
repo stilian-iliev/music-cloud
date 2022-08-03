@@ -54,7 +54,7 @@ public class UserService {
 
         user.setFirstName(editProfileDto.getFirstName());
         user.setLastName(editProfileDto.getLastName());
-        if (!editProfileDto.getImage().isEmpty()) {
+        if (editProfileDto.getImage() != null && !editProfileDto.getImage().isEmpty()) {
             String imageUrl = storageService.saveImage(editProfileDto.getImage(), "avatars");
             if (imageUrl != null) {
                 user.setImageUrl(imageUrl);

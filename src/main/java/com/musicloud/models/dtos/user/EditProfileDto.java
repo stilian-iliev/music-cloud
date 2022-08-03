@@ -7,6 +7,7 @@ import javax.validation.constraints.NotBlank;
 public class EditProfileDto {
     private String firstName;
     private String lastName;
+    @NotBlank
     private String username;
     private MultipartFile image;
 
