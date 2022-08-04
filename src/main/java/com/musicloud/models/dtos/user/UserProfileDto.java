@@ -15,12 +15,17 @@ public class UserProfileDto {
     private String fullName;
     private String imageUrl;
 
+    private int following;
+    private int followers;
+
     public UserProfileDto(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.username = user.getUsername();
         this.fullName = user.getFullName();
         this.imageUrl = user.getImageUrl();
+        this.following = user.getFollowedUsers().size();
+        this.followers = user.getFollowers().size();
     }
 
     public String getFirstName() {
@@ -43,4 +48,11 @@ public class UserProfileDto {
         return imageUrl;
     }
 
+    public int getFollowing() {
+        return following;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
 }

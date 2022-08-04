@@ -27,11 +27,11 @@ const profileTemplate = async (user, songs, playlists, liked, isFollowed) => htm
                             <p class="small text-muted mb-0">Songs</p>
                         </div>
                         <div class="px-3">
-                            <p class="mb-1 h5">1026</p>
+                            <p class="mb-1 h5">${user.followers}</p>
                             <p class="small text-muted mb-0">Followers</p>
                         </div>
                         <div>
-                            <p class="mb-1 h5">478</p>
+                            <p class="mb-1 h5">${user.following}</p>
                             <p class="small text-muted mb-0">Following</p>
                         </div>
                     </div>

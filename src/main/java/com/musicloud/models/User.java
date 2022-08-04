@@ -57,6 +57,9 @@ public class User {
     @ManyToMany
     private Set<User> followedUsers;
 
+    @ManyToMany(mappedBy = "followedUsers")
+    private Set<User> followers;
+
 
     public User() {
         this.roles = new HashSet<>();
@@ -173,6 +176,14 @@ public class User {
 
     public void setFollowedUsers(Set<User> followedUsers) {
         this.followedUsers = followedUsers;
+    }
+
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    public void setFollowers(Set<User> followers) {
+        this.followers = followers;
     }
 
     public String getFullName() {
