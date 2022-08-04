@@ -103,11 +103,12 @@ let ctx;
 export async function searchPage(ctxT) {
   ctx = ctxT;
   let query = ctx.querystring.split('q=')[1];
-
+  
   await renderPage(query);
 }
 
 async function renderPage(query) {
+  document.title = `Search - musiCloud`;
   let songs = await getAllSongs(query);
   let liked = await getLiked();
   let playlists = await getAllPlaylists(query);

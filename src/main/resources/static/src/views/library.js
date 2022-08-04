@@ -94,5 +94,6 @@ export async function libraryPage(ctx) {
     let playlists = await getUserPlaylists(sessionStorage.getItem('userId'));
     let followedPlaylists = await getFollowingPlaylists();
     let followingUsers = await getFollowingUsers();
+    document.title = `Library - musiCloud`;
     ctx.render(libraryTemplate(liked, playlists.concat(followedPlaylists), followingUsers));
 }

@@ -86,7 +86,7 @@ export async function playlistPage(ctxT) {
     let liked = await getLiked();
     let isOwner = sessionStorage.getItem('userId') == playlist.creator.id;
     let followed = await isPlaylistFollowed(playlist.id);
-
+    document.title = `${playlist.name} - musiCloud`;
     ctx.render(await playlistTemplate(playlist, liked, isOwner, followed));
     if (isOwner) {
         previewPic();
