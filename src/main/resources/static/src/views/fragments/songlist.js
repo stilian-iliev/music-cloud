@@ -15,7 +15,7 @@ const songListTemplate = (songs) => {
     trackNumber = 0;
     return html`
 <section class="pb-4">
-            <table id="current-playlist">
+            <table id="current-playlist " class="${songs && songs.length > 0 ? "" : "hidden"}">
                 <thead>
                 <tr>
                     <th>
@@ -32,6 +32,8 @@ const songListTemplate = (songs) => {
 
                 </tbody>
                 </table>
+            
+
             
         </section>
 <div class="modal top fade" id="addToPlaylistModal" tabindex="-1" aria-labelledby="addToPlaylistModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
