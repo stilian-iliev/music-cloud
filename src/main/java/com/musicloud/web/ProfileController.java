@@ -107,8 +107,8 @@ public class ProfileController {
     @ResponseBody
     @GetMapping("/api/users/following")
     public ResponseEntity<List<UserCardDto>> getFollowingUsers(@AuthenticationPrincipal AppUserDetails userDetails) {
-        List<UserCardDto> playlist = userService.findFollowingUsers(userDetails.getId());
-        return ResponseEntity.ok(playlist);
+        List<UserCardDto> userlist = userService.findFollowingUsers(userDetails.getId());
+        return ResponseEntity.ok(userlist);
     }
 
     @ResponseBody

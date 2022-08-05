@@ -5,10 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -64,6 +61,10 @@ public class User {
     public User() {
         this.roles = new HashSet<>();
         this.creationDate = LocalDateTime.now();
+        this.playlists = new ArrayList<>();
+        this.followedPlaylists = new HashSet<>();
+        this.followedUsers = new HashSet<>();
+        this.followers = new HashSet<>();
     }
 
     public UUID getId() {

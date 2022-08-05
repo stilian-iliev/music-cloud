@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -84,10 +85,10 @@ public class ProfileControllerIT {
     @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void testEditingProfile() throws Exception {
         mockMvc.perform(put("/profile/edit")
-                .param("firstName", "firstName")
-                .param("lastName", "lastName")
-                .param("username", "username")
-                .with(csrf()))
+                        .param("firstName", "firstName")
+                        .param("lastName", "lastName")
+                        .param("username", "username")
+                        .with(csrf()))
                 .andExpect(status().isOk());
         User user = userRepository.findByEmail("admin@test.com");
 
@@ -175,28 +176,122 @@ public class ProfileControllerIT {
 
     }
 
+    @Test
+    @Transactional
+    @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testGetUserFollowedUsers() throws Exception {
+        User user = userRepository.findByEmail("admin@test.com");
+        User user2 = new User();
+        user2.setUsername("user");
+        user2.setEmail("user@test.com");
+        user2.setPassword(passwordEncoder.encode("topsecret"));
+        user2.setImageUrl("imageUrl");
+        user2.setLiked(new Liked());
+        user2.addRole(roleRepository.findById(1L).get());
+
+        user.followUser(user2);
+
+        userRepository.save(user2);
+        userRepository.save(user);
+
+        mockMvc.perform(get("/api/users/following"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$.[0].id").value(user2.getId().toString()))
+        ;
+
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testFollowingAUser() throws Exception {
+        User user2 = new User();
+        user2.setUsername("user");
+        user2.setEmail("user@test.com");
+        user2.setPassword(passwordEncoder.encode("topsecret"));
+        user2.setImageUrl("imageUrl");
+        user2.setLiked(new Liked());
+        user2.addRole(roleRepository.findById(1L).get());
+
+        userRepository.save(user2);
+
+        mockMvc.perform(post("/api/users/" + user2.getId() + "/follow")
+                        .with(csrf()))
+                .andExpect(status().isNoContent())
+        ;
+        User user = userRepository.findByEmail("admin@test.com");
+
+        Assertions.assertEquals(1, user.getFollowedUsers().size());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testUnfollowingAUser() throws Exception {
+        User user = userRepository.findByEmail("admin@test.com");
+
+        User user2 = new User();
+        user2.setUsername("user");
+        user2.setEmail("user@test.com");
+        user2.setPassword(passwordEncoder.encode("topsecret"));
+        user2.setImageUrl("imageUrl");
+        user2.setLiked(new Liked());
+        user2.addRole(roleRepository.findById(1L).get());
+        user.followUser(user2);
+        userRepository.save(user2);
+        userRepository.save(user);
+
+        Assertions.assertEquals(1, user.getFollowedUsers().size());
+
+        mockMvc.perform(delete("/api/users/" + user2.getId() + "/follow")
+                        .with(csrf()))
+                .andExpect(status().isNoContent())
+        ;
+
+        Assertions.assertEquals(0, user.getFollowedUsers().size());
+    }
+
+    @Test
+    @Transactional
+    @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void testGetIsFollowingAUser() throws Exception {
+        User user = userRepository.findByEmail("admin@test.com");
+
+        User user2 = new User();
+        user2.setUsername("user");
+        user2.setEmail("user@test.com");
+        user2.setPassword(passwordEncoder.encode("topsecret"));
+        user2.setImageUrl("imageUrl");
+        user2.setLiked(new Liked());
+        user2.addRole(roleRepository.findById(1L).get());
+        user.followUser(user2);
+        userRepository.save(user2);
+        userRepository.save(user);
+
+        mockMvc.perform(get("/api/users/" + user2.getId() + "/follow")
+                        .with(csrf()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(true))
+        ;
+    }
+
 //    @Test
+//    @Transactional
 //    @WithUserDetails(value = "admin@test.com", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-//    void testGetUserFollowedUsers() throws Exception {
+//    void testGetFollowedPlaylists() throws Exception {
 //        User user = userRepository.findByEmail("admin@test.com");
-//        User user2 = new User();
-//        user.setUsername("user");
-//        user.setEmail("user@test.com");
-//        user.setPassword(passwordEncoder.encode("topsecret"));
-//        user.setImageUrl("imageUrl");
-//        user.setLiked(new Liked());
-//        user.addRole(roleRepository.findById(1L).get());
+//        Playlist playlist = new Playlist();
+//        playlist.setUser(user);
+//        playlist.setName("testPlaylist");
+//        playlistRepository.save(playlist);
 //
-//        user.followUser(user2);
-//
-//        userRepository.save(user);
-//        userRepository.save(user2);
-//
-//        mockMvc.perform(get("/api/users/" + user.getId() + "/songs"))
+//        mockMvc.perform(get("/api/users/" + user.getId() + "/playlists"))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(1))
-//                .andExpect(jsonPath("$.[0].id").value(song.getId().toString()))
+////                .andExpect(jsonPath("$.length()").value(1))
+////                .andExpect(jsonPath("$.[0].id").value(playlist.getId().toString()))
 //        ;
 //
 //    }
+
 }
