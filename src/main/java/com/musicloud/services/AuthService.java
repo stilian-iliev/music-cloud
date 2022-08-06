@@ -54,6 +54,7 @@ public class AuthService {
         userRepository.save(user);
 
         emailService.sendEmail(user.getEmail(), "Welcome!", "Thanks for joining us!");
+        login(user.getEmail());
     }
 
     public boolean passwordCorrect(String raw) {

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/musicloud}
+    username: ${JDBC_DATABASE_USERNAME:postgres}
+    password: ${JDBC_DATABASE_PASSWORD:postgres}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+      defer-datasource-initialization: true
+  servlet.multipart.max-file-size: 20MB
+  servlet.multipart.max-request-size: 20MB
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+mail:
+  host: ${MAIL_HOST:}
+  port: ${MAIL_PORT:}
+  username: ${MAIL_USERNAME:}
+  password: ${MAIL_PASSWORD:}

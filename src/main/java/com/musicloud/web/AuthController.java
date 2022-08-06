@@ -61,7 +61,7 @@ public class AuthController {
         }
         authService.register(registerDto);
 
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/settings")

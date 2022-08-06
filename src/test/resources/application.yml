@@ -1,0 +1,14 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+
+mail:
+  host: ${MAIL_HOST:}
+  port: ${MAIL_PORT:}
+  username: ${MAIL_USERNAME:}
+  password: ${MAIL_PASSWORD:}
