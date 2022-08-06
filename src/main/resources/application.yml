@@ -21,3 +21,6 @@ mail:
   port: ${MAIL_PORT:}
   username: ${MAIL_USERNAME:}
   password: ${MAIL_PASSWORD:}
+
+server:
+  port: ${PORT:8080}
