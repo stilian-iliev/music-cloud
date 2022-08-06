@@ -1,11 +1,13 @@
 package com.musicloud.services;
 
 import com.musicloud.models.Liked;
+import com.musicloud.models.ResetPasswordRequest;
 import com.musicloud.models.User;
 import com.musicloud.models.dtos.user.RegisterDto;
 import com.musicloud.models.enums.UserRoleEnum;
 import com.musicloud.models.exceptions.UserNotFoundException;
 import com.musicloud.models.principal.AppUserDetails;
+import com.musicloud.repositories.ResetPasswordRequestRepository;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
@@ -13,7 +15,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -23,13 +24,15 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final UserRoleRepository roleRepository;
+    private final ResetPasswordRequestRepository resetPasswordRequestRepository;
 
-    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository) {
+    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository, ResetPasswordRequestRepository resetPasswordRequestRepository) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
         this.roleRepository = roleRepository;
+        this.resetPasswordRequestRepository = resetPasswordRequestRepository;
     }
 
 
@@ -59,7 +62,11 @@ public class AuthService {
     }
 
     public void changePassword(AppUserDetails userDetails, String newPassword) {
-        User user = userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new);
+        changePassword(userDetails.getId(), newPassword);
+    }
+
+    public void changePassword(UUID uuid, String newPassword) {
+        User user = userRepository.findById(uuid).orElseThrow(UserNotFoundException::new);
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
@@ -83,5 +90,12 @@ public class AuthService {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         user.removeRole(roleRepository.findByName(role));
         userRepository.save(user);
+    }
+
+    public ResetPasswordRequest generateResetPasswordRequest(String email) {
+        User user = userRepository.findByEmail(email);
+        ResetPasswordRequest rpr = new ResetPasswordRequest();
+        rpr.setUser(user);
+        return resetPasswordRequestRepository.save(rpr);
     }
 }
