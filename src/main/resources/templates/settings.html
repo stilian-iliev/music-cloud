@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <title>Settings - musiCloud</title>
-  <th:block th:replace="/fragments/head"></th:block>
+  <th:block th:replace="fragments/head"></th:block>
   <script th:if="${emailError}">
               window.addEventListener("load", () => {
               document.querySelector('#changeEmail').click();
@@ -15,7 +15,7 @@
   </script>
 </head>
 <body class="bg-dark bg-opacity-10">
-<th:block th:replace="/fragments/nav"></th:block>
+<th:block th:replace="fragments/nav"></th:block>
 
 <section class="w-100 px-4 py-5 gradient-custom-2" style="border-radius: .5rem .5rem 0 0;">
 
