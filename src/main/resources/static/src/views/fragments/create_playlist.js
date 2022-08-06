@@ -56,8 +56,7 @@ async function onSubmit(e) {
   } else {
     document.querySelector('#playlistName').classList.remove('is-invalid');
   }
-  //todo order playlists on /api/user/playlists
-  //todo: close modal add playlist to template
+
   await createPlaylist(formData);
   document.querySelector("#closeCreatePlaylist").click();
   e.target.reset();

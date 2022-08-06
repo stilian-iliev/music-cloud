@@ -12,8 +12,6 @@ public class SongUploadDto {
     @NotBlank
     private String title;
 
-    private String tags;
-
     public MultipartFile getSongFile() {
         return songFile;
     }
@@ -30,11 +28,4 @@ public class SongUploadDto {
         this.title = title;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
 }

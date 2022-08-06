@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login", "/register").anonymous()
+                .antMatchers("/request-reset-password", "/reset-password").anonymous()
                 .antMatchers("/admin/**").hasRole(UserRoleEnum.ADMIN.name())
                 .anyRequest().authenticated()
                 .and()

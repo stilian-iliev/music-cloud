@@ -43,7 +43,6 @@ public class AuthService {
 
         userRepository.save(user);
 
-//      TODO: send email;
         emailService.sendEmail(user.getEmail(), "Welcome!", "Thanks for joining us!");
     }
 
