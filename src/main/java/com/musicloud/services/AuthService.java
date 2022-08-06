@@ -11,11 +11,14 @@ import com.musicloud.repositories.ResetPasswordRequestRepository;
 import com.musicloud.repositories.UserRepository;
 import com.musicloud.repositories.UserRoleRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,13 +30,16 @@ public class AuthService {
     private final UserRoleRepository roleRepository;
     private final ResetPasswordRequestRepository resetPasswordRequestRepository;
 
-    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository, ResetPasswordRequestRepository resetPasswordRequestRepository) {
+    private final UserDetailsService userDetailsService;
+
+    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository, ResetPasswordRequestRepository resetPasswordRequestRepository, UserDetailsService userDetailsService) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
         this.roleRepository = roleRepository;
         this.resetPasswordRequestRepository = resetPasswordRequestRepository;
+        this.userDetailsService = userDetailsService;
     }
 
 
@@ -104,5 +110,21 @@ public class AuthService {
         changePassword(request.getUser().getId(), password);
         request.setUsed(true);
         resetPasswordRequestRepository.save(request);
+    }
+
+    public void login(String userName) {
+        UserDetails userDetails =
+                userDetailsService.loadUserByUsername(userName);
+
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        userDetails.getPassword(),
+                        userDetails.getAuthorities()
+                );
+
+        SecurityContextHolder.
+                getContext().
+                setAuthentication(auth);
     }
 }

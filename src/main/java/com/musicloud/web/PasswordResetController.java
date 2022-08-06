@@ -66,9 +66,8 @@ public class PasswordResetController {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.resetPasswordDto", bindingResult);
             return "redirect:/reset-password/"+ request.get().getId();
         }
-        authService.changePassword(request.get().getUser().getId(), resetPasswordDto.getPassword());
         authService.changePassword(request.get(), resetPasswordDto.getPassword());
-//        authService.login
+        authService.login(request.get().getUser().getEmail());
         return "redirect:/";
     }
 }
