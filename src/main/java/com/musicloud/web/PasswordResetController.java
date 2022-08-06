@@ -51,7 +51,7 @@ public class PasswordResetController {
     @GetMapping("/reset-password/{id}")
     public String forgotPasswordPage(Model model, @PathVariable("id")UUID requestId) {
         Optional<ResetPasswordRequest> request = resetPasswordRequestRepository.findById(requestId);
-        if (request.isEmpty() || request.get().isExpired()) return "redirect:/";
+        if (request.isEmpty() || request.get().isExpired() || request.get().isUsed()) return "redirect:/";
         if (!model.containsAttribute("resetPasswordDto")) model.addAttribute("resetPasswordDto", new ResetPasswordDto());
         model.addAttribute("id", request.get().getId());
         return "reset-password";
@@ -67,6 +67,7 @@ public class PasswordResetController {
             return "redirect:/reset-password/"+ request.get().getId();
         }
         authService.changePassword(request.get().getUser().getId(), resetPasswordDto.getPassword());
+        authService.changePassword(request.get(), resetPasswordDto.getPassword());
 //        authService.login
         return "redirect:/";
     }

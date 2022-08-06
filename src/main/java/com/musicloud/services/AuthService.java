@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -97,5 +98,11 @@ public class AuthService {
         ResetPasswordRequest rpr = new ResetPasswordRequest();
         rpr.setUser(user);
         return resetPasswordRequestRepository.save(rpr);
+    }
+
+    public void changePassword(ResetPasswordRequest request, String password) {
+        changePassword(request.getUser().getId(), password);
+        request.setUsed(true);
+        resetPasswordRequestRepository.save(request);
     }
 }

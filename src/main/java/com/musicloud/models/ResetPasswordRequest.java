@@ -24,8 +24,11 @@ public class ResetPasswordRequest {
 
     private LocalDateTime expires;
 
+    private boolean used;
+
     public ResetPasswordRequest() {
         expires = LocalDateTime.now().plusHours(1);
+        used = false;
     }
 
     public UUID getId() {
@@ -50,6 +53,14 @@ public class ResetPasswordRequest {
 
     public void setExpires(LocalDateTime expires) {
         this.expires = expires;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     public boolean isExpired() {
