@@ -1,1 +1,1 @@
-web: java -jar target/musicloud.jar
+web: java -jar target/musicloud-2.7.1.jar

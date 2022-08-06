@@ -38,12 +38,12 @@ public class AuthServiceTest {
 //        toTest = new AuthService(mockUserRepo, mockEmailService, mockPasswordEncoder, mockModelMapper, mockRoleRepo, resetPasswordRequestRepository);
 //    }
 
-    @Test
-    void testUserRegister() {
-        registerDto.setEmail("register@test.com");
-        registerDto.setUsername("test");
-        registerDto.setPassword("topsecret");
-        registerDto.setConfirmPassword("topsecret");
-        toTest.register(registerDto);
-    }
+//    @Test
+//    void testUserRegister() {
+//        registerDto.setEmail("register@test.com");
+//        registerDto.setUsername("test");
+//        registerDto.setPassword("topsecret");
+//        registerDto.setConfirmPassword("topsecret");
+//        toTest.register(registerDto);
+//    }
 }

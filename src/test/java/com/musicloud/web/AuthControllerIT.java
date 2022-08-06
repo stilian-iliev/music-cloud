@@ -99,7 +99,7 @@ public class AuthControllerIT {
                         .param("confirmPassword", registerDto.getConfirmPassword())
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(redirectedUrl("/"));
 
         Assertions.assertEquals(registerDto.getEmail(), userRepository.findByEmail(registerDto.getEmail()).getEmail());
         Assertions.assertEquals(registerDto.getUsername(), userRepository.findByEmail(registerDto.getEmail()).getUsername());

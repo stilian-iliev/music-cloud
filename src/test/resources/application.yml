@@ -8,7 +8,7 @@ spring:
       mode: never
 
 mail:
-  host: ${MAIL_HOST:}
-  port: ${MAIL_PORT:}
-  username: ${MAIL_USERNAME:}
-  password: ${MAIL_PASSWORD:}
+  host: ${MAIL_HOST:smtp.fastmail.com}
+  port: ${MAIL_PORT:587}
+  username: ${MAIL_USERNAME:musicloud@fastmail.com}
+  password: ${MAIL_PASSWORD:h3ragrnu9j4npgml}
