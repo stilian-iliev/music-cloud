@@ -59,8 +59,12 @@ public class SongService {
     }
 
     public void deleteSong(UUID songId, AppUserDetails userDetails) {
+        deleteSong(songId, userDetails.getId());
+
+    }
+    public void deleteSong(UUID songId, UUID userId) {
         Song song = songRepository.findById(songId).orElseThrow(SongNotFoundException::new);
-        if (!song.getCreator().getId().equals(userDetails.getId())) throw new UnauthorizedException();
+        if (!song.getCreator().getId().equals(userId)) throw new UnauthorizedException();
         for (Liked playlist : song.getLikedPlaylists()) {
             playlist.removeSong(song);
         }

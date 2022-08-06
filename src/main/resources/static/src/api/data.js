@@ -1,6 +1,7 @@
 import { get, post, put, del } from "./api.js";
 
-const host = 'http://192.168.0.100:8080';
+const host = 'https://musicloud-softuni.herokuapp.com';
+//const host = 'http://192.168.0.100:8080';
 
 export async function getProfileDto(id) {
     return await get(host + "/api/users/" + id);

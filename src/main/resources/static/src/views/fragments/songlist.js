@@ -15,7 +15,7 @@ const songListTemplate = (songs) => {
     trackNumber = 0;
     return html`
 <section class="pb-4">
-            <table id="current-playlist " class="${songs && songs.length > 0 ? "" : "hidden"}">
+            <table id="current-playlist" class="${songs && songs.length > 0 ? "" : "hidden"}">
                 <thead>
                 <tr>
                     <th>

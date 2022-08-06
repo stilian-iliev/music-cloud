@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -31,8 +32,9 @@ public class AuthService {
     private final ResetPasswordRequestRepository resetPasswordRequestRepository;
 
     private final UserDetailsService userDetailsService;
+    private final SongService songService;
 
-    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository, ResetPasswordRequestRepository resetPasswordRequestRepository, UserDetailsService userDetailsService) {
+    public AuthService(UserRepository userRepository, EmailService emailService, PasswordEncoder passwordEncoder, ModelMapper mapper, UserRoleRepository roleRepository, ResetPasswordRequestRepository resetPasswordRequestRepository, UserDetailsService userDetailsService, SongService songService) {
         this.userRepository = userRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
@@ -40,6 +42,7 @@ public class AuthService {
         this.roleRepository = roleRepository;
         this.resetPasswordRequestRepository = resetPasswordRequestRepository;
         this.userDetailsService = userDetailsService;
+        this.songService = songService;
     }
 
 
@@ -80,8 +83,14 @@ public class AuthService {
         userRepository.save(user);
     }
 
+    @Transactional
     public void deleteAccount(UUID userId) {
-        userRepository.deleteById(userId);
+        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        user.getSongs().forEach(s -> songService.deleteSong(s.getId(), user.getId()));
+        user.getFollowedUsers().forEach(user::unfollowUser);
+        user.getFollowers().forEach(f-> f.unfollowUser(user));
+        resetPasswordRequestRepository.deleteAllByUser(user);
+        userRepository.delete(user);
     }
 
     public void unauthorize() {

@@ -187,6 +187,7 @@ public class User {
         this.followers = followers;
     }
 
+
     public String getFullName() {
         StringBuilder sb = new StringBuilder();
         sb.append(firstName != null ? firstName : "");
