@@ -13,4 +13,6 @@ public interface ResetPasswordRequestRepository extends JpaRepository<ResetPassw
     List<ResetPasswordRequest> findAllByUser(User user);
 
     void deleteAllByUser(User user);
+
+    ResetPasswordRequest findByUserId(UUID id);
 }
