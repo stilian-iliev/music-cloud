@@ -17,6 +17,11 @@ import java.util.UUID;
 public class EmailService {
     @Value("${mail.username}")
     private String from;
+    @Value("${server.host}")
+    private String host;
+
+    @Value("${server.port}")
+    private String port;
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
@@ -58,6 +63,9 @@ public class EmailService {
 
             Context ctx = new Context();
             ctx.setVariable("id", id);
+            ctx.setVariable("host", host);
+            ctx.setVariable("port", port);
+            ctx.setVariable("secure", host.contains("192.168") ? "" : "s");
             mimeMessageHelper.setText(templateEngine.process("email/reset-password", ctx), true);
 
             javaMailSender.send(mimeMessageHelper.getMimeMessage());

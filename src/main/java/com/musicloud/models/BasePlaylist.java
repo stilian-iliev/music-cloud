@@ -29,7 +29,7 @@ public abstract class BasePlaylist {
     private LocalDateTime creationTime;
 
     public BasePlaylist() {
-        songs = new HashSet<>();
+        songs = new LinkedHashSet<>();
         creationTime = LocalDateTime.now();
     }
 
