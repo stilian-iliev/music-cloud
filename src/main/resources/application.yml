@@ -24,4 +24,4 @@ mail:
 
 server:
   port: ${PORT:8080}
-  host: ${HOST:192.168.0.100}
+  host: ${HOST:192.168.0.100:8080}
