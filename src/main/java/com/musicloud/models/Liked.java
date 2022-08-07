@@ -13,7 +13,7 @@ public class Liked extends BasePlaylist {
 
     public Liked() {
         super("Liked songs");
-        super.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657885843/images/2gkix-gdc9z-001_u08plm.jpg");
+        super.setImageUrl("https://res.cloudinary.com/dtzjbyjzq/image/upload/v1659857847/images/2gkix-gdc9z-001_u08plm_e5vgel.jpg");
     }
 
     @Override

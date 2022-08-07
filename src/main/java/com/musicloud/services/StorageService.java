@@ -42,7 +42,7 @@ public class StorageService {
     public String saveImage(MultipartFile image, String folder) throws IOException {
         if (image == null || image.isEmpty()) return null;
 
-        File file = resizeImage(image, 200, 200);
+        File file = resizeImage(image, 400, 400);
         String fileType = Files.probeContentType(file.toPath());
         long fileSize = Files.size(file.toPath());
 

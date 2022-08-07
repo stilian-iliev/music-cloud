@@ -45,7 +45,7 @@ public class PlaylistService {
         Playlist playlist = mapper.map(playlistCreateDto, Playlist.class);
         playlist.setUser(userRepository.findById(userDetails.getId()).orElseThrow(UserNotFoundException::new));
         String image = storageService.saveImage(playlistCreateDto.getImage(), "playlist_images");
-        playlist.setImageUrl(image != null ? image : "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1657567072/images/1482975da7275050a3a8406f90c4610d_f9qkkc.jpg");
+        playlist.setImageUrl(image != null ? image : "https://res.cloudinary.com/dtzjbyjzq/image/upload/v1659857847/images/1482975da7275050a3a8406f90c4610d_f9qkkc_hzcvjd.jpg");
         playlistRepository.save(playlist);
         return new PlaylistDto(playlist);
     }
