@@ -12,16 +12,13 @@ public class LoggerInterceptor implements HandlerInterceptor {
     private static final Logger log = LoggerFactory.getLogger(LoggerInterceptor.class);
 
     @Override
-    public boolean preHandle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler) throws Exception {
-
-        log.info("[preHandle][" + request + "]" + "[" + request.getMethod()
-                + "]" + request.getRequestURI() + getParameters(request));
-
-        return true;
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        if (ex != null) {
+            log.error("[Exception][" + ex + "]" + "[" + request.getRequestURI() + "]"
+                 + getParameters(request));
+        }
     }
+
     private String getParameters(HttpServletRequest request) {
         StringBuilder posted = new StringBuilder();
         Enumeration<?> e = request.getParameterNames();
