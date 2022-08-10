@@ -73,14 +73,14 @@ public class PasswordResetControllerIT {
 
     @Test
     void testGettingSendingPasswordRequestPage() throws Exception {
-        mockMvc.perform(get("/request-reset-password"))
+        mockMvc.perform(get("/reset-password"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("request-reset-password"));
     }
 
     @Test
     void testSendingPasswordRequest() throws Exception {
-        mockMvc.perform(post("/request-reset-password")
+        mockMvc.perform(post("/reset-password")
                 .with(csrf())
                 .param("email", testUser.getEmail()))
                 .andExpect(status().isOk())
@@ -91,22 +91,22 @@ public class PasswordResetControllerIT {
 
     @Test
     void testSendingPasswordRequestWithInvalidEmail() throws Exception {
-        mockMvc.perform(post("/request-reset-password")
+        mockMvc.perform(post("/reset-password")
                         .with(csrf())
                         .param("email", ""))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/request-reset-password"))
+                .andExpect(redirectedUrl("/reset-password"))
                 .andExpect(model().attributeHasErrors());
 
     }
 
     @Test
     void testSendingPasswordRequestWithNotExistingEmail() throws Exception {
-        mockMvc.perform(post("/request-reset-password")
+        mockMvc.perform(post("/reset-password")
                         .with(csrf())
                         .param("email", "invalid@user.com"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/request-reset-password"))
+                .andExpect(redirectedUrl("/reset-password"))
                 .andExpect(model().attributeHasErrors());
 
     }

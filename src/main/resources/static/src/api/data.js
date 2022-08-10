@@ -20,7 +20,6 @@ export async function getUserPlaylists(id) {
     return await get('/api/users/' + id + '/playlists');
 }
 
-
 export async function getLiked() {
     return await get(`/api/liked`);
 }

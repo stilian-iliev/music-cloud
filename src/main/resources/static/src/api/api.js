@@ -1,5 +1,3 @@
-const csrfToken = document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
-
 async function request(url, method='get', data){
     const options = {method, headers: {}};
     options.headers = { 'X-XSRF-TOKEN': csrfToken };

@@ -30,18 +30,18 @@ public class PasswordResetController {
         this.authService = authService;
     }
 
-    @GetMapping("/request-reset-password")
+    @GetMapping("/reset-password")
     public String requestResetPage(Model model) {
         if (!model.containsAttribute("passwordResetRequestDto")) model.addAttribute("passwordResetRequestDto", new PasswordResetRequestDto());
         return "request-reset-password";
     }
 
-    @PostMapping("/request-reset-password")
+    @PostMapping("/reset-password")
     public String requestReset(@Valid PasswordResetRequestDto passwordResetRequestDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("passwordResetRequestDto" ,passwordResetRequestDto);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.passwordResetRequestDto", bindingResult);
-            return "redirect:/request-reset-password";
+            return "redirect:/reset-password";
         }
         ResetPasswordRequest resetPasswordRequest = authService.generateResetPasswordRequest(passwordResetRequestDto.getEmail());
         emailService.sendResetPasswordEmail(passwordResetRequestDto.getEmail(), resetPasswordRequest.getId());

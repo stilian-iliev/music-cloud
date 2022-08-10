@@ -26,7 +26,7 @@ page('/liked', decorateContext, likedPlaylistPage);
 
 // Start application
 page.start();
-console.log("page started");
+console.log("pagemjs started");
 
 function decorateContext(ctx, next) {
     ctx.render = (content, loc=main) => render(content, loc);
