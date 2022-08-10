@@ -62,9 +62,9 @@ public class User {
         this.roles = new HashSet<>();
         this.creationDate = LocalDateTime.now();
         this.playlists = new ArrayList<>();
-        this.followedPlaylists = new HashSet<>();
-        this.followedUsers = new HashSet<>();
-        this.followers = new HashSet<>();
+        this.followedPlaylists = new LinkedHashSet<>();
+        this.followedUsers = new LinkedHashSet<>();
+        this.followers = new LinkedHashSet<>();
     }
 
     public UUID getId() {

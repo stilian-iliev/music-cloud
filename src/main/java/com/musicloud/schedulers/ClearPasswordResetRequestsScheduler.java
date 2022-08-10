@@ -13,7 +13,7 @@ public class ClearPasswordResetRequestsScheduler {
         this.resetPasswordRequestRepository = resetPasswordRequestRepository;
     }
 
-    @Scheduled(cron = "0 0,12 * * * ?")
+    @Scheduled(cron = "0 0 0,12 * * ?")
     public void cleanRepo() {
         List<ResetPasswordRequest> all = resetPasswordRequestRepository.findAll();
         List<ResetPasswordRequest> expired = all.stream().filter(ResetPasswordRequest::isExpired).toList();

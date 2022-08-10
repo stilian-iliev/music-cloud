@@ -18,7 +18,7 @@ public class ClearStorageScheduler {
         this.playlistService = service;
     }
 
-    @Scheduled(cron = "0 0 * * * ?")
+    @Scheduled(cron = "0 0 0 1/7 * ?")
     public void cleanStorage() throws Exception {
         userService.clearStorage();
         songService.clearStorage();
