@@ -8,6 +8,7 @@ import com.musicloud.models.dtos.cloudinary.CloudinaryResponse;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,12 +31,16 @@ public class StorageService {
     public static final long MAX_IMAGE_SIZE = 200000;
     public static final long MAX_SONG_SIZE = 20000000;
 
-    public StorageService(ModelMapper mapper) {
+    public StorageService(ModelMapper mapper,
+                          @Value("${cloudinary.name}") String cloudName,
+                          @Value("${cloudinary.key}") String cloudKey,
+                          @Value("${cloudinary.secret}") String cloudSecret
+    ) {
         this.mapper = mapper;
         this.cloudinary = new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dtzjbyjzq",
-                "api_key", "559841441855544",
-                "api_secret", "MHDYLbfMmCfHikjiQKJZSZs0ZD0",
+                "cloud_name", cloudName,
+                "api_key", cloudKey,
+                "api_secret", cloudSecret,
                 "secure", true));
     }
 
