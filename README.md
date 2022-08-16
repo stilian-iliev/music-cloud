@@ -42,6 +42,4 @@ The front end is built with vanilla javascript. It uses page for routing and lit
   * pagemjs
   * lit-html
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-App is deployed at https://musicloud-softuni.herokuapp.com/
+#### App is deployed at https://musicloud-softuni.herokuapp.com/
