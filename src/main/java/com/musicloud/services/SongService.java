@@ -82,6 +82,7 @@ public class SongService {
     }
 
     public List<SongDto> getAllSongs(String query) {
+        //test
         if (query == null) return getAllSongs();
         return songRepository.findAllByMatching(query).stream().map(SongDto::new).collect(Collectors.toList());
     }
