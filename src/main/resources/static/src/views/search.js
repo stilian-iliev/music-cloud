@@ -112,8 +112,10 @@ async function renderPage(query) {
   let songs = await getAllSongs(query);
   let liked = await getLiked();
   let playlists = await getAllPlaylists(query);
+  // console.log(playlists);
+  // console.log(songs.content);
   let users = await getAllUsers(query);
-    ctx.render(await searchPageTemplete(songs, liked.songs, playlists, users));
+    ctx.render(await searchPageTemplete(songs.content, liked.songs, playlists.content, users));
 }
 
 async function onSearch(e) {

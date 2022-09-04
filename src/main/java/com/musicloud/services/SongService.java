@@ -9,6 +9,8 @@ import com.musicloud.models.exceptions.UnauthorizedException;
 import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.repositories.SongRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -47,8 +49,8 @@ public class SongService {
         return songRepository.findByIdOrderByCreationTime(songId).map(SongDto::new).orElseThrow(SongNotFoundException::new);
     }
 
-    public List<SongDto> getAllSongs() {
-        return songRepository.findAll().stream().map(SongDto::new).collect(Collectors.toList());
+    public Page<SongDto> getAllSongs(Pageable pageable) {
+        return songRepository.findAll(pageable).map(SongDto::new);
     }
 
     public void editSong(UUID songId, EditSongDto songDto, AppUserDetails userDetails) {
@@ -81,8 +83,8 @@ public class SongService {
         storageService.deleteUnusedFilesFromFolder("songs", active);
     }
 
-    public List<SongDto> getAllSongs(String query) {
-        if (query == null) return getAllSongs();
-        return songRepository.findAllByMatching(query).stream().map(SongDto::new).collect(Collectors.toList());
+    public Page<SongDto> getAllSongs(String query, Pageable pageable) {
+        if (query == null) return getAllSongs(pageable);
+        return songRepository.findAllByMatching(query, pageable).map(SongDto::new);
     }
 }

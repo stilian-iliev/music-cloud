@@ -13,6 +13,8 @@ import com.musicloud.repositories.PlaylistRepository;
 import com.musicloud.repositories.SongRepository;
 import com.musicloud.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -92,12 +94,12 @@ public class PlaylistService {
         storageService.deleteUnusedFilesFromFolder("playlist_images", active);
     }
 
-    public List<PlaylistDto> findAll() {
-        return playlistRepository.findAll().stream().map(PlaylistDto::new).collect(Collectors.toList());
+    public Page<PlaylistDto> findAll(Pageable pageable) {
+        return playlistRepository.findAll(pageable).map(PlaylistDto::new);
     }
 
-    public List<PlaylistDto> findAll(String query) {
-        if (query == null) return findAll();
-        return playlistRepository.findAll(query).stream().map(PlaylistDto::new).collect(Collectors.toList());
+    public Page<PlaylistDto> findAll(String query, Pageable pageable) {
+        if (query == null) return findAll(pageable);
+        return playlistRepository.findAllByNameLike(query, pageable).map(PlaylistDto::new);
     }
 }

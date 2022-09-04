@@ -7,6 +7,10 @@ import com.musicloud.models.principal.AppUserDetails;
 import com.musicloud.services.PlaylistService;
 import com.musicloud.services.SongService;
 import com.musicloud.services.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -43,14 +47,21 @@ public class SearchController {
 
     @GetMapping("/api/songs")
     @ResponseBody
-    public ResponseEntity<List<SongDto>> getAllSongs(@RequestParam(required = false, value = "q") String query) {
-        List<SongDto> allSongs = songService.getAllSongs(query);
+    public ResponseEntity<Page<SongDto>> getAllSongs(@RequestParam(required = false, value = "q") String query, @PageableDefault(
+            page = 0,
+            size = 1)
+    Pageable pageable) {
+        Page<SongDto> allSongs = songService.getAllSongs(query, pageable);
         return ResponseEntity.ok(allSongs);
     }
 
     @ResponseBody
     @GetMapping("/api/playlists")
-    public ResponseEntity<List<PlaylistDto>> getAllPlaylists(@RequestParam(required = false, value = "q") String query) {
-        return ResponseEntity.ok(playlistService.findAll(query));
+    public ResponseEntity<Page<PlaylistDto>> getAllPlaylists(@RequestParam(required = false, value = "q") String query, @PageableDefault(
+            page = 0,
+            size = 1)
+    Pageable pageable) {
+
+        return ResponseEntity.ok(playlistService.findAll(query, pageable));
     }
 }
