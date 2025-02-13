@@ -1,11 +1,11 @@
 spring:
   datasource:
-    driverClassName: org.postgresql.Driver
+#    driverClassName: org.postgresql.Driver
     url: ${JDBC_DATABASE_URL:jdbc:postgresql://localhost:5432/musicloud}
     username: ${JDBC_DATABASE_USERNAME:postgres}
     password: ${JDBC_DATABASE_PASSWORD:postgres}
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: update
       defer-datasource-initialization: true
@@ -17,6 +17,7 @@ spring:
         enabled: true
 
 mail:
+  enabled: ${MAIL_ENABLED:false}
   host: ${MAIL_HOST:}
   port: ${MAIL_PORT:}
   username: ${MAIL_USERNAME:}

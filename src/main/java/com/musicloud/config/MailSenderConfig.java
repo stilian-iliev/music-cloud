@@ -13,12 +13,15 @@ import java.util.Properties;
 public class MailSenderConfig {
     @Bean
     public JavaMailSender javaMailSender(
+            @Value("${mail.enabled:true}") Boolean mailEnabled,
             @Value("${mail.host}") String mailHost,
             @Value("${mail.port}") Integer mailPort,
             @Value("${mail.username}") String userName,
             @Value("${mail.password}") String password
 
     ) throws MessagingException {
+        if (!mailEnabled) return null;
+
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(mailHost);
         javaMailSender.setPort(mailPort);

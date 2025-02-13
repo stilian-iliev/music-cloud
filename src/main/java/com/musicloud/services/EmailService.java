@@ -1,5 +1,6 @@
 package com.musicloud.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +23,7 @@ public class EmailService {
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
 
-    public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {
+    public EmailService(@Autowired(required = false) JavaMailSender javaMailSender, TemplateEngine templateEngine) {
         this.javaMailSender = javaMailSender;
         this.templateEngine = templateEngine;
     }
